@@ -1,0 +1,78 @@
+{
+  "scope": "cleaned development partition only",
+  "development_rows": 30651,
+  "stations": 73,
+  "date_min": "2016-11-25T00:00:00+00:00",
+  "date_max": "2024-12-07T00:00:00+00:00",
+  "duplicate_station_day_keys": 0,
+  "nonfinite_or_out_of_rule_pm25": 0,
+  "invalid_coordinates": 0,
+  "future_test_values_used": false,
+  "statistical_flags_are_removed": false,
+  "target_distribution": {
+    "0.5": 7.714285714285714,
+    "0.9": 16.857142857142858,
+    "0.95": 21.0,
+    "0.99": 32.580555555555556,
+    "1.0": 484.9815
+  },
+  "target_counts": {
+    "gt_25": 808,
+    "gt_50": 90,
+    "gt_100": 36,
+    "gt_250": 11
+  },
+  "predictor_missingness": {
+    "temperature_celsius": {
+      "missing_n": 0,
+      "missing_fraction": 0.0,
+      "finite_n": 30651
+    },
+    "pressure_mb": {
+      "missing_n": 0,
+      "missing_fraction": 0.0,
+      "finite_n": 30651
+    },
+    "wind_u": {
+      "missing_n": 0,
+      "missing_fraction": 0.0,
+      "finite_n": 30651
+    },
+    "wind_v": {
+      "missing_n": 0,
+      "missing_fraction": 0.0,
+      "finite_n": 30651
+    },
+    "no2": {
+      "missing_n": 2407,
+      "missing_fraction": 0.0785292486378911,
+      "finite_n": 28244
+    },
+    "co": {
+      "missing_n": 2407,
+      "missing_fraction": 0.0785292486378911,
+      "finite_n": 28244
+    },
+    "o3": {
+      "missing_n": 2448,
+      "missing_fraction": 0.07986688851913477,
+      "finite_n": 28203
+    },
+    "aod": {
+      "missing_n": 0,
+      "missing_fraction": 0.0,
+      "finite_n": 30651
+    }
+  },
+  "station_tukey_screen": {
+    "stations_screened_min_n30": 71,
+    "flagged_rows": 352,
+    "policy": "IQR Q3+3*IQR; diagnostic screening only; no automatic deletion"
+  },
+  "cleaning_policy_assessment": {
+    "configured_pm25_rule": "retain 0 < PM2.5 < 500 \u00b5g/m\u00b3",
+    "source_measurements_removed_for_statistical_outlier_only": 0,
+    "high_values_are_retained_unless_source_QA_invalidates_them": true,
+    "high_value_validation_note": "Rows above 100 \u00b5g/m\u00b3 are retained; statistical extremeness alone cannot establish an instrument fault."
+  }
+}

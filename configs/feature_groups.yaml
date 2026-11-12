@@ -1,0 +1,14 @@
+feature_families:
+  target: Target
+  AOD: AOD
+  no2: NO2
+  co: CO
+  o3: O3
+  meteorology: Meteorological
+  calendar: Calendar
+  lag: Lag
+  rolling: Rolling
+  spatial: Spatial
+  station_id: ID
+availability_policy: At-origin observations only, plus calendar values known in advance.
+leakage_policy: Target-derived quantities (including PM10/AQI when target-derived) are excluded from predictive features unless independently validated and explicitly approved.

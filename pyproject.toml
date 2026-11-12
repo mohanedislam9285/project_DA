@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pm25-forecasting"
+version = "0.1.0"
+description = "Leakage-aware daily PM2.5 forecasting research pipeline"
+requires-python = ">=3.11,<3.13"
+# Version ranges below support editable development installs. For a byte-reproducible
+# environment, install the exactly pinned versions from requirements.txt instead.
+dependencies = ["numpy>=1.26,<3", "pandas>=2.1,<4", "PyYAML>=6,<7", "scikit-learn>=1.4,<2"]
+
+[project.optional-dependencies]
+analysis = ["matplotlib>=3.8,<4", "scipy>=1.11,<2", "statsmodels>=0.14,<1", "pyarrow>=14"]
+deep = ["tensorflow>=2.16,<2.20"]
+boosting = ["xgboost>=2,<4", "lightgbm>=4,<5", "catboost>=1.2,<2"]
+report = ["reportlab>=5.1,<6", "python-pptx>=1,<2", "Pillow>=10,<13"]
+dev = ["pytest>=8,<10"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

@@ -1,0 +1,139 @@
+===== PAGE 1 =====
+PM2.5 Forecasting | CNN-LSTM project guide
+Page 1
+PM2.5 Forecasting: Layers & Libraries
+A practical library map for a project whose assigned forecasting model is CNN-LSTM. The statistical and
+analysis stages align with the M1 Data Science syllabus.
+1. Project pipeline: layers and libraries
+#
+Project layer
+Libraries to use
+Main purpose
+1
+Data collection
+Pandas, Requests
+Collect PM2.5 and weather data.
+2
+Data cleaning
+Pandas, NumPy
+Clean records and handle missing values.
+3
+Data encoding
+Pandas, Scikit-learn
+Convert categorical data into numeric form.
+4
+Data preprocessing
+NumPy, Scikit-learn
+Scale features and prepare time-window sequences.
+5
+Exploratory data analysis
+(EDA)
+Pandas, Matplotlib, Seaborn
+Explore distributions, outliers and patterns.
+6
+Statistical analysis
+SciPy, Statsmodels
+Correlation, chi-square, ANOVA and regression.
+7
+Factor analysis
+Prince, Scikit-learn
+PCA, CA, MCA and MFA.
+8
+Data classification
+Scikit-learn, SciPy, kmedoids (optional)
+CAH, K-means, K-medoids and clustering evaluation.
+9
+Time-series analysis
+Pandas, Statsmodels
+Trend, moving averages and decomposition.
+10
+CNN layer
+TensorFlow / Keras
+Extract local patterns using Conv1D.
+11
+LSTM layer
+TensorFlow / Keras
+Learn temporal relationships in sequences.
+12
+Output layer
+TensorFlow / Keras
+Produce the PM2.5 forecast.
+13
+Model training
+TensorFlow / Keras
+Optimize weights and control overfitting.
+14
+Model evaluation
+Scikit-learn, NumPy
+Calculate MAE, RMSE and R².
+15
+Results visualization
+Matplotlib, Seaborn, Plotly
+Visualize predictions and comparisons.
+Important: CNN-LSTM is the assigned forecasting model. The statistical methods (correlation, regression, factor analysis,
+clustering and classical time-series methods) support data understanding and analysis; they do not replace CNN-LSTM.
+
+
+===== PAGE 2 =====
+PM2.5 Forecasting | CNN-LSTM project guide
+Page 2
+2. CNN-LSTM: internal model layers
+These are Keras components inside TensorFlow. They are layers or model components, not separate Python
+packages.
+Order
+Keras component
+Role in the model
+1
+Input
+Receives historical measurements as a time-window sequence.
+2
+Embedding (optional)
+Represents station identity when station information is used.
+3
+Conv1D
+Extracts local patterns across adjacent time steps.
+4
+LayerNormalization
+Normalizes intermediate activations.
+5
+Activation (ReLU)
+Adds non-linearity.
+6
+Dropout
+Helps reduce overfitting during training.
+7
+MaxPooling1D
+Reduces the sequence length.
+8
+LSTM
+Learns temporal relationships in the sequence.
+9
+Dense
+Combines learned features for prediction.
+10
+Output Dense(1)
+Returns the predicted PM2.5 value (single-target setup).
+3. Recommended Python packages to install
+Package
+Priority / use
+Pandas, NumPy
+Essential: data handling and numerical arrays.
+Matplotlib, Seaborn
+Essential: exploratory and result visualizations.
+Scikit-learn
+Essential: preprocessing, clustering and evaluation metrics.
+SciPy, Statsmodels
+Essential for syllabus methods: statistical tests, regression and time series.
+TensorFlow
+Essential: implements the assigned CNN-LSTM model through tf.keras.
+Prince
+For PCA, CA, MCA and MFA.
+Plotly
+Optional: interactive charts.
+kmedoids
+Optional: K-medoids clustering (Chapter 4).
+Installation command
+pip install pandas numpy requests openmeteo-requests matplotlib seaborn scikit-learn scipy
+statsmodels tensorflow prince plotly kmedoids
+Practical note: You do not need every listed package inside the CNN-LSTM network. TensorFlow/Keras builds and trains the
+network; Pandas and NumPy prepare its input; Scikit-learn and plotting libraries help evaluate and present the results.
