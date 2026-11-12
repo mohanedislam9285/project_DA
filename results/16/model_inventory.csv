@@ -1,0 +1,2 @@
+model_id,model_group,assignment_scope,implementation_status,dependency,dependency_available,notes
+CNN-LSTM,primary_hybrid,required_primary,implemented,tensorflow,False,"Core model, TensorFlow required for execution"

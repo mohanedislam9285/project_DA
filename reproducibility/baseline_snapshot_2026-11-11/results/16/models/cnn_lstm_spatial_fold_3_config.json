@@ -1,0 +1,24 @@
+{
+  "filters": 32,
+  "kernel_size": 2,
+  "dropout": 0.3,
+  "lstm_units": 32,
+  "dense_units": 32,
+  "learning_rate": 0.001,
+  "batch_size": 64,
+  "epochs": 100,
+  "patience": 10,
+  "loss": "mse",
+  "lookback_days": 7,
+  "seed": 145,
+  "best_epoch": 27,
+  "feature_columns": [
+    "day_of_week_sin",
+    "day_of_week_cos",
+    "day_of_year_sin",
+    "day_of_year_cos",
+    "pm25_lag1",
+    "pm25_roll3_mean",
+    "pm25_roll7_mean"
+  ]
+}

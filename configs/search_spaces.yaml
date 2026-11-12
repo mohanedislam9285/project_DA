@@ -1,0 +1,52 @@
+budget:
+  maximum_configurations_per_model_fold: 50
+  seed: 42
+  strategy: optuna_tpe_with_chronological_inner_validation
+  finite_grid_baseline_strategy: predeclared_three_candidate_grid
+  finite_grid_baseline_budget: 3
+cnn_lstm_tpe:
+  trials_per_outer_fold: 50
+  sampler: TPESampler
+  sampler_seed_by_fold: "42 + fold_number"
+  n_startup_trials: 10
+  dropout_min: 0.05
+  dropout_max: 0.40
+  learning_rate_min: 0.0001
+  learning_rate_max: 0.001
+  log_learning_rate: true
+  filters: [16, 32, 64]
+  kernel_size: [2, 3, 5]
+  lstm_units: [32, 64, 128]
+  batch_size: 64
+  early_stopping_patience: 10
+  reduce_lr_patience: 3
+  reduce_lr_factor: 0.5
+  min_learning_rate: 0.00001
+  max_epochs: 100
+top_distinct_configurations: 3
+cnn_lstm_seed_sensitivity: [42, 43, 44]
+implemented_cnn_lstm_candidates:
+  - {lookback_days: 7, filters: 32, kernel_size: 3, lstm_units: 64, dropout: 0.2, learning_rate: 0.001}
+  - {lookback_days: 7, filters: 64, kernel_size: 3, lstm_units: 64, dropout: 0.1, learning_rate: 0.0005}
+  - {lookback_days: 7, filters: 32, kernel_size: 2, lstm_units: 32, dropout: 0.3, learning_rate: 0.001}
+
+hyperparameter_sensitivity_levels:
+  CNN_LSTM:
+    parameter: filters
+    values: [16, 32, 64]
+
+implemented_candidates:
+  CNN_LSTM:
+    - {filters: 32, kernel_size: 3, lstm_units: 64, dropout: 0.2, learning_rate: 0.001}
+    - {filters: 64, kernel_size: 3, lstm_units: 64, dropout: 0.1, learning_rate: 0.0005}
+    - {filters: 32, kernel_size: 2, lstm_units: 32, dropout: 0.3, learning_rate: 0.001}
+
+reference_ranges:
+  CNN_LSTM:
+    lookback_days: [7]
+    filters: [32, 64, 128]
+    kernel_size: [2, 3, 5]
+    lstm_units: [32, 64, 128]
+    dropout: [0.0, 0.1, 0.2, 0.3]
+    learning_rate: [0.0001, 0.0005, 0.001]
+

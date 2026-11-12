@@ -1,0 +1,11 @@
+{
+  "n_outer_folds": 5,
+  "paired_unit_primary": "fold-level RMSE difference, exact sign-flip and exact Wilcoxon; low power with five dependent folds",
+  "fold_intervals": "bootstrap resampling of the five fold values; descriptive only because folds are dependent",
+  "cluster_intervals": "20,000 paired bootstrap resamples of station IDs, preserving all within-station OOF days; conditional on the observed time folds and not a time-regime bootstrap",
+  "holms_family": [
+    "all reported CNN-LSTM variants and the nested inner-selected procedure versus persistence"
+  ],
+  "random_seed": 42016,
+  "future_test_labels_or_metrics_used": false
+}

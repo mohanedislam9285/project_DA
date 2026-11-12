@@ -1,0 +1,79 @@
+project:
+  group_id: DEV-REPRO-202611
+  seed: 42
+  timezone: UTC
+  target: pm25
+  target_unit: ug/m3
+  forecast_origin: end_of_day_t
+  primary_horizon_days: 1
+  secondary_horizons_days: [3, 7]
+  lookback_candidates_days: [7]
+  maximum_gap_days: 1
+  temporal_folds: 5
+  embargo_days: 1
+  future_test_fraction: 0.2
+  future_test_min_days: 30
+  training_years_at_known_stations: true
+  finalization_locked: false
+  finalist_models: [CNN_LSTM, Bagging, CatBoost]
+  seasons_naive_period_days: 7
+
+data:
+  raw_file: data/raw/extracted/combined_gee_pm25.csv
+  file_format: csv
+  date_column: date
+  date_format: '%Y-%m-%d'
+  timestamp_timezone: UTC
+  station_column: null
+  station_id_columns: [sensor_name, latitude, longitude]
+  single_series_confirmed: false
+  target_column: pm25
+  target_unit: ug/m3
+  latitude_column: latitude
+  longitude_column: longitude
+  metadata_columns:
+    gee_id: id
+    sensor_name: sensor_name
+    datetime_utc: datetime_utc
+  predictors:
+    temperature_celsius: {column: temperature_celsius, unit: degC, family: Meteorological, available_at_origin: false}
+    pressure_mb: {column: pressure_mb, unit: hPa, family: Meteorological, available_at_origin: false}
+    wind_u: {column: wind_u, unit: m/s, family: Meteorological, available_at_origin: false}
+    wind_v: {column: wind_v, unit: m/s, family: Meteorological, available_at_origin: false}
+    no2: {column: NO2, unit: mol/m2, family: NO2, available_at_origin: false}
+    co: {column: CO, unit: mol/m2, family: CO, available_at_origin: false}
+    o3: {column: O3, unit: mol/m2, family: O3, available_at_origin: false}
+    aod: {column: AOD, unit: dimensionless, family: AOD, available_at_origin: false}
+
+cleaning:
+  target_min_exclusive: 0
+  target_max_exclusive: 500
+  duplicate_policy: error
+  station_day_aggregation: null
+  leakage_columns: []
+  suspect_leakage_patterns: [pm10, pm_10, aqi, air_quality_index]
+
+features:
+  predictors: []
+  calendar: [day_of_week_sin, day_of_week_cos, day_of_year_sin, day_of_year_cos]
+  include_target_lags: true
+  include_past_rolling: true
+  rolling_windows_days: [3, 7]
+  disallow_future_exogenous_values: true
+
+model:
+  cnn_lstm:
+    filters: 32
+    kernel_size: 3
+    dropout: 0.2
+    lstm_units: 64
+    dense_units: 32
+    learning_rate: 0.001
+    batch_size: 64
+    epochs: 100
+    patience: 10
+    loss: mse
+
+paths:
+  results_root: results_development_repro
+  report_root: report

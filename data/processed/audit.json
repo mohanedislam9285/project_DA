@@ -1,0 +1,267 @@
+{
+  "source_manifest": {
+    "status": "acquired_source_metadata_verified_license_caveat_open",
+    "source_url": "https://www.kaggle.com/datasets/sarahameziane/air-quality-mediterranean-basin-20162026",
+    "api_metadata_url": "https://www.kaggle.com/api/v1/datasets/view/sarahameziane/air-quality-mediterranean-basin-20162026",
+    "title": "Air Quality - Mediterranean Basin (2016-2026)",
+    "retrieval_date": "2026-11-09",
+    "kaggle_owner": "Sarah Ameziane",
+    "kaggle_version": 1,
+    "kaggle_license_label": "Other (specified in description)",
+    "license": "Kaggle reports Other (specified in description). The dataset description says its raw data are sourced from OpenAQ (CC BY 4.0), Copernicus open-access, and NASA open data, and asks users to check individual source licenses before commercial use. The compiled dataset's independent redistribution terms are not explicit; use for local academic analysis only until source-by-source attribution and redistribution rights are confirmed.",
+    "license_notes": "API metadata was read on 2026-11-09. No credentials were used to download this public dataset. The Kaggle page lists 3 CSV files and a total size of 49,870,509 bytes. The data description identifies daily OpenAQ ground truth and GEE-derived features. Preserve original files and cite the Kaggle dataset plus its underlying data providers in any eventual report.",
+    "files": [
+      {
+        "file": "kaggle_dataset_bundle.zip",
+        "path": "data/raw/kaggle_dataset_bundle.zip",
+        "bytes": 9228248,
+        "sha256": "bd7a65c975cee1a833ff58a094b48a5a0806488b549ef0510210e8d694fa654b"
+      },
+      {
+        "file": "combined_gee_pm25.csv",
+        "path": "data/raw/extracted/combined_gee_pm25.csv",
+        "bytes": 9822260,
+        "sha256": "cdbdd1698757877095a8839765747dcf5a6b2dfda44c53289ae8d66f895e185a"
+      },
+      {
+        "file": "gee_features_daily.csv",
+        "path": "data/raw/extracted/gee_features_daily.csv",
+        "bytes": 33545644,
+        "sha256": "2124850ba6c6d09f5a20a35799f6950166b1e21b43993be79184ad4b918a9fee"
+      },
+      {
+        "file": "pm25.csv",
+        "path": "data/raw/extracted/pm25.csv",
+        "bytes": 6502605,
+        "sha256": "d0c008f76db3763bdd22f666e0a7f696a00e753270d3868edd3b9cdc35dbffe7"
+      }
+    ]
+  },
+  "source": {
+    "file": "combined_gee_pm25.csv",
+    "bytes": 9822260,
+    "sha256": "cdbdd1698757877095a8839765747dcf5a6b2dfda44c53289ae8d66f895e185a",
+    "rows": 41718,
+    "columns": [
+      "date",
+      "datetime_utc",
+      "id",
+      "latitude",
+      "longitude",
+      "temperature_celsius",
+      "pressure_mb",
+      "wind_u",
+      "wind_v",
+      "NO2",
+      "CO",
+      "O3",
+      "AOD",
+      "pm25",
+      "sensor_name"
+    ]
+  },
+  "parse": {
+    "timestamp_parse_failures": 0,
+    "target_parse_failures": 0,
+    "n_rows": 41718,
+    "datetime_utc_parse_failures": 0,
+    "date_vs_datetime_utc_mismatch_rows": 0,
+    "sensor_names_with_replacement_character": 0
+  },
+  "cleaning": {
+    "input_rows": 41718,
+    "clean_rows": 40983,
+    "removed_by_reason_mutually_exclusive": {
+      "invalid_timestamp": 0,
+      "missing_target": 0,
+      "target_le_min": 727,
+      "target_ge_max": 8,
+      "duplicate_station_day_dropped": 0
+    },
+    "removed_total": 735,
+    "exact_duplicates_before_duplicate_policy": 0,
+    "duplicate_station_day_rows": 0,
+    "same_sensor_name_day_rows_separated_by_coordinate": 4,
+    "station_identity_note": "Station key combines source sensor name with latitude and longitude rounded to six decimals so distinct nearby sites are not merged.",
+    "duplicate_policy": "error"
+  },
+  "date_min": "2016-11-25 00:00:00+00:00",
+  "date_max": "2026-04-06 00:00:00+00:00",
+  "station_count": 95,
+  "rows_per_station": {
+    "AIX CENTRE ECOLE ART::43.530285::5.440912": 458,
+    "AIX ROY RENE::43.524075::5.448164": 198,
+    "ALBALAT DELS TARONGERS::39.705278::-0.336667": 798,
+    "ALCANTARILLA::37.974500::-1.232100": 268,
+    "ALCORA::40.051944::-0.189722": 761,
+    "ALGAR DE PAL\u00c0NCIA::39.782222::-0.359167": 771,
+    "ALMASSORA-C. P. OCHANDO::39.945278::-0.056389": 739,
+    "ALUMBRES::37.602032::-0.914361": 197,
+    "Albors - Valencia::39.470553::-0.353195": 57,
+    "Armilla Center::37.143778::-3.628407": 184,
+    "Avinguda Meridiana, Sagerra::41.425535::2.186864": 52,
+    "BARCELONA (PARC DE LA VALL D'HEBRON)::41.426100::2.148000": 62,
+    "BENICASSIM::40.062222::0.072778": 770,
+    "BURRIANA::39.892222::-0.065000": 757,
+    "Barcelona - Camp d'en Grassot::41.401828::2.166360": 4,
+    "Barcelona - Porta - Can Drag\u00f3::41.431949::2.180739": 364,
+    "Barcelona::41.415910::2.187094": 46,
+    "C. Restoy, 51, Almeria, Spain::36.846600::-2.464900": 21,
+    "CAMPAMENTO::36.179430::-5.376970": 619,
+    "CAMPANILLAS CIFA::36.727850::-4.560950": 628,
+    "CARRANQUE::36.719640::-4.447500": 784,
+    "CASTELL\u00d3-PENYETA::40.012778::-0.057222": 570,
+    "CENCA1::39.235833::9.115000": 1037,
+    "CENMO1::39.260556::9.136389": 1042,
+    "COLEGIO (S1)::36.185620::-5.488930": 204,
+    "CORTIJILLOS::36.190480::-5.435760": 686,
+    "E2: ALCORNOCALES::36.233860::-5.663500": 570,
+    "E4:RINCONCILLO::36.161700::-5.442600": 644,
+    "E7:EL ZABAL::36.173150::-5.341940": 552,
+    "ECONOMATO::36.186200::-5.380800": 614,
+    "ELDA-LACY::38.454722::-0.803333": 727,
+    "FR02013::43.458874::4.934167": 445,
+    "FR02020::43.510560::5.219724": 625,
+    "FR03006::43.276349::5.397671": 260,
+    "FR03014::43.348053::5.360652": 426,
+    "FR03029::43.530297::5.441383": 253,
+    "FR03030::43.453462::5.467102": 283,
+    "FR03043::43.306100::5.395794": 269,
+    "Fos Les Carabins::43.458927::4.934572": 441,
+    "GRANADA - NORTE::37.196100::-3.612660": 734,
+    "GUADARRANQUE::36.182100::-5.411410": 682,
+    "Gibraltar::36.143391::-5.341670": 36,
+    "Granollers::41.598682::2.287098": 233,
+    "HOSTELER\u00cdA::36.203880::-5.383710": 643,
+    "LA ALJORRA::37.692500::-1.065900": 359,
+    "LA ALJORRA::37.693611::-1.064722": 169,
+    "LA L\u00cdNEA::36.159370::-5.348360": 607,
+    "LOS BARRIOS::36.175380::-5.480830": 709,
+    "La Sagrera::41.424066::2.185757": 262,
+    "MADREVIEJA::36.204420::-5.404710": 706,
+    "MEDITERR\u00c1NEO::36.841330::-2.446720": 742,
+    "MOLINA DE SEGURA::38.057300::-1.204700": 149,
+    "MOLINA DE SEGURA::38.057373::-1.204813": 341,
+    "MOMPEAN::37.601800::-0.976200": 354,
+    "MOMPEAN::37.603056::-0.975278": 540,
+    "Martorell::41.475384::1.921202": 38,
+    "Mollet del Vall\u00e8s::41.549183::2.212098": 673,
+    "ONTINYENT::38.788056::-0.697222": 447,
+    "PALACIO CONGRESOS::37.165680::-3.600100": 370,
+    "PUENTE MAYORGA::36.180100::-5.382500": 617,
+    "Passeig de Fabra i Puig::41.430123::2.179321": 207,
+    "Perafort::41.193604::1.236701": 632,
+    "Polinya::41.557686::2.158661": 125,
+    "QUART DE POBLET::39.481111::-0.447222": 717,
+    "RONDA SUR::37.970100::-1.127700": 343,
+    "Reus::41.150803::1.120201": 49,
+    "Rognac les Brets::43.510803::5.220046": 399,
+    "Rosia Road::36.133317::-5.353175": 4,
+    "SAGUNT CEA::39.634167::-0.265833": 797,
+    "SAGUNT PORT::39.667222::-0.234722": 593,
+    "SAN BASILIO::37.992300::-1.145900": 344,
+    "SAN BASILIO::37.993611::-1.144722": 235,
+    "SAN ROQUE (S6)::36.212040::-5.430270": 645,
+    "Sant Adri\u00e0 de Bes\u00f2s::41.425594::2.222200": 44,
+    "Sant Andreu de la Barca::41.450800::1.974900": 279,
+    "Sant Francesc::41.477833::2.087572": 15,
+    "Santa Perp\u00e8tua de Mogoda::41.526722::2.183800": 238,
+    "TORRENT-EL VEDAT::39.425280::-0.482500": 89,
+    "TORREVIEJA::37.991111::-0.690000": 780,
+    "Tarragona::41.115910::1.191999": 648,
+    "Terrassa::41.556114::2.007398": 42,
+    "VALLE DE ESCOMBRERAS::37.574400::-0.926543": 306,
+    "VALLE::37.574444::-0.926667": 165,
+    "VAL\u00c8NCIA - AVD. FRANCIA::39.457500::-0.342778": 706,
+    "VAL\u00c8NCIA - MOL\u00cd DEL SOL::39.481100::-0.408300": 561,
+    "VAL\u00c8NCIA OLIVERETA::39.469220::-0.406050": 468,
+    "VAL\u00c8NCIA-CENTRE::39.448330::-0.376470": 455,
+    "VAL\u00c8NCIA-PISTA DE SILLA::39.456111::-0.375833": 717,
+    "VAL\u00c8NCIA-POLIT\u00c8CNIC::39.480300::-0.336400": 726,
+    "VILA-SECA (IES VILA-SECA)::41.102400::1.149600": 442,
+    "VILAMARXANT::39.564722::-0.625556": 346,
+    "VILLENA PARQUE FERIA::38.639430::-0.872410": 498,
+    "Vila-seca::41.102505::1.149445": 638,
+    "Viladecavalls ::41.546060::1.946170": 31,
+    "outdoors::39.556766::-0.540708": 102
+  },
+  "data_dictionary": {
+    "timestamp": {
+      "source": "date",
+      "unit": "UTC daily timestamp"
+    },
+    "station_id": {
+      "source": [
+        "sensor_name",
+        "latitude",
+        "longitude"
+      ],
+      "unit": "identifier",
+      "construction": "joined configured station_id_columns with coordinates rounded to six decimals"
+    },
+    "pm25": {
+      "source": "pm25",
+      "unit": "ug/m3"
+    },
+    "gee_id": {
+      "source": "id",
+      "type": "metadata"
+    },
+    "sensor_name": {
+      "source": "sensor_name",
+      "type": "metadata"
+    },
+    "datetime_utc": {
+      "source": "datetime_utc",
+      "type": "metadata"
+    },
+    "temperature_celsius": {
+      "source": "temperature_celsius",
+      "unit": "degC",
+      "family": "Meteorological",
+      "available_at_origin": false
+    },
+    "pressure_mb": {
+      "source": "pressure_mb",
+      "unit": "hPa",
+      "family": "Meteorological",
+      "available_at_origin": false
+    },
+    "wind_u": {
+      "source": "wind_u",
+      "unit": "m/s",
+      "family": "Meteorological",
+      "available_at_origin": false
+    },
+    "wind_v": {
+      "source": "wind_v",
+      "unit": "m/s",
+      "family": "Meteorological",
+      "available_at_origin": false
+    },
+    "no2": {
+      "source": "NO2",
+      "unit": "mol/m2",
+      "family": "NO2",
+      "available_at_origin": false
+    },
+    "co": {
+      "source": "CO",
+      "unit": "mol/m2",
+      "family": "CO",
+      "available_at_origin": false
+    },
+    "o3": {
+      "source": "O3",
+      "unit": "mol/m2",
+      "family": "O3",
+      "available_at_origin": false
+    },
+    "aod": {
+      "source": "AOD",
+      "unit": "dimensionless",
+      "family": "AOD",
+      "available_at_origin": false
+    }
+  }
+}

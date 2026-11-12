@@ -1,0 +1,6 @@
+cv_fold,training_targets,validation_targets,train_validation_target_overlap,last_train_target,first_validation_target,first_scored_validation_target,temporal_gap_days_excluding_endpoints,validation_sequences_include_only_prior_history
+1,482,322,0,2019-04-28T00:00:00+00:00,2019-04-30T00:00:00+00:00,2019-05-01T00:00:00+00:00,1,True
+2,801,172,0,2020-10-15T00:00:00+00:00,2020-10-17T00:00:00+00:00,2020-10-17T00:00:00+00:00,1,True
+3,976,377,0,2021-10-23T00:00:00+00:00,2021-10-25T00:00:00+00:00,2021-11-09T00:00:00+00:00,1,True
+4,1353,733,0,2022-11-17T00:00:00+00:00,2022-11-19T00:00:00+00:00,2023-04-08T00:00:00+00:00,1,True
+5,2086,1263,0,2024-01-29T00:00:00+00:00,2024-01-31T00:00:00+00:00,2024-03-04T00:00:00+00:00,1,True

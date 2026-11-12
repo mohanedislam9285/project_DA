@@ -1,0 +1,27 @@
+{
+  "study": "Group 16 CNN-LSTM nested TPE development CV",
+  "sampler": "Optuna TPESampler",
+  "optuna_version": "5.0.0",
+  "seed": 42,
+  "trial_budget_per_outer_fold": 50,
+  "n_outer_folds": 5,
+  "completed_trials": 250,
+  "development_cutoff_exclusive": "2024-12-08T00:00:00Z",
+  "objective": "inner chronological validation RMSE in original ug/m3 units",
+  "scheduler": "ReduceLROnPlateau(factor=0.5, patience=3, min_lr=1e-5)",
+  "early_stopping": "validation MSE, patience=10, restore_best_weights=True",
+  "summary": {
+    "metric_rmse": {
+      "mean": 8.52000369997183,
+      "std": 6.034145729839037
+    },
+    "metric_mae": {
+      "mean": 3.977818997063835,
+      "std": 0.8923045880254461
+    },
+    "metric_r2": {
+      "mean": 0.07647902161080351,
+      "std": 0.0945190134617344
+    }
+  }
+}

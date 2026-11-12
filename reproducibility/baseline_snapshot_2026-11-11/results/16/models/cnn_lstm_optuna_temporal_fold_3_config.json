@@ -1,0 +1,26 @@
+{
+  "filters": 16,
+  "kernel_size": 3,
+  "lstm_units": 64,
+  "dropout": 0.3465230925460652,
+  "learning_rate": 0.0007740141254926889,
+  "dense_units": 32,
+  "loss": "mse",
+  "seed": 45,
+  "lookback_days": 7,
+  "best_epoch": 23,
+  "inner_validation_rmse": 3.6773358261565785,
+  "trial_number": 46,
+  "n_trials": 50,
+  "feature_columns": [
+    "day_of_week_sin",
+    "day_of_week_cos",
+    "day_of_year_sin",
+    "day_of_year_cos",
+    "pm25_lag1",
+    "pm25_roll3_mean",
+    "pm25_roll7_mean"
+  ],
+  "development_cutoff_exclusive": "2024-12-08T00:00:00Z",
+  "selection_data": "outer training partition, chronological inner validation only"
+}

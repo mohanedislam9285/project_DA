@@ -1,0 +1,19 @@
+{
+  "filters": 16,
+  "kernel_size": 3,
+  "lstm_units": 64,
+  "dense_units": 32,
+  "dropout": 0.3465230925460652,
+  "learning_rate": 0.0007740141254926889,
+  "loss": "mse",
+  "seed": 45,
+  "lookback_days": 7,
+  "pool_size": 2,
+  "best_epoch": 29,
+  "inner_validation_rmse": 3.69262261912194,
+  "feature_columns": [
+    "pm25_lag1",
+    "pm25_roll3_mean"
+  ],
+  "outer_validation_used_for_selection": false
+}

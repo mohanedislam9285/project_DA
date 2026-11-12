@@ -1,0 +1,95 @@
+{
+  "status": "exact_prediction_reproduction",
+  "method": "One development-only nested final-fit reconstruction, followed by prediction-array comparison only; no holdout labels read.",
+  "selected_candidate": {
+    "filters": 32,
+    "kernel_size": 3,
+    "dropout": 0.2,
+    "lstm_units": 64,
+    "dense_units": 32,
+    "learning_rate": 0.001,
+    "batch_size": 64,
+    "epochs": 100,
+    "patience": 10,
+    "loss": "mse",
+    "lookback_days": 7
+  },
+  "selected_epochs": 22,
+  "matches_recorded_epoch_count": true,
+  "reconstruction_fit_seconds": 4.83161729999847,
+  "saved_prediction_count": 1716,
+  "reconstructed_prediction_count": 1716,
+  "matched_prediction_count": 1716,
+  "saved_only_count": 0,
+  "reconstruction_only_count": 0,
+  "max_prediction_abs_difference": 7.105427357601002e-15,
+  "mean_prediction_abs_difference": 3.325493208958802e-16,
+  "future_test_metrics_calculated": false,
+  "future_artifacts_modified": false,
+  "model_sha256": "cad6f9c716fadba5cfbb9592c5e30d5dd4373125474ca4c1e66b87d257b34f2c",
+  "preprocessor_sha256": "c4d842e2a8836c696bd2ac3422dcb347e40d65bd1e73942a0f03001c173507aa",
+  "environment": {
+    "python": "3.12.10",
+    "tensorflow": "2.19.1"
+  },
+  "candidate_inner_scores": [
+    {
+      "candidate": {
+        "filters": 32,
+        "kernel_size": 3,
+        "dropout": 0.2,
+        "lstm_units": 64,
+        "dense_units": 32,
+        "learning_rate": 0.001,
+        "batch_size": 64,
+        "epochs": 100,
+        "patience": 10,
+        "loss": "mse",
+        "lookback_days": 7
+      },
+      "inner_rmse": 9.31381989024841,
+      "inner_mae": 3.8048014408355617,
+      "best_epoch": 22,
+      "inner_n": 1059
+    },
+    {
+      "candidate": {
+        "filters": 64,
+        "kernel_size": 3,
+        "dropout": 0.1,
+        "lstm_units": 64,
+        "dense_units": 32,
+        "learning_rate": 0.0005,
+        "batch_size": 64,
+        "epochs": 100,
+        "patience": 10,
+        "loss": "mse",
+        "lookback_days": 7
+      },
+      "inner_rmse": 9.342952205913903,
+      "inner_mae": 3.7890851697457975,
+      "best_epoch": 21,
+      "inner_n": 1059
+    },
+    {
+      "candidate": {
+        "filters": 32,
+        "kernel_size": 2,
+        "dropout": 0.3,
+        "lstm_units": 32,
+        "dense_units": 32,
+        "learning_rate": 0.001,
+        "batch_size": 64,
+        "epochs": 100,
+        "patience": 10,
+        "loss": "mse",
+        "lookback_days": 7
+      },
+      "inner_rmse": 9.359677112674564,
+      "inner_mae": 3.8352632877734387,
+      "best_epoch": 8,
+      "inner_n": 1059
+    }
+  ],
+  "note": "A prediction match can corroborate the saved evaluation model. A mismatch does not identify which missing historical configuration or software state differed; no test-based tuning follows."
+}

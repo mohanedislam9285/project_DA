@@ -1,0 +1,26 @@
+Metadata-Version: 2.4
+Name: pm25-forecasting
+Version: 0.1.0
+Summary: Leakage-aware daily PM2.5 forecasting research pipeline
+Requires-Python: <3.13,>=3.11
+Requires-Dist: numpy<3,>=1.26
+Requires-Dist: pandas<4,>=2.1
+Requires-Dist: PyYAML<7,>=6
+Requires-Dist: scikit-learn<2,>=1.4
+Provides-Extra: analysis
+Requires-Dist: matplotlib<4,>=3.8; extra == "analysis"
+Requires-Dist: scipy<2,>=1.11; extra == "analysis"
+Requires-Dist: statsmodels<1,>=0.14; extra == "analysis"
+Requires-Dist: pyarrow>=14; extra == "analysis"
+Provides-Extra: deep
+Requires-Dist: tensorflow<2.20,>=2.16; extra == "deep"
+Provides-Extra: boosting
+Requires-Dist: xgboost<4,>=2; extra == "boosting"
+Requires-Dist: lightgbm<5,>=4; extra == "boosting"
+Requires-Dist: catboost<2,>=1.2; extra == "boosting"
+Provides-Extra: report
+Requires-Dist: reportlab<6,>=5.1; extra == "report"
+Requires-Dist: python-pptx<2,>=1; extra == "report"
+Requires-Dist: Pillow<13,>=10; extra == "report"
+Provides-Extra: dev
+Requires-Dist: pytest<10,>=8; extra == "dev"

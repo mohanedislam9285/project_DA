@@ -1,0 +1,15 @@
+{
+  "tests": "paired Wilcoxon signed-rank on fold-level RMSE; 10,000 paired sign permutations supplemental; 10,000 fold-pair bootstrap replicates for mean difference; Holm-Bonferroni across the generated pairwise tests.",
+  "effect_size": "Wilcoxon matched-pairs rank-biserial r",
+  "n_folds_per_comparison": 5,
+  "note": "Only five dependent folds provide low inferential power; practical deltas and intervals matter more than a thresholded p-value.",
+  "random_cv_role": "diagnostic only; not used for model selection",
+  "validation_scheme_gaps": {
+    "comparisons": 6,
+    "models": [
+      "CNN_LSTM_DIAGNOSTIC",
+      "persistence",
+      "seasonal_naive"
+    ]
+  }
+}

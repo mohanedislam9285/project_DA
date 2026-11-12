@@ -1,0 +1,55 @@
+{
+  "dataset_metadata_snapshot": "data/provenance/kaggle_dataset_metadata_2026-11-11.json",
+  "observed_data_rows": {
+    "pm25_source": 88041,
+    "gee_features_source": 164208,
+    "combined_bundle": 41718
+  },
+  "source_key_uniqueness": {
+    "pm25_station_date_coordinate_duplicate_keys": 0,
+    "gee_id_date_duplicate_keys": 0,
+    "combined_station_date_coordinate_duplicate_keys": 0,
+    "combined_gee_id_date_duplicate_keys": 0
+  },
+  "combined_bundle_correspondence": {
+    "rows_matching_PM25_station_date_coordinate": 41718,
+    "rows_matching_GEE_id_date": 41718,
+    "rows_matching_both_sources": 41718,
+    "PM_target_max_abs_difference": 3.552713678800501e-15,
+    "PM_target_rows_not_exact_within_1e_12": 0,
+    "GEE_coordinate_exact_matches": 41718,
+    "GEE_distance_km_max": 0.0,
+    "fraction_of_PM_source_rows_in_bundle": 0.4738474120012267,
+    "fraction_of_GEE_rows_in_bundle": 0.2540558316281789,
+    "unmatched_PM_source_rows": 46323,
+    "unused_GEE_source_rows": 122490
+  },
+  "nearest_same_day_GEE_reconstruction": {
+    "description_threshold_interpretation": "0.25 degrees as great-circle angular radius, approximately 27.8 km",
+    "PM_rows_with_same_day_GEE": 77569,
+    "PM_rows_nearest_within_threshold": 53792,
+    "PM_rows_nearest_outside_threshold": 23777,
+    "PM_rows_without_same_day_GEE": 10472,
+    "PM_rows_within_threshold_but_absent_from_bundle": 12074,
+    "combined_rows_with_nearest_GEE_id_equal_saved_id": 41718,
+    "combined_rows_nearest_distance_km_max": 0.0,
+    "combined_rows_with_nearest_tie_within_1m": 0,
+    "combined_rows_with_multiple_GEE_candidates_inside_threshold": 40631,
+    "PM_rows_with_nearest_tie_within_1m": 191,
+    "nearest_distance_km_quantiles_for_PM_rows_with_same_day_GEE": {
+      "0.5": 0.0,
+      "0.9": 342.35348383369416,
+      "0.95": 549.7307400111171,
+      "0.99": 995.5498141597685,
+      "1.0": 1460.7830892002216
+    },
+    "candidate_count_within_threshold_quantiles_for_PM_rows_with_same_day_GEE": {
+      "0.5": 4.0,
+      "0.9": 16.0,
+      "0.95": 16.0,
+      "0.99": 18.0,
+      "1.0": 18.0
+    }
+  },
+  "interpretation": "All combined rows correspond to one PM2.5 source record by station name, date and coordinates, and to one GEE row by id/date. The matched PM/GEE coordinates coincide. This reproduces the observed bundle correspondences, but does not prove the author's original code or explain all PM observations within the stated distance threshold that were omitted from the bundle."
+}
