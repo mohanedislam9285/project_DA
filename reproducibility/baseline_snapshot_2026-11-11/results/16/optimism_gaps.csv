@@ -1,0 +1,3 @@
+comparison,model_id,scheme_a,scheme_b,mean_rmse_a,mean_rmse_b,delta_rmse,folds_a,folds_b,interpretation
+random_minus_temporal,CNN_LSTM_DIAGNOSTIC,random_diagnostic,temporal_panel_expanding,8.091247120493424,8.300612908540348,-0.20936578804692374,5,5,Unpaired diagnostic for the same predeclared architecture/configuration; random splits are not selection evidence.
+random_minus_spatial,CNN_LSTM_DIAGNOSTIC,random_diagnostic,spatial_group_kfold,8.091247120493424,7.939272219455319,0.15197490103810551,5,5,Unpaired diagnostic for the same predeclared architecture/configuration; random splits are not selection evidence.

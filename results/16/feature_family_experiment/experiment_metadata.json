@@ -1,0 +1,32 @@
+{
+  "experiment": "nested four-way feature-family sensitivity; development temporal folds only",
+  "variants": {
+    "full_calendar_lag_roll3_roll7": [
+      "day_of_week_sin",
+      "day_of_week_cos",
+      "day_of_year_sin",
+      "day_of_year_cos",
+      "pm25_lag1",
+      "pm25_roll3_mean",
+      "pm25_roll7_mean"
+    ],
+    "no_calendar_lag_roll3_roll7": [
+      "pm25_lag1",
+      "pm25_roll3_mean",
+      "pm25_roll7_mean"
+    ],
+    "no_calendar_lag_roll3": [
+      "pm25_lag1",
+      "pm25_roll3_mean"
+    ],
+    "no_calendar_lag_only": [
+      "pm25_lag1"
+    ]
+  },
+  "common_oof_sample_count": 3349,
+  "inner_selection_metric": "RMSE",
+  "existing_fold_tpe_parameters_fixed": true,
+  "outer_validation_used_for_selection": false,
+  "future_test_labels_or_metrics_used": false,
+  "status": "exploratory development sensitivity; not used to alter frozen holdout"
+}

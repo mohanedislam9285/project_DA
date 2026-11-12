@@ -1,0 +1,747 @@
+===== PAGE 1 =====
+Academic year 2026–2027                                                                        Master 1 Mini project | PM2.5 Forcasting 
+ 
+1 
+ 
+PM2.5 Forecasting  
+1. Context and motivation 
+PM2.5 refers to fine particulate matter that can affect human health. Forecasting daily surface PM2.5 
+from historical air-quality, satellite/reanalysis, and meteorological data can support air-quality 
+monitoring. A model with a low error on one split, however, may not generalize to future dates or 
+unseen stations. 
+The project compares forecasting methods along three complementary dimensions: 
+ Predictive performance: how close predictions are to observed PM2.5 concentrations. 
+ Robustness: how performance changes across data partitions, training-set sizes, and reasonable 
+experimental choices. 
+ Explainability stability: whether the features identified as important remain similar across folds, 
+validation schemes, and models. 
+All groups must use the shared protocol and report limitations. The aim is not simply to find the lowest 
+error, but to recommend a model whose performance is reliable and whose computational cost and 
+explanations are understood. 
+2. Learning objectives 
+By completing the project, students should be able to: 
+ Build a reproducible supervised-regression pipeline for daily PM2.5 forecasting. 
+ Audit, explore, clean, and prepare spatiotemporal data while preventing data leakage. 
+ Compare models using appropriate error metrics and time-aware and location-aware validation. 
+ Analyze robustness, prediction errors, feature importance, and computational cost. 
+ Conduct controlled ablation and statistical comparisons, then communicate findings in a scientific 
+report and oral presentation. 
+3. Dataset and preliminary checks 
+Proposed dataset: Air Quality – Mediterranean Basin (2016–2026). 
+Dataset link: https://www.kaggle.com/datasets/sarahameziane/air-quality-mediterranean-basin-
+20162026/ 
+3.1 Mandatory dataset audit 
+ Record the source, license, units, number of rows and columns, date range, and spatial coverage. 
+ Quantify missing values and duplicates; inspect target and predictor distributions. 
+ Check the independence and grouping of observations, including repeated measurements from the 
+same station. 
+ Verify that no input variable is derived directly from the target; remove any target-derived feature. 
+
+
+===== PAGE 2 =====
+Academic year 2026–2027                                                                        Master 1 Mini project | PM2.5 Forcasting 
+ 
+2 
+ 
+ Check that timestamps, station identifiers, and coordinates are reliable. If temporal or spatial 
+metadata are absent or unreliable, remove the corresponding validation and generalization analyses 
+and explain why. 
+Target: continuous daily surface PM2.5 concentration, measured in µg/m³. This is a regression and 
+forecasting task, not a classification task. 
+4. Project scope and models 
+The task is to forecast daily surface PM2.5 using available satellite/reanalysis, air-quality, 
+meteorological, and justified temporal features. The core evaluation uses temporal and spatial cross-
+validation, subject to the metadata checks in Section 3. 
+4.1 Mandatory model families 
+Model family 
+Models to evaluate 
+Regularized and robust 
+regression 
+Lasso, ElasticNet, Huber Regressor 
+Kernel and instance-based 
+KNN , SVR 
+Tree-based ensembles 
+Extra Trees, Gradient Boosting, XGBoost, LightGBM, CatBoost 
+Classical time series 
+AR, MA, ARMA, ARIMA, SARIMA, SARIMAX, Prophet 
+Deep learning 
+MLP, LSTM, GRU, BiLSTM, 1D-CNN, Transformer, PatchTST 
+Hybrid models 
+CNN-LSTM, ARIMA-WOA-LSTM, SARIMA-BiLSTM 
+Ensemble learning 
+Voting Regressor , Stacking,Decision-Tree Bagging, AdaBoost 
+5. Experimental protocol 
+5.1 Data exploration and preparation 
+ Describe the dataset, target, units, temporal coverage, spatial coverage, and variables. 
+ Summarize numerical variables using minimum, maximum, mean, standard deviation, quartiles, 
+skewness, and kurtosis. Count categories for relevant identifiers. 
+ Visualize key variables (PM2.5, AOD, NO₂, CO, O₃, temperature, pressure, and wind): use 
+histograms, boxplots, and suitable categorical plots. 
+ Quantify missingness and inspect potential outliers using domain knowledge, boxplots, IQR, z-
+scores, Isolation Forest, or LOF as appropriate. 
+ Remove rows with missing PM2.5 or documented invalid sentinel values PM2.5 ≤ 0 or PM2.5 ≥ 500 
+before EDA and splitting; report counts removed. 
+ Inspect duplicates using all columns and key fields (date, latitude, longitude, station ID). 
+ Analyze relationships using Pearson/Spearman correlations, identify highly correlated predictors (|r| 
+> 0.9), and consider VIF or PCA where useful. t-SNE/UMAP are exploratory visualizations, not 
+proof of predictive value. 
+ Study PM2.5–predictor relationships, including possible seasonal/station differences and the 
+influence of meteorology on PM2.5–AOD associations. 
+ Describe the skewed target distribution, seasonal variation, and the proportions above 25 and 50 
+µg/m³. Consider what this means for RMSE, MAE, and extreme-event errors. 
+EDA outputs: save numerical summaries and temporal diagnostics in Exploratory_Data.csv and 
+Exploratory_temporal.csv (use consistent filenames throughout the project). 
+
+
+===== PAGE 3 =====
+Academic year 2026–2027                                                                        Master 1 Mini project | PM2.5 Forcasting 
+ 
+3 
+ 
+5.2 Time-series exploration 
+Decision gate: determine whether temporal validation and lag-based features are appropriate from the 
+timestamp quality, temporal dependence, and intended forecasting scenario. 
+ Check timestamp regularity, daily sampling, missing dates, duplicate timestamps, and irregular 
+observations per station. 
+ Explore autocorrelation and stationarity using ACF/PACF and, where appropriate, Ljung–Box and 
+ADF tests. 
+ Examine target drift across months and years using median, IQR, and high-concentration frequency. 
+ Identify daily, monthly, and seasonal patterns in PM2.5 and atmospheric predictors. 
+ Explore lead–lag relationships between PM2.5 and AOD, NO₂, CO, O₃, wind, and temperature. 
+5.3 Preprocessing without data leakage 
+All learned transformations must be fitted on each training fold only. Use a scikit-learn Pipeline, or an 
+imbalanced-learn Pipeline when resampling is required. Keep validation data separate from training 
+operations and reserve the final test period for final evaluation. 
+5.3.1 Missing values 
+ Numerical variables: use median imputation by default; consider KNNImputer only when its 
+assumptions and stability are justified. 
+ Categorical variables: use mode imputation or an explicit “missing” category. 
+ For real-time forecasting, use forward-fill only when operationally justified; avoid backward-fill or 
+interpolation that uses future information. 
+ For Sentinel-5P NO₂, CO, and O₃, use training-fold median imputation plus a missingness indicator 
+for each column. Do not forward-fill these columns across days. 
+ Report missingness by variable and, for NO₂/CO/O₃, by month and station. Use KNN imputation for 
+these variables only if the correlation structure is stable across training folds. 
+5.3.2 Scaling and feature selection 
+ Use StandardScaler or RobustScaler for scale-sensitive models such as SVR, KNN, neural networks, 
+and PCA. Tree-based models generally do not need scaling. 
+ Fit scaling and feature-selection steps within each training fold. 
+ Possible feature-selection methods: filter methods (ANOVA F-test or mutual information), wrapper 
+methods (RFE), and embedded methods (L1 regularization or tree importance). 
+ Record selected features and their number; never select features using the full dataset or test labels. 
+5.3.3 Outliers 
+ Preserve extreme but plausible PM2.5 observations; distinguish measurement errors from genuine 
+pollution episodes. 
+ If thresholds are learned from data, estimate them on training data and apply them unchanged to 
+validation/test data. 
+ Compare MAE, RMSE, and R² with and without the chosen outlier treatment on the same held-out 
+data. 
+
+
+===== PAGE 4 =====
+Academic year 2026–2027                                                                        Master 1 Mini project | PM2.5 Forcasting 
+ 
+4 
+ 
+5.3.4 Temporal preprocessing and feature engineering 
+ Validate timestamps and create a regular daily timeline separately for each station. Decide which 
+stations to retain before splitting. 
+ Match station records to corresponding GEE IDs using date and nearest latitude/longitude 
+(approximately 0.25°), and never mix stations or IDs. 
+ Create lags, rolling statistics, differences, rates of change, and calendar features only when justified 
+by Section 5.2. 
+ Use past PM2.5 values only for forecasts at least one day ahead; exclude them from same-day 
+nowcasting to prevent target leakage. 
+ Do not calculate lags across multi-day gaps. All imputations and temporal features must use past 
+information only. 
+Feature type 
+Example 
+Lags 
+AOD at t−1, t−2, t−3; NO₂ at t−1 if justified 
+Differences 
+Day-to-day changes in AOD, temperature, or NO₂ 
+Rolling statistics 
+Past-only 3-day or 7-day mean/standard deviation 
+Rolling extremes 
+Past-only 7-day maximum AOD 
+Rate of change 
+AOD change over 1 or 3 days 
+Cyclical calendar 
+Day-of-year represented by sine/cosine 
+Time since event 
+Days since the last high-AOD day, using past data only 
+5.4 Validation schemes 
+Scheme 
+Configuration 
+Purpose and status 
+Temporal CV 
+TimeSeriesSplit, 5 folds, 1-day gap 
+Mandatory: evaluate forecasting on future observations. 
+Spatial CV 
+GroupKFold, 5 folds grouped by station ID 
+Mandatory if reliable station/location metadata exist: evaluate 
+unseen locations. 
+Random CV 
+Shuffled K-Fold, 5 folds, fixed seed 
+Diagnostic only: illustrate possible optimism; never select the final 
+model. 
+Spatio-temporal blocked 
+CV 
+Blocks both time and location 
+Optional extension if resources and metadata permit. 
+ 
+For spatial CV, station ID defines groups only; it must not be a predictive feature. Save fold indices once 
+and reuse them across all models. The independent future test period must not appear in any 
+development fold. 
+6. Model training 
+6.1 Experimental reproducibility 
+ Fix random seeds for stochastic steps (use 42 where supported) and record software/library versions 
+in requirements.txt. 
+ Use the same input features and fold indices for all comparable models. 
+ Fit all preprocessing on the training fold only; keep the final test period untouched until the end. 
+ Automate result tables and save configurations, fold-level metrics, feature importance, and runtime. 
+6.2 Cross-validation protocols 
+Use the temporal, spatial, and diagnostic random-CV schemes defined in Section 5.4. If spatial metadata 
+are unreliable, document the issue and omit spatial conclusions rather than presenting invalid results. 
+
+
+===== PAGE 5 =====
+Academic year 2026–2027                                                                        Master 1 Mini project | PM2.5 Forcasting 
+ 
+5 
+ 
+6.3 Fair comparison rules 
+ Use identical folds and a comparable hyperparameter-search budget for every model. 
+ Use RMSE as the primary model-selection metric; also report MAE, R², and MAPE where it is 
+meaningful. MAPE can be unstable when observed values are near zero, so explain any use or 
+omission. 
+ Report each metric as mean ± standard deviation across folds and provide 95% bootstrap confidence 
+intervals. 
+ Do not use residual or quantile calibration in the main comparison; it may be an optional extension 
+after initial model selection. 
+ Log training time, total search time, inference time (with prediction sample size), hardware, and 
+serialized model size. Report parameter counts for deep/hybrid models and tree/leaf counts where 
+meaningful. 
+6.4 Robustness analysis 
+6.4.1 Partition robustness 
+ Store fold-level results for temporal, spatial, and diagnostic random CV in results.csv. 
+ For each model and scheme, report mean, standard deviation, 95% bootstrap CI, and coefficient of 
+variation where interpretable. 
+ Report optimism gaps: random K-Fold RMSE − temporal RMSE, and random K-Fold RMSE − 
+spatial-CV RMSE. Interpret large differences as evidence that random splitting may be optimistic. 
+ Use paired comparisons on the same folds where appropriate; acknowledge the limited power of 
+tests based on only five folds. 
+6.4.2 Sensitivity to training-set size 
+ Train on 10%, 25%, 50%, 75%, and 100% of the development data, respecting chronological order; 
+validate on the next temporal block. 
+ Keep the final future test period untouched. If resources are limited, evaluate the three best models 
+per group instead of all models and state this restriction in advance. 
+ Plot RMSE against training-set size. Define the plateau as the point beyond which more data 
+improves RMSE by less than 5%. 
+6.4.3 Spatial and temporal generalization 
+ Use five-fold spatial GroupKFold by station ID, or spatial clusters based on coordinates, when 
+metadata support this analysis. 
+ Report metrics and bootstrap confidence intervals by spatial fold; map station-level errors when 
+possible. 
+ Exclude IDs and coordinates as predictive inputs in the spatial-generalization experiment. 
+ Evaluate the best model from each group on an independent future year (for example, 2025, if it is 
+available and excluded from all CV folds); report monthly RMSE to reveal seasonal weaknesses. 
+
+
+===== PAGE 6 =====
+Academic year 2026–2027                                                                        Master 1 Mini project | PM2.5 Forcasting 
+ 
+6 
+ 
+6.5 Hyperparameter optimization 
+        To ensure fair comparisons and reproducibility, all hyperparameter optimisation must be performed 
+exclusively on the training folds of the cross-validation scheme, never on the validation or test sets. 
+For each model group, follow these steps: 
+ Define the search space: Specify the hyperparameters, candidate values, and ranges in the table 
+below. The search space must be predefined to prevent data-dependent tuning. 
+ Select an optimisation strategy: Choose the method according to the size and computational 
+cost of the search space (see table below). 
+ Run the optimisation: Use a fixed computational budget and a fixed random seed (e.g., 
+random_state=42) to ensure reproducibility. The computational budget must be comparable 
+across models (e.g., a maximum of 50 model evaluations). 
+ Retain the top three configurations: Select the three best hyperparameter setups found during 
+tuning. They must use different parameter values (not just different random seeds). 
+ Test robustness: Take the top three configurations and slightly vary their key parameters (one 
+step above and below) to see if the model remains stable or if its performance drops 
+significantly. 
+ Report the results: Include the best configuration, the performance of the top three, the 
+robustness verdict, and the final selected hyperparameters in hyperparameters.csv. 
+1)  Search space 
+Model 
+Hyperparameter 
+Candidate Values / Range 
+G1: Lasso 
+alpha 
+[0.001, 0.01, 0.1, 1.0, 10.0] (log scale) 
+fit_intercept 
+{True, False} 
+G2: ElasticNet 
+alpha 
+[0.001, 0.01, 0.1, 1.0, 10.0] 
+l1_ratio 
+[0.1, 0.3, 0.5, 0.7, 0.9] 
+G3: Huber 
+epsilon 
+[1.1, 1.35, 1.5, 2.0] 
+alpha 
+[1e-5, 1e-4, 1e-3, 1e-2] 
+G4: KNN 
+n_neighbors 
+[3, 5, 7, 10, 15, 20] 
+weights 
+{uniform, distance} 
+p 
+{1, 2} 
+G5: SVR 
+kernel 
+{rbf, linear} 
+C 
+[0.1, 1, 10, 100, 1000] 
+gamma 
+{'scale', 'auto', 0.001, 0.01, 0.1} 
+epsilon 
+[0.01, 0.1, 0.5, 1.0] 
+G6: Extra Trees 
+n_estimators 
+{100, 200, 500} 
+max_depth 
+{None, 10, 20, 30} 
+min_samples_split 
+{2, 5, 10} 
+min_samples_leaf 
+{1, 2, 4} 
+max_features 
+{'sqrt', 'log2', None} 
+G7: Gradient Boosting 
+n_estimators 
+{100, 200, 500} 
+learning_rate 
+[0.01, 0.05, 0.1, 0.2] 
+max_depth 
+{3, 5, 7} 
+G8: XGBoost 
+n_estimators 
+{100, 200, 500} 
+learning_rate 
+[0.01, 0.05, 0.1, 0.3] 
+max_depth 
+{3, 6, 9} 
+subsample 
+[0.7, 0.8, 0.9, 1.0] 
+G9: LightGBM 
+n_estimators 
+{100, 200, 500} 
+learning_rate 
+[0.01, 0.05, 0.1, 0.2] 
+num_leaves 
+{15, 31, 63} 
+G10: CatBoost 
+iterations 
+{500, 1000, 2000} 
+
+
+===== PAGE 7 =====
+Academic year 2026–2027                                                                        Master 1 Mini project | PM2.5 Forcasting 
+ 
+7 
+ 
+learning_rate 
+[0.01, 0.03, 0.05, 0.1] 
+depth 
+{4, 6, 8} 
+G11–G12: 
+AR/MA/ARIMA/SARIMA 
+p, q 
+{0, 1, 2, 3} 
+d 
+{0, 1, 2} 
+P, Q (seasonal) 
+{0, 1, 2} 
+s (period) 
+{7} (if diagnostics support) 
+G13: Prophet 
+changepoint_prior_scale 
+[0.001, 0.01, 0.1, 0.5, 1.0] 
+seasonality_prior_scale 
+[0.01, 0.1, 1.0, 10.0] 
+seasonality_mode 
+{additive, multiplicative} 
+G14: MLP 
+hidden_layer_sizes 
+{(64, 32), (128, 64), (256, 128)} 
+learning_rate_init 
+[1e-4, 5e-4, 1e-3, 5e-3] 
+activation 
+{relu, tanh} 
+G15–G17: LSTM/GRU/BiLSTM 
+hidden_size 
+{32, 64, 128} 
+num_layers 
+{1, 2, 3} 
+dropout 
+[0.0, 0.1, 0.2, 0.3, 0.5] 
+learning_rate 
+[1e-4, 5e-4, 1e-3] 
+G18–G21: 
+CNN/Transformer/PatchTST/CNN-
+LSTM 
+d_model / filters 
+{32, 64, 128} 
+num_heads 
+{2, 4, 8} 
+num_layers 
+{1, 2, 3} 
+dropout 
+[0.0, 0.1, 0.2, 0.3] 
+learning_rate 
+[1e-4, 5e-4, 1e-3] 
+G22–G23: Hybrid (ARIMA-WOA-
+LSTM / SARIMA-BiLSTM) 
+ARIMA/SARIMA component 
+Use G11–G12 ranges 
+LSTM/BiLSTM component 
+Use G15–G17 ranges 
+WOA population / iterations / seed 
+20 / 50 / fixed value 
+G24–G25: Voting / Stacking 
+Base models 
+Use corresponding ranges above (RF, 
+XGBoost, Ridge) 
+Final estimator (Stacking) 
+{Ridge(alpha=1.0)} 
+cv (out-of-fold) 
+{5} 
+G26: Bagging / AdaBoost 
+n_estimators (Bagging) 
+{100, 200} 
+n_estimators (AdaBoost) 
+{50, 100, 200} 
+base_estimator depth 
+{1, 2, 3} 
+ 
+2) Optimisation strategy by model group: 
+Model group 
+Recommended strategy 
+Configuration limit 
+G1, G5 — Small, discrete spaces 
+Grid Search 
+Exhaustive search (or capped at 50 evaluations 
+for fairness) 
+G6, G13 — Medium-sized spaces 
+Random Search 
+Fixed number of trials (e.g., 50) 
+G14, G23 — Deep or hybrid models 
+Optuna-TPE (Bayesian optimisation) 
+Fixed number of trials (e.g., 50) with a fixed 
+seed 
+Any computationally expensive model — 
+Optional 
+Hyperband / Successive Halving 
+Fixed resource budget, with early stopping 
+ 
+6.6 Model and hyperparameter reference 
+The following starting configurations guide implementation; they are not final tuned values. Tune within 
+a declared search space and report the selected settings. 
+Group / model 
+Suggested starting configuration 
+G1: Lasso 
+alpha=1.0; fit_intercept=True; max_iter=1000 
+G2: ElasticNet 
+alpha=1.0; l1_ratio=0.5; max_iter=1000 
+G3: Huber regressor 
+epsilon=1.35; alpha=0.0001; max_iter=100 
+G4: KNN 
+k=5; Minkowski distance, p=2; compare uniform and distance weights 
+G5: SVR 
+Compare RBF (C=1, gamma='scale') and linear kernels; epsilon=0.1 
+G6: Extra Trees 
+100 trees; tune depth, minimum split/leaf size, and max_features 
+G7: Gradient Boosting 
+100 estimators; learning_rate=0.1; depth around 3 
+G8: XGBoost 
+100 estimators; learning_rate=0.3; depth around 6 
+G9: LightGBM 
+100 estimators; learning_rate=0.1; num_leaves=31 
+
+
+===== PAGE 8 =====
+Academic year 2026–2027                                                                        Master 1 Mini project | PM2.5 Forcasting 
+ 
+8 
+ 
+G10: CatBoost 
+1000 iterations; learning_rate=0.03; depth=6 
+G11: AR/MA 
+Select orders using AIC/BIC; begin with small orders (≤3) 
+G12: ARMA/ARIMA 
+Select orders using AIC/BIC; begin with small orders (≤3) 
+G12: SARIMA/SARIMAX 
+Select orders using AIC/BIC; consider weekly period s=7 only if supported by diagnostics 
+G13: Prophet 
+Start with documented trend/seasonality settings; add exogenous predictors only when supported 
+G14: MLP 
+Two hidden layers (64, 32), ReLU; Adam, learning rate 0.001; early stopping 
+G15: LSTM/ 
+Hidden size around 64; 1–2 layers; dropout around 0.2; Adam 
+G16: GRU 
+Hidden size around 64; 1–2 layers; dropout around 0.2; Adam 
+G17: BiLSTM 
+Hidden size around 64; 1–2 layers; dropout around 0.2; Adam 
+G18: 1D-CNN  
+Small architecture first; tune filters/kernel or d_model/heads/layers; use early stopping 
+G19: Transformer 
+Small architecture first; tune filters/kernel or d_model/heads/layers; use early stopping 
+G20: PatchTST 
+d_model=64; num_heads=4; num_layers=2; dropout=0.1; Adam; early stopping 
+G21: CNN-LSTM 
+Conv1D (32–64 filters) → LSTM (hidden size around 64) → dense output 
+G22: ARIMA-WOA-LSTM 
+Tune ARIMA and LSTM components; fix WOA population, iterations, and seed 
+G23: SARIMA-BiLSTM 
+Tune SARIMA and BiLSTM components; use a fixed seed 
+G24: Voting 
+Average RF, XGBoost, and Ridge predictions; tune component models 
+G25: Stacking 
+RF + XGBoost base models; Ridge final estimator; ensure out-of-fold training for meta-model 
+G26: Bagging / AdaBoost 
+Start with 100 bagged trees; AdaBoost with 50 estimators and a shallow decision tree 
+ 
+Implementation note: the original model inventory and its detailed configurations should be checked for 
+consistency before coding (for example, ARMA/MA order definitions, Prophet versus SARIMAX 
+terminology, and the exact Transformer/1D-CNN architecture). Do not silently substitute one model for 
+another; document any justified adjustment. 
+6.7 Explainability and explanation stability 
+6.7.1 Global feature importance 
+ Mandatory: compute permutation importance on validation folds for all models. 
+ Optional: apply SHAP to one or two representative models; report runtime and compare SHAP 
+rankings with permutation importance. 
+ For linear models, report standardized coefficients and, where feasible, bootstrap confidence 
+intervals. For deep/hybrid models, permutation importance is the common required method. 
+6.7.2 Ranking stability 
+ Compare feature rankings across folds, across validation schemes, and across models within the 
+same group. 
+ Use Spearman rank correlation for full rankings and Jaccard overlap for top-3/top-5 features. 
+ As practical reference thresholds, report whether fold-level rho exceeds 0.8 and whether top-5 
+overlap across schemes exceeds 60%; explain cases below these thresholds. 
+6.7.3 Local explanations 
+ Select representative days with low (<10), medium (10–25), high (25–50), and extreme (>50 µg/m³) 
+PM2.5, plus the day with the largest prediction error. 
+ Compare the top three models on the same cases. Use SHAP contributions if available; otherwise 
+describe observed feature values and prediction errors without claiming causal explanations. 
+
+
+===== PAGE 9 =====
+Academic year 2026–2027                                                                        Master 1 Mini project | PM2.5 Forcasting 
+ 
+9 
+ 
+6.7.4 Cost–rigor trade-off 
+Use permutation importance for all models and treat SHAP as an optional extension. Recommend one 
+model for operational use in a data-sparse region by balancing error, generalization, runtime, inference 
+cost, and explanation stability. 
+7. Statistical analysis 
+7.1 General principle 
+Compare models using paired results from the same folds and validation scheme. Fold scores are 
+dependent and only five folds provide limited statistical power; avoid interpreting a single p-value as 
+conclusive evidence. 
+7.2 Performance calculation 
+ For every model, metric, and validation scheme, retain the score from each of the five folds. 
+ Report mean ± standard deviation and a 95% bootstrap confidence interval. 
+ Calculate the two optimism gaps defined in Section 6.4.1. 
+7.3 Statistical tests 
+ Primary comparison: paired Wilcoxon signed-rank test on fold-level errors from the same folds. 
+ Correct multiple pairwise comparisons using Holm–Bonferroni. 
+ Complementary analyses: bootstrap confidence intervals for mean differences and permutation tests 
+(10,000 permutations where computationally feasible). 
+ Report corrected p-values, an effect size (for example, Wilcoxon r), and the practical size of the 
+difference. Treat p < 0.05 after correction as the significance threshold. 
+7.4 Reporting 
+Save fold-level results for every model and validation scheme in results.csv, and pairwise summaries in 
+comparisons.csv. 
+ Primary report: mean ± standard deviation, 95% CI, mean difference with CI, effect size, and 
+corrected p-value. 
+ Complementary report: bootstrap CI for the mean difference and permutation-test result. 
+ Discuss both statistical evidence and practical importance; with five folds, explicitly acknowledge 
+uncertainty and low test power. 
+7.5 Reproducibility 
+ Fix and record seeds for model initialization, random CV, bootstrap, permutation tests, and WOA 
+where used. 
+ Save fold definitions as folds_temporal.json, folds_spatial.json, and folds_standard.json. 
+ Use a shared requirements.txt and record versions of Python, scikit-learn, NumPy, SciPy, 
+XGBoost/LightGBM/CatBoost, statsmodels, Prophet, deep-learning frameworks, and statistical-
+testing libraries. 
+
+
+===== PAGE 10 =====
+Academic year 2026–2027                                                                        Master 1 Mini project | PM2.5 Forcasting 
+ 
+10 
+ 
+ Generate tables and figures from scripts. Ask another group to rerun the pipeline in a fresh 
+environment and compare fold-level results. 
+8. Ablation study 
+8.1 Purpose and scope 
+Ablation tests how feature families, preprocessing choices, and validation schemes affect results. It is an 
+analysis of the existing models, not an invitation to add new models. 
+Use these reference models: ElasticNet, SVR-RBF, XGBoost, SARIMAX, LSTM, CNN-LSTM, and 
+Stacking. Use temporal CV (five folds, one-day gap) as the primary scheme. Use spatial grouped CV for 
+feature-group ablation when metadata permit. 
+8.2 Feature-group ablation 
+Starting from the full feature set, remove one family at a time: 
+ AOD. 
+ NO₂/CO/O₃. 
+ Meteorological variables. 
+ Calendar variables. 
+ Lag and rolling features. 
+For each reference model, report the RMSE difference between the ablated and full-feature versions, 
+with a confidence interval across folds. Define ΔRMSE = RMSE(ablated) − RMSE(full). Positive values 
+indicate that removing the feature family hurt performance; values near zero suggest limited 
+contribution; negative values suggest that removal improved performance. 
+8.3 Preprocessing ablation 
+ Compare median imputation with KNNImputer for NO₂/CO/O₃ only if the stability condition in 
+Section 5.3.1 is met. 
+ Compare models with and without missingness indicators. 
+ Compare raw-target training with log1p-transformed-target training. 
+ Evaluate every variant on the original PM2.5 scale (µg/m³) and report ΔRMSE. 
+8.4 Validation-scheme ablation 
+For each reference model, compare temporal CV, spatial CV, and diagnostic random K-Fold. Report 
+random K-Fold RMSE − temporal RMSE and random K-Fold RMSE − spatial-CV RMSE. Large gaps 
+can indicate optimistic random-split estimates caused by temporal or spatial similarity. 
+8.5 Reporting and reproducibility 
+ Provide one table per ablation axis, with models as rows and variants as columns. 
+ Report RMSE as mean ± standard deviation across folds and include bootstrap CIs where 
+appropriate. 
+ Write a short interpretation identifying useful or redundant components, affected model families, and 
+the validation scheme. 
+
+
+===== PAGE 11 =====
+Academic year 2026–2027                                                                        Master 1 Mini project | PM2.5 Forcasting 
+ 
+11 
+ 
+ Save results in ablation.csv using the same seeds, fold indices, and software environment as the main 
+study. 
+9. Deliverables 
+Each group must submit the deliverables below. Use consistent names and ensure that the report and 
+result files are generated from the same experimental runs. 
+9.1 Technical report 
+ Language and format: English PDF, 10–15 pages excluding appendices. 
+ Recommended structure: 
+Section 
+Expected content 
+1. Introduction 
+Context, motivation, objective. 
+2. Problem statement 
+Main research question and secondary questions (RQ1–RQ4). 
+3. Related work 
+Relevant literature on air-pollution forecasting and the assigned methods. 
+4. Assigned ML technique 
+Principles, assumptions, strengths, and limitations of the assigned model(s). 
+5. Architecture and pipeline 
+Preprocessing, feature construction, training, and evaluation. 
+6. Dataset and features 
+Source, audit, target, variables, and limitations. 
+7. Experimental protocol 
+Splits, validation schemes, metrics, and hyperparameter search. 
+8. Quantitative results 
+Tables of mean ± standard deviation and 95% CIs. 
+9. Statistical analysis 
+Paired comparisons, correction, effect sizes, and limitations. 
+10. Ablation analysis 
+Controlled analysis of selected factors. 
+11. Error analysis 
+Residual plots, errors by season/station/PM2.5 level, and representative cases. 
+12. Explainability 
+Global importance, local cases, and ranking stability. 
+13. Discussion 
+Answers to research questions and performance/robustness/explainability trade-offs. 
+14. Limitations 
+Data, design, computational, and model limitations. 
+15. Conclusion 
+Main findings and justified recommendation. 
+Appendices 
+Detailed tables, figures, configurations, and library versions. 
+ 
+9.2 Source code 
+ Organize code in a src/ directory with separate scripts or modules for preprocessing, training, 
+evaluation, and result consolidation. 
+ Include README.md with project overview, installation, execution, and reproduction instructions. 
+ Include requirements.txt with exact versions and document random seeds (42 where supported). 
+ Provide a Git repository and commands that allow another group to rerun the experiments. 
+9.3 Standardized CSV files 
+File 
+Required content 
+Exploratory_Data.csv 
+Numerical EDA summaries, missingness, and cleaning counts. 
+Exploratory_temporal.csv 
+Timestamp quality, temporal patterns, and diagnostic results. 
+results.csv 
+Metrics for each model, fold, validation scheme, and relevant repetition. 
+hyperparameters.csv 
+Model settings and selected hyperparameters by model/fold. 
+feature_importance.csv 
+Feature-importance scores and rankings. 
+comparisons.csv 
+Paired model comparisons, differences, confidence intervals, p-values, and effect sizes. 
+experiments.csv 
+Run metadata: date, versions, seeds, hardware, and configuration/hash. 
+ablation.csv 
+Results for each ablation variant. 
+ranking_stability.csv  
+Results for model ranks. 
+ 
+CSV format: UTF-8, comma-separated, decimal point. Store each group's results in results/BXX-YY/ 
+and consolidate them in results/consolidated/. 
+
+
+===== PAGE 12 =====
+Academic year 2026–2027                                                                        Master 1 Mini project | PM2.5 Forcasting 
+ 
+12 
+ 
+9.4 Oral presentation 
+ Duration: 15 minutes plus questions. 
+ Support: PDF or PowerPoint slides. 
+ Cover the context, assigned method, dataset, experimental design, main results, 
+robustness/explainability, limitations, and conclusion. 
+9.5 Submission due date and presentation 
+Milestone 
+Deadline 
+Data exploration and preprocessing 
+14 November 2026 
+Model training, validation, test and evaluation 
+12 December 2026 
+Statistical testing and explicability 
+02 January  2027 
+ 
+Instructor validation: date to be announced. 
+Important: absence from the oral presentation, whether justified or unjustified, results in a grade of 0/20. 
+References 
+1. Box, G. E. P., Jenkins, G. M., Reinsel, G. C., & Ljung, G. M. (2015). Time Series Analysis: 
+Forecasting and Control. Wiley. 
+2. Hyndman, R. J., & Athanasopoulos, G. (2021). Forecasting: Principles and Practice. OTexts. 
+3. Breiman, L. (2001). Random Forests. Machine Learning, 45, 5–32. 
+4. Chen, T., & Guestrin, C. (2016). XGBoost: A Scalable Tree Boosting System. KDD. 
+5. Ke, G., et al. (2017). LightGBM: A Highly Efficient Gradient Boosting Decision Tree. NeurIPS 30. 
+6. Prokhorenkova, L., et al. (2018). CatBoost: Unbiased Boosting with Categorical Features. NeurIPS 
+31. 
+7. Hochreiter, S., & Schmidhuber, J. (1997). Long Short-Term Memory. Neural Computation, 9(8), 
+1735–1780. 
+8. Cho, K., et al. (2014). Learning Phrase Representations using RNN Encoder–Decoder. EMNLP. 
+9. Vaswani, A., et al. (2017). Attention Is All You Need. NeurIPS. 
+10. Lundberg, S. M., & Lee, S.-I. (2017). A Unified Approach to Interpreting Model Predictions. 
+NeurIPS. 
+11. Pedregosa, F., et al. (2011). Scikit-learn: Machine Learning in Python. Journal of Machine Learning 
+Research, 12, 2825–2830. 
+12. Akiba, T., et al. (2019). Optuna: A Next-generation Hyperparameter Optimization Framework. 
+KDD. 
+13. Luo, J., & Gong, Y. (2023). Air pollutant prediction based on ARIMA-WOA-LSTM model. 
+Atmospheric Pollution Research, 14(6), 101761. 
+14. Necula, S. C., Hauer, I., Fotache, D., & Hurbean, P. (2025). Advanced hybrid models for air 
+pollution forecasting: Combining SARIMA and BiLSTM architectures. Electronics, 14(3). 

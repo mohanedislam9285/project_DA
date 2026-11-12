@@ -1,0 +1,6 @@
+cv_fold,selected_variant,inner_validation_rmse,best_epoch,selection_source
+1,full_calendar_lag_roll3_roll7,4.246244005003058,94,inner chronological validation only
+2,no_calendar_lag_roll3,3.697824281783183,42,inner chronological validation only
+3,no_calendar_lag_only,3.5563600063908254,23,inner chronological validation only
+4,full_calendar_lag_roll3_roll7,18.98656028446298,100,inner chronological validation only
+5,no_calendar_lag_only,4.019728171044878,41,inner chronological validation only

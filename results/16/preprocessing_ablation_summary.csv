@@ -1,0 +1,4 @@
+variant,mean,std,count
+median_with_indicators_log1p_target,8.574880236733545,6.105879218626474,5
+median_with_indicators_raw_target_reference,8.455148366090551,6.161191204742648,5
+median_without_indicators,8.499546422176692,6.14391036827249,5

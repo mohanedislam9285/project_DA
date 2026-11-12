@@ -1,0 +1,13 @@
+{
+  "experiment": "nested 3-vs-7-day lookback comparison, development temporal CV only",
+  "lookbacks_days": [
+    3,
+    7
+  ],
+  "common_development_target_rows": 3349,
+  "fixed_hyperparameters": "each fold's previously selected Optuna config; no new outer-validation tuning",
+  "selection": "lowest inner chronological-validation RMSE; then refit and evaluate on the same outer fold",
+  "future_test_used_for_scoring_or_selection": false,
+  "available_lookback_14_sequences_by_fold": {},
+  "interpretation": "14-day history has only 505 development sequences overall (fold validation counts 45, 2, 8, 145, 255), so it was not included as a candidate in this nested comparison."
+}

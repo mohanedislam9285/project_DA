@@ -1,0 +1,921 @@
+===== PAGE 1 =====
+exploratory_Data.csv 
+Colonne 
+Type 
+Description 
+Exemple 
+model_id 
+string 
+ID modèle 
+"xgb_pm25" 
+model_group 
+string 
+Groupe G1–G26 (§4.1) 
+"G8" 
+variable 
+string 
+Nom de la variable 
+"pm25_ugm3" 
+family 
+string 
+Famille (alignée au protocole 
+§5.1) 
+"Target", "AOD", "NO2", "CO", "O3", "Meteorological", 
+"Calendar", "Lag", "Rolling", "Spatial", "ID" 
+type 
+string 
+Type statistique 
+"numeric", "categorical", "datetime", "id" 
+unit 
+string 
+Unité physique (obligatoire 
+pour audit §3.1) 
+"µg/m³", "K", "m/s", "dimensionless" 
+n_total 
+int 
+Nombre total de lignes 
+15000 
+n_missing 
+int 
+Valeurs manquantes 
+0 
+pct_missing 
+float 
+% manquantes 
+0.0 
+n_unique 
+int 
+Valeurs distinctes 
+4120 
+n_duplicates_key 
+int 
+Doublons (date, latitude, 
+longitude, station_id) 
+0 
+min 
+float 
+Minimum 
+2.1 
+q1 
+float 
+1er quartile 
+8.2 
+median 
+float 
+Médiane 
+18.5 
+q3 
+float 
+3e quartile 
+32.1 
+max 
+float 
+Maximum 
+210.6 
+mean 
+float 
+Moyenne 
+21.3 
+std 
+float 
+Écart-type 
+15.7 
+skewness 
+float 
+Skewness 
+2.1 
+kurtosis 
+float 
+Kurtosis 
+6.4 
+iqr 
+float 
+Q3 − Q1 
+23.9 
+n_out_iqr 
+int 
+Outliers IQR 
+420 
+pct_out_iqr 
+float 
+% IQR 
+2.8 
+n_out_z 
+int 
+Outliers |z|>3 
+180 
+pct_out_z 
+float 
+% z-score 
+1.2 
+n_out_if 
+int 
+Outliers Isolation Forest 
+310 
+pct_out_if 
+float 
+% IF 
+2.07 
+n_out_lof 
+int 
+Outliers LOF 
+295 
+pct_out_lof 
+float 
+% LOF 
+1.97 
+n_sentinel_low 
+int 
+Nombre de PM2.5 ≤ 0 
+(invalides §5.1) 
+12 
+n_sentinel_high 
+int 
+Nombre de PM2.5 ≥ 500 
+(invalides §5.1) 
+3 
+n_removed_total 
+int 
+Total lignes supprimées avant 
+EDA 
+15 
+max_abs_corr 
+float 
+|r| max avec une autre variable 
+0.94 
+corr_partner 
+string 
+Variable la plus corrélée 
+"pm10_ugm3" 
+vif 
+float 
+VIF 
+3.8 
+modalities 
+int 
+Modalités (catégorielles) 
+5 
+target_assoc 
+string 
+Test d'association avec la cible 
+"pearson_r=0.72", "spearman=0.68", "mi=0.41" 
+target_pval 
+float 
+p-value 
+0.0 
+acf_lag1 
+float 
+ACF lag-1 
+0.78 
+acf_lag24 
+float 
+ACF lag-24 
+0.45 
+pacf_lag1 
+float 
+PACF lag-1 
+0.62 
+n_lags_recommended 
+int 
+Lags suggérés par cutoff 
+PACF 
+6 
+adf_p 
+float 
+p-value ADF 
+0.03 
+is_leakage_suspect 
+bool 
+Variable dérivée de la cible 
+(§3.1) 
+False 
+notes 
+string 
+Commentaire 
+"LEAKAGE SUSPECT; collinear with pm10_ugm3" 
+ 
+ 
+
+
+===== PAGE 2 =====
+exploratory_temporal.csv 
+Colonne 
+Type 
+Description 
+Exemple 
+model_id 
+string 
+ID modèle 
+"xgb_pm25" 
+model_group 
+string 
+Groupe G1–G26 (§4.1) 
+"G8" 
+variable 
+string 
+Nom de la variable 
+"pm25_ugm3" 
+node_id 
+string 
+Station ID 
+"ST_01" 
+n_records 
+int 
+Enregistrements pour cette station 
+240 
+t_min 
+datetime 
+Premier timestamp 
+"2024-01-02" 
+t_max 
+datetime 
+Dernier timestamp 
+"2024-11-05" 
+sampling_interval_median_sec 
+float 
+Δt médian 
+86400.0 
+sampling_interval_std_sec 
+float 
+Écart-type Δt 
+0.0 
+pct_missing_intervals 
+float 
+% intervalles manquants 
+4.2 
+acf_lag1 
+float 
+ACF lag-1 
+0.78 
+acf_lag7 
+float 
+ACF lag-7 (cycle hebdomadaire, §5.2) 
+0.61 
+acf_lag24 
+float 
+ACF lag-24 (cycle diurne si horaire) 
+0.45 
+pacf_lag1 
+float 
+PACF lag-1 
+0.62 
+ljung_box_p 
+float 
+Ljung–Box p-value 
+0.001 
+adf_p 
+float 
+ADF p-value 
+0.03 
+kpss_p 
+float 
+KPSS p-value 
+0.07 
+trend_slope_per_day 
+float 
+Pente de tendance linéaire 
+-0.002 
+trend_pval 
+float 
+Significativité de tendance 
+0.41 
+diurnal_amplitude 
+float 
+Variation intra-journalière 
+3.2 
+seasonal_amplitude 
+float 
+Variation saisonnière 
+6.7 
+target_drift_stat 
+float 
+Statistique KS sur la cible 
+0.18 
+target_drift_pval 
+float 
+p-value drift cible 
+0.0001 
+n_days_above_25 
+int 
+Jours avec PM2.5 > 25 (§5.1) 
+112 
+n_days_above_50 
+int 
+Jours avec PM2.5 > 50 (extrêmes §5.1) 
+28 
+pct_days_above_25 
+float 
+% jours > 25 
+46.7 
+pct_days_above_50 
+float 
+% jours > 50 
+11.7 
+regime_breaks 
+int 
+Ruptures de régime (PELT) 
+2 
+cv_strategy_recommended 
+string 
+Schéma CV recommandé (§5.4) 
+"temporal", "spatial", "spatio_temporal" 
+gap_between_train_test_sec 
+float 
+Gap conseillé 
+86400.0 
+n_cycles_observed 
+int 
+Cycles saisonniers observés 
+11 
+no2_pct_missing_by_month 
+string 
+JSON {month: pct} pour NO₂ (§5.3.1) 
+'{"2024-01":3.2,"2024-02":5.1}' 
+co_pct_missing_by_month 
+string 
+JSON pour CO 
+'{"2024-01":4.0,...}' 
+o3_pct_missing_by_month 
+string 
+JSON pour O₃ 
+'{"2024-01":2.9,...}' 
+notes 
+string 
+Commentaire 
+"strong persistence; regime shift at T" 
+ 
+Results.csv 
+Colonne 
+Type 
+Description 
+Exemple 
+model_id 
+string 
+ID modèle 
+"xgb_pm25" 
+model_group 
+string 
+Groupe G1–G26 (§4.1) 
+"G8" 
+model_family 
+string 
+Famille (§4.1) 
+"linear", "kernel", "tree", "ensemble", "boosting", "neural", 
+"meta", "time_series", "hybrid", "baseline" 
+dataset_split 
+string 
+Jeu évalué (§6.4.3) 
+"train", "validation", "test", "future_test" 
+cv_scheme 
+string 
+Schéma (§5.4) 
+"temporal", "spatial", "random_diagnostic", 
+"spatio_temporal_blocked" 
+cv_purpose 
+string 
+Usage (§5.4) 
+"selection", "diagnostic", "generalization" 
+cv_repetition 
+int 
+Répétition (0, 1, 2) 
+0 
+cv_fold 
+int 
+Fold (0–4) ; -1 si 
+agrégé 
+3 
+niveau 
+string 
+Agrégation 
+"fold", "repetition", "global" 
+metric 
+string 
+Métrique (§6.3) 
+"rmse", "mae", "r2", "mape", "smape", "nrmse", "mase" 
+(probabilistic optional: "pinball_loss_q10", "pinball_loss_q50", 
+"pinball_loss_q90", "picp_90", "crps") 
+is_primary 
+bool 
+Métrique primaire 
+(RMSE = True, §6.3) 
+True 
+value 
+float 
+Valeur 
+12.45 
+std 
+float 
+Écart-type (niveau 
+global/repetition) 
+0.87 
+ci_lower 
+float 
+IC 95 % inférieur 
+11.72 
+ci_upper 
+float 
+IC 95 % supérieur 
+13.18 
+
+
+===== PAGE 3 =====
+n_samples 
+int 
+Échantillons évalués 
+1200 
+train_size 
+float 
+Fraction train (§6.4.2) 
+1.0, 0.1, 0.25, 0.5, 0.75 
+horizon_step 
+int 
+Horizon h (jours) 
+1, 3, 7 
+forecast_origin 
+datetime 
+Origine de la fenêtre 
+"2024-10-01" 
+baseline_metric_value 
+float 
+Score baseline (MASE) 
+18.32 
+config_rank 
+int 
+Rang 1–3 des top 
+configs (§6.5) 
+1 
+robustness_variant 
+string 
+Variante de robustesse 
+(§6.5 step 5) 
+"reference", "hp_up", "hp_down", "seed_0", "seed_1", "seed_2" 
+delta_vs_reference 
+float 
+ΔRMSE vs référence 
+(robustesse) 
+0.8 
+random_state 
+int 
+Graine 
+42 
+seed_group 
+string 
+Groupe de seeds pour 
+G15–G23 (§6.4.4) 
+"seed_set_A" 
+fit_time_sec 
+float 
+Temps d'entraînement 
+12.34 
+search_time_sec 
+float 
+Temps de recherche HP 
+(§6.3) 
+320.5 
+inference_time_sec 
+float 
+Temps d'inférence 
+0.45 
+model_size_mb 
+float 
+Taille sérialisée 
+2.1 
+n_parameters 
+int 
+Paramètres 
+(deep/hybrid, §6.3) 
+45210 
+n_trees 
+int 
+Arbres/feuilles (§6.3) 
+500 
+hardware 
+string 
+Hardware (§6.3) 
+"CPU i7-12700; 32GB RAM" 
+n_features 
+int 
+Variables utilisées 
+12 
+fold_file 
+string 
+Fichier folds utilisé 
+(§7.5) 
+"folds_temporal.json" 
+notes 
+string 
+Commentaire 
+"scaling=standard; log1p target" 
+ 
+hyperparameters.csv 
+Colonne 
+Type 
+Description 
+Exemple 
+model_id 
+string 
+Modèle 
+"xgb_pm25" 
+model_group 
+string 
+G1–G26 
+"G8" 
+cv_repetition 
+int 
+Répétition 
+0 
+cv_fold 
+int 
+Fold 
+3 
+config_rank 
+int 
+Rang 1–3 
+(§6.5) 
+1 
+is_selected 
+bool 
+Config finale 
+retenue 
+True 
+hyperparameter 
+string 
+Nom 
+"n_lags", "window_size", "horizon", "seasonal_period", "learning_rate", 
+"max_depth", "n_estimators", "dropout", "patience", "loss", "d", "P", "Q", "s", 
+"num_leaves", "l1_ratio" 
+value 
+string 
+Valeur 
+"24", "0.05", "pinball" 
+ 
+feature_importance.csv 
+Colonne 
+Type 
+Description 
+Exemple 
+model_id 
+string 
+Modèle 
+"xgb_pm25" 
+model_group 
+string 
+G1–G26 
+"G8" 
+cv_repetition 
+int 
+Répétition 
+0 
+cv_fold 
+int 
+Fold 
+3 
+method 
+string 
+Méthode — permutation = mandatory 
+(§6.7.1) ; autres optional 
+"permutation", "shap", "gini", "gain", 
+"permutation_temporal", "linear_coef" 
+is_mandatory 
+bool 
+True pour permutation 
+True 
+feature 
+string 
+Variable 
+"pm25_lag1", "wind_speed_ms" 
+importance 
+float 
+Importance 
+0.123 
+rank 
+int 
+Rang (1 = plus importante) 
+2 
+ 
+comparisons.csv 
+Colonne 
+Type 
+Description 
+Exemple 
+model_id 
+string 
+Modèle 
+"xgb_pm25" 
+model_group 
+string 
+G1–G26 
+"G8" 
+comparison_id 
+string 
+ID comparaison 
+"B.2.3" 
+binome_id 
+string 
+Binôme 
+"B07-08" 
+
+
+===== PAGE 4 =====
+model_a 
+string 
+Modèle A 
+"xgb_pm25" 
+model_b 
+string 
+Modèle B 
+"lstm_pm25" 
+metric 
+string 
+Métrique 
+"rmse", "mae", "r2", "mase" 
+is_primary_metric 
+bool 
+True si RMSE 
+True 
+comparison_type 
+string 
+Type (§7.3 / §6.4.1) 
+"paired_wilcoxon", "bootstrap_diff", "permutation", 
+"optimism_gap_temporal", "optimism_gap_spatial", 
+"horizon_wise" 
+horizon_step 
+int 
+Horizon comparé 
+24 
+train_size 
+float 
+Taille train comparée 
+(§6.4.2) 
+1.0 
+mean_a 
+float 
+Moyenne A 
+12.45 
+mean_b 
+float 
+Moyenne B 
+11.98 
+delta 
+float 
+Δ (A − B) 
+0.47 
+delta_ci_lower 
+float 
+IC 95 % inf. du Δ 
+0.12 
+delta_ci_upper 
+float 
+IC 95 % sup. du Δ 
+0.82 
+effect_size_type 
+string 
+Type d'effet (§7.3) 
+"wilcoxon_r", "cohens_d" 
+effect_size 
+float 
+Taille d'effet 
+0.72 
+p_value 
+float 
+p-value brute 
+0.25 
+p_value_corrected 
+float 
+p-value Holm 
+0.50 
+correction_method 
+string 
+Correction multiple 
+(§7.3) 
+"holm" 
+test_used 
+string 
+Test 
+"wilcoxon", "permutation", "friedman", "diebold_mariano" 
+n_permutations 
+int 
+Permutations (§7.3) 
+10000 
+bootstrap_n 
+int 
+Rééchantillonnages 
+bootstrap 
+2000 
+significant 
+bool 
+Significatif après 
+correction 
+False 
+practically_relevant 
+bool 
+Δ ≥ seuil relatif 
+False 
+practically_relevant_threshold 
+float 
+Seuil (5 % moyenne 
+PM) 
+0.05 
+is_baseline_comparison 
+bool 
+Comparaison vs 
+baseline naïf 
+False 
+plateau_reached 
+bool 
+Plateau §6.4.2 
+True 
+notes 
+string 
+Commentaire 
+"Non distinguables" 
+experiments.csv 
+Colonne 
+Type 
+Description 
+Exemple 
+model_id 
+string 
+Modèle 
+"xgb_pm25" 
+model_group 
+string 
+G1–G26 
+"G8" 
+description 
+string 
+Description courte 
+"XGBoost, 24 lags, horizon 1 day" 
+pipeline_hash 
+string 
+Hash pipeline sklearn 
+"a3f9..." 
+library_versions 
+string 
+Versions JSON (§7.5) 
+'{"sklearn":"1.3.2","numpy":"1.26.0","xgboost":"2.0.3"}' 
+python_version 
+string 
+Version Python (§7.5) 
+"3.11.5" 
+hardware 
+string 
+Hardware (§6.3) 
+"CPU i7-12700; 32GB RAM; no GPU" 
+search_strategy 
+string 
+Stratégie HP (§6.5) 
+"grid", "random", "optuna_tpe", "hyperband" 
+n_trials 
+int 
+Budget de recherche (§6.5) 
+50 
+search_space_id 
+string 
+Référence table §6.5 
+"G8_v1" 
+fold_file 
+string 
+Fichier folds (§7.5) 
+"folds_temporal.json" 
+start_time 
+datetime 
+Début 
+"2026-11-01T10:00:00" 
+end_time 
+datetime 
+Fin 
+"2026-11-01T10:15:00" 
+git_commit 
+string 
+Commit Git 
+"abc1234" 
+notes 
+string 
+Commentaire 
+"---" 
+ablation.csv  
+Colonne 
+Type 
+Description 
+Exemple 
+model_id 
+string 
+Modèle de 
+référence (§8.1) 
+"xgb_pm25" 
+model_group 
+string 
+G1–G26 
+"G8" 
+ablation_axis 
+string 
+Axe d'ablation 
+(§8.2–8.4) 
+"feature_group", "preprocessing", "validation_scheme" 
+
+
+===== PAGE 5 =====
+variant 
+string 
+Variante testée 
+"remove_AOD", "remove_NO2_CO_O3", "remove_meteo", 
+"remove_calendar", "remove_lags_rolling", "knn_imputer", "log1p_target", 
+"with_missing_indicator", "random_diagnostic" 
+cv_scheme 
+string 
+Schéma utilisé 
+"temporal", "spatial" 
+cv_fold 
+int 
+Fold 
+3 
+metric 
+string 
+Métrique 
+"rmse" 
+value 
+float 
+Valeur 
+13.10 
+delta_vs_full 
+float 
+ΔRMSE vs full-
+feature (§8.2) 
+0.65 
+delta_ci_lower 
+float 
+IC 95 % inf. du Δ 
+0.20 
+delta_ci_upper 
+float 
+IC 95 % sup. du Δ 
+1.10 
+random_state 
+int 
+Graine 
+42 
+notes 
+string 
+Commentaire 
+"Removing AOD hurts XGBoost" 
+ranking_stability.csv  
+Colonne 
+Type 
+Description 
+Exemple 
+model_group 
+string 
+G1–G26 
+"G8" 
+model_a 
+string 
+Modèle A 
+"xgb_pm25" 
+model_b 
+string 
+Modèle B 
+"lgbm_pm25" 
+comparison_axis 
+string 
+Axe de comparaison (§6.7.2) 
+"across_folds", "across_schemes", "across_models" 
+spearman_rho 
+float 
+Corrélation de rang complète 
+0.86 
+jaccard_top5 
+float 
+Jaccard top-5 
+0.67 
+rho_threshold_met 
+bool 
+ρ > 0.8 (§6.7.2) 
+True 
+jaccard_threshold_met 
+bool 
+Jaccard > 0.60 (§6.7.2) 
+True 
+notes 
+string 
+Commentaire 
+"stable across temporal folds" 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

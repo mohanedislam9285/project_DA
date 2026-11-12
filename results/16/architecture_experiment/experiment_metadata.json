@@ -1,0 +1,44 @@
+{
+  "experiment": "nested architecture ablation, development temporal CV only",
+  "architectures": [
+    {
+      "variant": "direct_pool2",
+      "pool_size": 2,
+      "target_mode": "direct"
+    },
+    {
+      "variant": "direct_no_pool",
+      "pool_size": null,
+      "target_mode": "direct"
+    },
+    {
+      "variant": "residual_pool2",
+      "pool_size": 2,
+      "target_mode": "residual"
+    },
+    {
+      "variant": "residual_no_pool",
+      "pool_size": null,
+      "target_mode": "residual"
+    }
+  ],
+  "outer_folds": 5,
+  "selection": "lowest RMSE on chronological inner validation; fold-specific Optuna hyperparameters held fixed",
+  "lookback_days": 7,
+  "forecast_horizon_days": 1,
+  "seeds": [
+    43,
+    44,
+    45,
+    46,
+    47
+  ],
+  "future_test_read_for_scoring_or_selection": false,
+  "preprocessing": "median imputer and scaler fit on inner training for selection, then outer training for refit",
+  "result_files": [
+    "inner_architecture_scores.csv",
+    "outer_architecture_scores.csv",
+    "architecture_oof_predictions.csv",
+    "selected_variant_by_fold.csv"
+  ]
+}

@@ -1,0 +1,7 @@
+model_id,comparison,rmse_scheme_a,rmse_scheme_b,delta_rmse,folds_scheme_a,folds_scheme_b,mean_samples_scheme_a,mean_samples_scheme_b,interpretation
+CNN_LSTM_DIAGNOSTIC,random_minus_temporal,8.091247120493424,8.30061290854035,-0.20936578804692552,5,5,669.8,573.4,Unpaired scheme-level diagnostic; not a model-selection estimate.
+CNN_LSTM_DIAGNOSTIC,random_minus_spatial,8.091247120493424,7.939272219455319,0.15197490103810551,5,5,669.8,669.8,Unpaired scheme-level diagnostic; not a model-selection estimate.
+persistence,random_minus_temporal,9.377891818279235,8.7710677763024,0.606824041976834,5,5,669.8,573.4,Unpaired scheme-level diagnostic; not a model-selection estimate.
+persistence,random_minus_spatial,9.377891818279235,9.292321683997903,0.08557013428133153,5,5,669.8,669.8,Unpaired scheme-level diagnostic; not a model-selection estimate.
+seasonal_naive,random_minus_temporal,11.287409033699266,10.798350625092388,0.4890584086068781,5,5,669.8,573.4,Unpaired scheme-level diagnostic; not a model-selection estimate.
+seasonal_naive,random_minus_spatial,11.287409033699266,10.906005524362943,0.38140350933632305,5,5,669.8,669.8,Unpaired scheme-level diagnostic; not a model-selection estimate.
