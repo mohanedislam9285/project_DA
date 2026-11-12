@@ -1,0 +1,29 @@
+{
+  "filters": 64,
+  "kernel_size": 2,
+  "lstm_units": 32,
+  "dense_units": 32,
+  "dropout": 0.06006249268943345,
+  "learning_rate": 0.0009103747910341994,
+  "loss": "mse",
+  "seed": 44,
+  "batch_size": 64,
+  "pool_size": 2,
+  "target_mode": "residual",
+  "lookback_days": 7,
+  "feature_columns": [
+    "day_of_week_sin",
+    "day_of_week_cos",
+    "day_of_year_sin",
+    "day_of_year_cos",
+    "pm25_lag1",
+    "pm25_roll3_mean",
+    "pm25_roll7_mean"
+  ],
+  "best_epoch_from_inner_validation": 1,
+  "inner_validation_rmse": 3.160173672078202,
+  "development_cutoff_inclusive": "2024-12-07T00:00:00+00:00",
+  "outer_fold": 2,
+  "outer_validation_used_for_selection": false,
+  "persistence_residual": "prediction = pm25_at_origin + model_delta"
+}

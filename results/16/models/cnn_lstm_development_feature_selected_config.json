@@ -1,0 +1,25 @@
+{
+  "filters": 16,
+  "kernel_size": 3,
+  "lstm_units": 64,
+  "dense_units": 32,
+  "dropout": 0.3465230925460652,
+  "learning_rate": 0.0007740141254926889,
+  "loss": "mse",
+  "seed": 42016,
+  "pool_size": 2,
+  "lookback_days": 7,
+  "feature_variant": "no_calendar_lag_only",
+  "feature_columns": [
+    "pm25_lag1"
+  ],
+  "best_epoch": 27,
+  "inner_validation_rmse": 9.224047570826334,
+  "inner_validation_mae": 3.5998690128326416,
+  "selection_rule": "lowest RMSE on latest chronological 20% of development sequences; four predeclared feature families; no future-test labels used",
+  "development_cutoff_exclusive": "2024-12-07T00:00:00+00:00",
+  "trained_on_development_sequences": 3349,
+  "selection_inner_train_n": 2275,
+  "selection_inner_validation_n": 1059,
+  "outer_validation_used_for_selection": false
+}

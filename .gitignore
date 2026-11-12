@@ -1,0 +1,9 @@
+# Python build / test caches (regenerable, never part of the submission)
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Local staging area for removed-from-submission files.
+# Kept on disk for review; delete this folder before zipping the final deliverable.
+trash/

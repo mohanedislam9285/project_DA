@@ -1,0 +1,97 @@
+model_id,cv_scheme,cv_fold,concentration_band,metric,value,n_samples,weight_rule
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,1,all,rmse,5.792118503401,322,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,1,all,mae,4.066713420500666,322,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,1,all,r2,-0.05525580023001253,322,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,1,low_le25,rmse,5.161256878364404,317,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,1,low_le25,mae,3.8175530523907875,317,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,1,low_le25,r2,-0.18631205261166905,317,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,1,high_25_50,rmse,21.717428636745698,5,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,1,high_25_50,mae,19.86348075866699,5,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,1,high_25_50,r2,-11.356921280337183,5,unweighted MSE reference
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,1,all,rmse,5.6535082155378085,322,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,1,all,mae,3.9321144456448764,322,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,1,all,r2,-0.0053538045829590875,322,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,1,low_le25,rmse,5.037566572365685,317,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,1,low_le25,mae,3.6990378933374064,317,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,1,low_le25,r2,-0.13013308794672596,317,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,1,high_25_50,rmse,21.200379979063136,5,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,1,high_25_50,mae,18.709167861938475,5,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,1,high_25_50,r2,-10.775538147810662,5,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,2,all,rmse,4.131570808048883,172,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,2,all,mae,2.98528939208319,172,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,2,all,r2,0.2050212119511563,172,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,2,low_le25,rmse,4.131570808048883,172,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,2,low_le25,mae,2.98528939208319,172,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,2,low_le25,r2,0.2050212119511563,172,unweighted MSE reference
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,2,all,rmse,4.1933118655570825,172,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,2,all,mae,2.9955089106116186,172,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,2,all,r2,0.181083792732057,172,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,2,low_le25,rmse,4.1933118655570825,172,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,2,low_le25,mae,2.9955089106116186,172,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,2,low_le25,r2,0.181083792732057,172,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,3,all,rmse,18.876550768152207,377,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,3,all,mae,5.40968316746011,377,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,3,all,r2,0.042396766946622866,377,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,3,low_le25,rmse,4.5339920049002105,361,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,3,low_le25,mae,3.5584540624697785,361,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,3,low_le25,r2,0.19361858620277284,361,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,3,high_25_50,rmse,19.768636755659944,13,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,3,high_25_50,mae,18.96203591273381,13,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,3,high_25_50,r2,-12.160009361958974,13,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,3,extreme_gt50,rmse,201.52147738583304,3,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,3,extreme_gt50,mae,169.447390238444,3,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,3,extreme_gt50,r2,-2.230550988183055,3,unweighted MSE reference
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,3,all,rmse,18.761175361750958,377,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,3,all,mae,5.487187641685142,377,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,3,all,r2,0.05406693054929834,377,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,3,low_le25,rmse,4.72883622632283,361,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,3,low_le25,mae,3.6785002501057127,361,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,3,low_le25,r2,0.12282235316293266,361,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,3,high_25_50,rmse,19.028709721325757,13,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,3,high_25_50,mae,18.197811640225925,13,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,3,high_25_50,r2,-11.193305009650413,13,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,3,extreme_gt50,rmse,199.93104220392627,3,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,3,extreme_gt50,mae,168.0531997680664,3,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,3,extreme_gt50,r2,-2.179760301400937,3,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,4,all,rmse,5.105962125863217,733,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,4,all,mae,3.745835026809984,733,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,4,all,r2,0.09609344675628007,733,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,4,low_le25,rmse,4.449862623317783,716,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,4,low_le25,mae,3.4422213481791193,716,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,4,low_le25,r2,0.06746077581740129,716,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,4,high_25_50,rmse,17.033216496696426,17,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,4,high_25_50,mae,16.533328785615808,17,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,4,high_25_50,r2,-18.25066347464365,17,unweighted MSE reference
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,4,all,rmse,5.63670934826832,733,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,4,all,mae,4.029500890721403,733,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,4,all,r2,-0.10158912460978398,733,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,4,low_le25,rmse,5.093123597220841,716,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,4,low_le25,mae,3.7420143012227958,716,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,4,low_le25,r2,-0.22163743339521935,716,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,4,high_25_50,rmse,16.65614659149013,17,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,4,high_25_50,mae,16.137759601368625,17,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,4,high_25_50,r2,-17.40778096608523,17,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,5,all,rmse,8.69381629439385,1263,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,5,all,mae,3.6815739784652246,1263,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,5,all,r2,0.09413948262997085,1263,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,5,low_le25,rmse,3.836496413358184,1238,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,5,low_le25,mae,3.057554612878066,1238,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,5,low_le25,r2,0.30180478906310915,1238,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,5,high_25_50,rmse,19.577190340282,21,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,5,high_25_50,mae,17.567719187055314,21,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,5,high_25_50,r2,-6.904143172006726,21,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,5,extreme_gt50,rmse,131.52022037915899,4,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,5,extreme_gt50,mae,123.91330528259277,4,unweighted MSE reference
+CNN_LSTM_OPTUNA_REFERENCE,temporal_panel_expanding,5,extreme_gt50,r2,-7.800756135908282,4,unweighted MSE reference
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,5,all,rmse,8.756378246904342,1263,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,5,all,mae,3.874761927675276,1263,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,5,all,r2,0.08105516795771606,1263,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,5,low_le25,rmse,4.059297589502082,1238,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,5,low_le25,mae,3.2699072342215523,1238,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,5,low_le25,r2,0.21835589970570735,1238,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,5,high_25_50,rmse,18.66800022385849,21,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,5,high_25_50,mae,16.65836443219866,21,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,5,high_25_50,r2,-6.187033455780063,21,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,5,extreme_gt50,rmse,131.45479148452893,4,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,5,extreme_gt50,mae,123.96337640285492,4,1x <=25; 2x >25-50; 4x >50
+CNN_LSTM_WEIGHTED_MSE,temporal_panel_expanding,5,extreme_gt50,r2,-7.792001884837969,4,1x <=25; 2x >25-50; 4x >50

@@ -1,0 +1,9 @@
+variable,missing_n,missing_fraction,finite_n
+temperature_celsius,0,0.0,30651
+pressure_mb,0,0.0,30651
+wind_u,0,0.0,30651
+wind_v,0,0.0,30651
+no2,2407,0.0785292486378911,28244
+co,2407,0.0785292486378911,28244
+o3,2448,0.07986688851913477,28203
+aod,0,0.0,30651
