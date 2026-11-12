@@ -31,6 +31,15 @@ def exploratory_table(df: pd.DataFrame, cfg: dict, audit: dict | None = None) ->
             if col in assoc.index: result.loc[i,"target_assoc"]=float(assoc[col]); result.loc[i,"max_abs_corr"]=abs(float(assoc[col])); result.loc[i,"corr_partner"]="pm25"
     return result
 
+def seasonal_table(df: pd.DataFrame) -> pd.DataFrame:
+    """Seasonal (DJF/MAM/JJA/SON) PM2.5 levels and exceedance frequencies above 25 and 50 µg/m³."""
+    month=df.timestamp.dt.month
+    season=pd.Series(np.select([month.isin([12,1,2]),month.isin([3,4,5]),month.isin([6,7,8]),month.isin([9,10,11])],["DJF","MAM","JJA","SON"],default=""),index=df.index)
+    tagged=df.assign(season=season)
+    levels=tagged.groupby("season").pm25.agg(n_days="count",mean="mean",median="median",std="std",q95=lambda s:float(s.quantile(.95)),max="max").reset_index()
+    rates=tagged.assign(above25=tagged.pm25>25,above50=tagged.pm25>50).groupby("season")[["above25","above50"]].mean().mul(100).reset_index().rename(columns={"above25":"pct_days_above_25","above50":"pct_days_above_50"})
+    return levels.merge(rates,on="season").sort_values("season").reset_index(drop=True)
+
 def run_eda(df: pd.DataFrame, cfg: dict, audit: dict | None = None) -> None:
     import matplotlib
     matplotlib.use("Agg")
@@ -54,6 +63,8 @@ def run_eda(df: pd.DataFrame, cfg: dict, audit: dict | None = None) -> None:
     station_summary=df.groupby("station_id").pm25.agg(n_days="count",median="median",mean="mean",std="std").reset_index(); rate=df.assign(above25=df.pm25>25,above50=df.pm25>50).groupby("station_id")[["above25","above50"]].mean().mul(100).reset_index(); station_summary=station_summary.merge(rate,on="station_id").rename(columns={"above25":"pct_above_25","above50":"pct_above_50"}); station_summary.to_csv(out/"station_summary.csv",index=False)
     mdf=df.assign(month=df.timestamp.dt.month); monthly=mdf.groupby("month").pm25.agg(n_days="count",median="median",mean="mean",std="std").reset_index(); rates=mdf.assign(above25=mdf.pm25>25,above50=mdf.pm25>50).groupby("month")[["above25","above50"]].mean().mul(100).reset_index(); monthly=monthly.merge(rates,on="month").rename(columns={"above25":"pct_above_25","above50":"pct_above_50"}); monthly.to_csv(out/"monthly_summary.csv",index=False)
     fig,ax=plt.subplots(figsize=(8,4)); monthly.set_index("month")[["median","mean"]].plot(marker="o",ax=ax); ax.set(xlabel="Month",ylabel="PM2.5 (µg/m³)",title="Monthly PM2.5 pattern"); fig.tight_layout(); fig.savefig(figdir/"pm25_by_month.png",dpi=150); plt.close(fig)
+    seasonal=seasonal_table(df); seasonal.to_csv(out/"seasonal_summary.csv",index=False)
+    fig,ax=plt.subplots(1,2,figsize=(10,3.7)); ax[0].bar(seasonal.season,seasonal["mean"],color="#4c72b0"); ax[0].set(xlabel="Season",ylabel="PM2.5 mean (µg/m³)",title="Seasonal PM2.5 level"); ax[1].bar(seasonal.season,seasonal.pct_days_above_25,color="#dd8452",label=">25 µg/m³"); ax[1].bar(seasonal.season,seasonal.pct_days_above_50,color="#c44e52",label=">50 µg/m³"); ax[1].set(xlabel="Season",ylabel="% of days",title="Seasonal exceedance frequency"); ax[1].legend(fontsize=8); fig.tight_layout(); fig.savefig(figdir/"pm25_by_season.png",dpi=150); plt.close(fig)
     nums=df[value_cols]; pearson=nums.corr(method="pearson"); spearman=nums.corr(method="spearman"); pairs=[]
     for i,a in enumerate(value_cols):
         for b in value_cols[i+1:]: pairs.append({"variable_a":a,"variable_b":b,"pearson_r":pearson.loc[a,b],"spearman_rho":spearman.loc[a,b],"high_correlation_abs_gt_0_9":abs(spearman.loc[a,b])>.9})

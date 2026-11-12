@@ -100,6 +100,24 @@ def canonicalize(raw: pd.DataFrame, cfg: dict) -> tuple[pd.DataFrame, dict]:
         audit["sensor_names_with_replacement_character"]=int(names.str.contains("\ufffd",regex=False,na=False).sum())
     return frame, audit
 
+def station_identity_detail(canonical: pd.DataFrame) -> pd.DataFrame:
+    """One row per composite station key, with the source sensor name and numeric source id(s) mapping to it."""
+    empty_string=pd.Series(index=canonical.index,dtype="string"); empty_float=pd.Series(index=canonical.index,dtype=float)
+    frame=pd.DataFrame({"station_id":canonical.station_id.astype("string"),"sensor_name":canonical.get("sensor_name",empty_string),
+                        "source_id":canonical.get("gee_id",empty_string),"latitude":canonical.get("latitude",empty_float),"longitude":canonical.get("longitude",empty_float)})
+    aggregated=frame.groupby("station_id",sort=True,dropna=False).agg(sensor_name=("sensor_name","first"),latitude=("latitude","first"),longitude=("longitude","first"),n_rows=("source_id","size"),n_source_ids=("source_id","nunique"),source_ids=("source_id",lambda s:";".join(sorted({str(v) for v in s.dropna()}))))
+    return aggregated.reset_index()
+
+def station_identity_reconciliation(canonical: pd.DataFrame) -> dict:
+    """Explain how source sensor names, numeric source ids and composite station keys relate."""
+    detail=station_identity_detail(canonical)
+    if detail.empty: return {}
+    source_ids=detail.source_ids.astype("string").str.split(";").explode().replace("",pd.NA).dropna()
+    return {"composite_stations":int(len(detail)),"unique_sensor_names":int(detail.sensor_name.nunique()),"unique_source_ids":int(source_ids.nunique()),
+            "sensor_names_spanning_multiple_composite_stations":int((detail.sensor_name.value_counts()>1).sum()),
+            "source_ids_spanning_multiple_composite_stations":int((source_ids.value_counts()>1).sum()),
+            "explanation":"Composite key = source sensor name + latitude + longitude rounded to six decimals, so rows sharing a sensor name or a numeric source id but differing in coordinates remain distinct stations."}
+
 def clean_data(frame: pd.DataFrame, cfg: dict) -> tuple[pd.DataFrame, dict]:
     c = cfg["cleaning"]
     bad_date = frame.timestamp.isna()
@@ -138,6 +156,6 @@ def run_audit(cfg: dict) -> tuple[pd.DataFrame, dict]:
     clean.to_csv(outdir / "cleaned_daily.csv", index=False, date_format="%Y-%m-%dT%H:%M:%SZ")
     try: clean.to_parquet(outdir / "cleaned_daily.parquet", index=False)
     except ImportError: pass
-    provenance = {"source_manifest":source_manifest,"source": file_meta, "parse": parse, "cleaning": cleaning, "date_min": str(clean.timestamp.min()), "date_max": str(clean.timestamp.max()), "station_count": int(clean.station_id.nunique()), "rows_per_station": {str(k): int(v) for k,v in clean.groupby("station_id").size().items()}, "data_dictionary": {"timestamp": {"source": cfg["data"]["date_column"], "unit": "UTC daily timestamp"}, "station_id": {"source": cfg["data"].get("station_column") or cfg["data"].get("station_id_columns") or "synthetic single-series ID", "unit": "identifier", "construction": "joined configured station_id_columns with coordinates rounded to six decimals" if cfg["data"].get("station_id_columns") else "direct source ID"}, "pm25": {"source": cfg["data"]["target_column"], "unit": cfg["data"]["target_unit"]}, **{k: {"source": v, "type": "metadata"} for k,v in cfg["data"].get("metadata_columns",{}).items()}, **{k: {"source": v["column"], "unit": v.get("unit"), "family": v.get("family"), "available_at_origin": bool(v.get("available_at_origin", False))} for k,v in cfg["data"].get("predictors", {}).items()}}}
+    provenance = {"source_manifest":source_manifest,"source": file_meta, "parse": parse, "cleaning": cleaning, "date_min": str(clean.timestamp.min()), "date_max": str(clean.timestamp.max()), "station_count": int(clean.station_id.nunique()), "station_identity_reconciliation": station_identity_reconciliation(canonical), "rows_per_station": {str(k): int(v) for k,v in clean.groupby("station_id").size().items()}, "data_dictionary": {"timestamp": {"source": cfg["data"]["date_column"], "unit": "UTC daily timestamp"}, "station_id": {"source": cfg["data"].get("station_column") or cfg["data"].get("station_id_columns") or "synthetic single-series ID", "unit": "identifier", "construction": "joined configured station_id_columns with coordinates rounded to six decimals" if cfg["data"].get("station_id_columns") else "direct source ID"}, "pm25": {"source": cfg["data"]["target_column"], "unit": cfg["data"]["target_unit"]}, **{k: {"source": v, "type": "metadata"} for k,v in cfg["data"].get("metadata_columns",{}).items()}, **{k: {"source": v["column"], "unit": v.get("unit"), "family": v.get("family"), "available_at_origin": bool(v.get("available_at_origin", False))} for k,v in cfg["data"].get("predictors", {}).items()}}}
     (outdir / "audit.json").write_text(json.dumps(provenance, indent=2), encoding="utf-8")
     return clean, provenance

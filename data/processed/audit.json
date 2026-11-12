@@ -88,6 +88,14 @@
   "date_min": "2016-11-25 00:00:00+00:00",
   "date_max": "2026-04-06 00:00:00+00:00",
   "station_count": 95,
+  "station_identity_reconciliation": {
+    "composite_stations": 98,
+    "unique_sensor_names": 94,
+    "unique_source_ids": 98,
+    "sensor_names_spanning_multiple_composite_stations": 4,
+    "source_ids_spanning_multiple_composite_stations": 0,
+    "explanation": "Composite key = source sensor name + latitude + longitude rounded to six decimals, so rows sharing a sensor name or a numeric source id but differing in coordinates remain distinct stations."
+  },
   "rows_per_station": {
     "AIX CENTRE ECOLE ART::43.530285::5.440912": 458,
     "AIX ROY RENE::43.524075::5.448164": 198,

@@ -1,106 +1,1157 @@
 from pathlib import Path
-import pandas as pd
+
 import matplotlib.pyplot as plt
+import pandas as pd
 from pptx import Presentation
-from pptx.util import Inches,Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.shapes import MSO_SHAPE
+from pptx.enum.text import MSO_ANCHOR
+from pptx.util import Inches, Pt
 
-P=Path('presentation'); P.mkdir(exist_ok=True)
-RESULTS=Path('results/16'); FIGURES=RESULTS/'figures'; FIGURES.mkdir(parents=True,exist_ok=True)
-diagnostic=pd.read_csv(RESULTS/'diagnostic_cv_results.csv')
-optuna_folds=pd.read_csv(RESULTS/'temporal_cv_optuna_results.csv')
-ablation=pd.read_csv(RESULTS/'ablation_summary.csv')
-tail=pd.read_csv(RESULTS/'extreme_event_weighting_summary.csv')
+ROOT = Path(__file__).resolve().parent
+RESULTS = ROOT / "results" / "16"
+PRESENTATION = ROOT / "presentation"
+OUTPUT = PRESENTATION / "final_presentation_submission.pptx"
 
-baseline_labels=['CNN-LSTM Optuna','Persistence','Seasonal naive']
-baseline_frames=[
-    optuna_folds.metric_rmse,
-    diagnostic[(diagnostic.model_id=='persistence')&(diagnostic.cv_scheme=='temporal_panel_expanding')&(diagnostic.metric=='rmse')].value,
-    diagnostic[(diagnostic.model_id=='seasonal_naive')&(diagnostic.cv_scheme=='temporal_panel_expanding')&(diagnostic.metric=='rmse')].value,
-]
-baseline_values=[float(values.mean()) for values in baseline_frames]
-baseline_errors=[float(values.std(ddof=1)) for values in baseline_frames]
-fig,ax=plt.subplots(figsize=(7,4.2))
-ax.bar(baseline_labels,baseline_values,yerr=baseline_errors,capsize=5,color=['#087F80','#E09F3E','#546575'])
-ax.set_ylabel('Mean fold RMSE (µg/m³)'); ax.set_title('Temporal development CV (5 folds)')
-ax.tick_params(axis='x',rotation=12); ax.grid(axis='y',alpha=.25)
-fig.tight_layout(); fig.savefig(FIGURES/'temporal_baseline_comparison.png',dpi=180); plt.close(fig)
+NAVY = RGBColor(16, 36, 58)
+TEAL = RGBColor(8, 127, 128)
+INK = RGBColor(36, 52, 71)
+MUTED = RGBColor(96, 113, 132)
+PALE = RGBColor(238, 244, 246)
+ICE = RGBColor(232, 243, 243)
+AMBER = RGBColor(217, 130, 43)
+WHITE = RGBColor(255, 255, 255)
+RULE = RGBColor(213, 222, 231)
 
-fig,ax=plt.subplots(figsize=(7,4.2))
-ax.bar(ablation.variant,ablation['mean'],yerr=ablation['std'],capsize=5,color='#087F80')
-ax.set_ylabel('Mean fold RMSE (µg/m³)'); ax.set_title('Available-feature ablation (5 folds)')
-ax.tick_params(axis='x',rotation=18); ax.grid(axis='y',alpha=.25)
-fig.tight_layout(); fig.savefig(FIGURES/'available_feature_ablation.png',dpi=180); plt.close(fig)
+prs = Presentation()
+prs.slide_width = Inches(13.333)
+prs.slide_height = Inches(7.5)
+BLANK = prs.slide_layouts[6]
+slide_notes: list[tuple[str, str]] = []
 
-tail_rmse=tail[(tail.metric=='rmse')&(tail.model_id.isin(['CNN_LSTM_OPTUNA_REFERENCE','CNN_LSTM_WEIGHTED_MSE']))]
-tail_order=['low_le25','high_25_50','extreme_gt50']
-tail_means=tail_rmse.pivot(index='concentration_band',columns='model_id',values='fold_mean').reindex(tail_order)
-fig,ax=plt.subplots(figsize=(7,4.2))
-tail_means.plot(kind='bar',ax=ax,color=['#546575','#087F80'])
-ax.set_ylabel('Mean fold RMSE (µg/m³; log scale)'); ax.set_yscale('log'); ax.set_title('Tail weighting trade-off')
-ax.set_xticklabels(['≤25','25–50','>50'],rotation=0); ax.grid(axis='y',alpha=.25)
-ax.legend(['Unweighted MSE','Weighted MSE'])
-fig.tight_layout(); fig.savefig(FIGURES/'extreme_event_weighting.png',dpi=180); plt.close(fig)
 
-prs=Presentation(); prs.slide_width=Inches(13.333); prs.slide_height=Inches(7.5)
-NAVY=RGBColor(16,36,58); TEAL=RGBColor(8,127,128); INK=RGBColor(28,43,55); MUTED=RGBColor(84,101,117); WHITE=RGBColor(255,255,255)
-def txt(s,x,y,w,h,text,size=21,color=INK,bold=False):
- b=s.shapes.add_textbox(Inches(x),Inches(y),Inches(w),Inches(h)); f=b.text_frame; f.word_wrap=True
- for i,line in enumerate(text.split('\n')):
-  p=f.paragraphs[0] if i==0 else f.add_paragraph(); p.text=line;p.font.name='Aptos';p.font.size=Pt(size);p.font.bold=bold;p.font.color.rgb=color;p.space_after=Pt(9)
- return b
-def note(s,body):
- try:s.notes_slide.notes_text_frame.text=body
- except Exception:pass
-def base(title):
- s=prs.slides.add_slide(prs.slide_layouts[6]); s.background.fill.solid();s.background.fill.fore_color.rgb=WHITE
- txt(s,.65,.35,12,.6,title,28,NAVY,True); bar=s.shapes.add_shape(MSO_SHAPE.RECTANGLE,Inches(.65),Inches(1.08),Inches(1),Inches(.06));bar.fill.solid();bar.fill.fore_color.rgb=TEAL;bar.line.fill.background()
- txt(s,.65,7.13,12,.2,f'GROUP 16  |  CNN-LSTM  |  {len(prs.slides):02d}',9,MUTED)
- return s
-def content(title,body,speaker,image=None):
- s=base(title)
- if image:
-  txt(s,.8,1.5,5.8,5.2,body,20)
-  s.shapes.add_picture(str(image),Inches(7),Inches(1.5),width=Inches(5.55),height=Inches(4.9))
- else: txt(s,.9,1.55,11.4,5.2,body,22)
- note(s,speaker); return s
+def set_background(slide, color=WHITE):
+    slide.background.fill.solid()
+    slide.background.fill.fore_color.rgb = color
 
-s=prs.slides.add_slide(prs.slide_layouts[6]);s.background.fill.solid();s.background.fill.fore_color.rgb=NAVY
-txt(s,.9,1.1,11.4,1.5,'One-Day-Ahead\nPM2.5 Forecasting',36,WHITE,True)
-txt(s,.95,3.05,11,.6,'CNN-LSTM  |  Group 16',24,RGBColor(98,198,194),True)
-txt(s,.95,4.25,10.5,1.2,'Historical future result is frozen.\nDevelopment CV is scored; material limitations remain.',22,WHITE)
-note(s,'Introduce the task and explain that development CV is now scored, while licensing and some rubric evidence remain open.')
-content('Why forecast PM2.5?','Daily forecasts can support air-quality monitoring.\n\nA single split does not show whether performance holds across time or stations.\n\nInputs must be available when the forecast is issued.','Explain the motivation and the importance of a clear forecast origin.')
-content('Dataset and coverage','40,983 cleaned observations\n95 stations with finite coordinates\n2016-11-25 to 2026-04-06\nTarget: PM2.5 (µg/m³)\n\nCompiled-data redistribution terms remain unresolved.','Name the source and be direct about the rights caveat. Coordinates show station coverage, not pollution concentration everywhere.','results/16/eda/station_map.png')
-content('Data quality and EDA','735 target rows removed by stated bounds\nNo duplicate station-day keys after cleaning\nNO2/CO: about 5.9% missing; O3: about 6.0%\nMedian: 7.85 µg/m³; 99th percentile: 33.56\n352 station-relative high-value flags retained for review\nNo invalid targets/coordinates or duplicate station-days in dev.','Explain the right-skew and missingness. Do not treat correlation as causation.','results/16/figures/pm25_distribution.png')
-content('Forecast contract','End of day t → predict station PM2.5 at t+1\nSeven consecutive daily history steps\nSequences stay within station and reject date gaps\nCalendar terms + past target history\nFuture exogenous values excluded without availability evidence','Describe exactly what the model receives and predicts.')
-content('CNN-LSTM architecture','Input 7 days × 7 features → causal Conv1D (16, kernel 3) → LayerNorm → ReLU → Dropout 0.347 → MaxPool → LSTM (64) → Dense (32, ReLU) → scalar PM2.5 output\n\nAdam; MSE; learning rate 0.000775; 45 epochs on development data.','This is the saved Optuna development model, not the unavailable historical model. Pooling can be disabled for future-step-preservation experiments.')
-content('Development validation and baselines','Optuna temporal CV: 8.520 ± 6.034 µg/m³\nPersistence: 8.771 ± 8.984\nWeekly seasonal naive: 10.798 ± 10.039\nPaired exact Wilcoxon p=.625\n\nFive folds; no significant gain over persistence.','Persistence uses PM2.5 at forecast origin t. The five-fold test is low power; report the result as inconclusive.',FIGURES/'temporal_baseline_comparison.png')
-content('Frozen historical estimate','RMSE  6.0272 µg/m³\nMAE   4.0240 µg/m³\nR²       0.2394\nN         1,716\n\nReconstruction reproduces all saved predictions (max |Δ| 7.1e-15).','This is output equivalence from a development-only refit and a prediction-array check. No holdout labels were read. Original binary weights cannot be verified byte-for-byte.')
-content('Available-feature ablation','Without calendar: ΔRMSE −0.467 (95% fold CI −0.957 to −0.088)\nWithout lag/rolling: ΔRMSE +0.617 (0.249 to 1.022)\nWithout rolling: ΔRMSE −0.177 (−0.337 to −0.043)\n\nFive temporal folds; no retuning.','These compare the approved lag/rolling set without retuning; unverified exogenous channels are tested separately in nested folds and did not improve results.',FIGURES/'available_feature_ablation.png')
-content('Extreme-event weighting','Weighted MSE helps the >25 bands slightly, but worsens overall RMSE 8.520 → 8.600 and ≤25 RMSE 4.423 → 4.622.\n\nOnly 7 OOF cases exceeded 50 µg/m³.','The exploratory training weights were 1x for ≤25, 2x for >25–50, and 4x for >50. The small tail sample makes the apparent benefit unstable.',FIGURES/'extreme_event_weighting.png')
-content('Sensitivity and feature-family experiments','Nested feature-family selection: mean-fold RMSE 8.378; MAE 3.784.\nFixed no-calendar + lag-1 + rolling-3: 7.894 / 3.396 vs reference 8.520 / 3.978.\nPooled ΔRMSE −0.250 (cluster CI −0.547 to −0.125); fold p=.063, Holm p=.313.\nVs persistence: p=.813, Holm p=1.00.\n\n3-day vs 7-day RMSE 9.579 vs 9.571. Tail n>50 = 7; MAE 143.4 vs persistence 127.2.','Feature selection varied across folds; this remains exploratory with only five dependent folds. Lagged environmental and same-day spatial neighbor predictors failed to improve target-only OOF scores. Architecture results were mixed; tail estimates are unstable.')
-content('Spatial validation and predictor checks','Held-out station groups (conditional on historical sequences):\nRMSE 8.700 | MAE 3.287 | R² .154 | n=3,349\n\nAdding 25/50/100-km same-day neighbor PM raised OOF RMSE to 9.361/9.439/9.408 vs target history 9.322.\nLagged environmental groups also failed to improve.\n\nTemporal/spatial MAPE 50.14% / 42.13%; unstable near zero.','Temporal and spatial OOF results are separate evaluation schemes and not interchangeable. The spatial split does not test a station with no historical input. MAPE includes all positive targets but remains sensitive to small denominators.')
-content('Limitations and readiness','Compiled-data license and omitted-row rule unresolved\nExogenous AOD/gas/meteorology blocked pending timing evidence\nLead-lag associations exploratory, not predictive validation\nOnly six stations support the longer formal and lead-lag diagnostics','The audit verified all bundled rows against source files, but cannot reconstruct the publisher’s exact ETL. ACF/PACF use 63 stations; formal/lead-lag evidence is restricted to six stations.')
-content('Conclusion and readiness','Development CV, temporal and spatial baselines, nested feature-family comparisons, provenance audits and prediction-equivalent historical reconstruction are saved.\n\nPredictive gain over persistence remains nonsignificant; high-concentration errors are poor.\n\nLicensing, inclusion logic and issue-time feature availability remain open.','Close with what is supported: correct one-day alignment, exact prediction reproduction and mixed, nonsignificant model results.')
-prs.save(P/'final_presentation.pptx')
-notes='''# Speaker notes
 
-1. Introduce Group 16 and state that development validation is measured, with open data and rubric limitations.
-2. Explain the motivation and why time/station validation matters.
-3. Describe dataset size, dates, station coverage and unresolved license terms.
-4. Explain cleaning, missingness and skew. The station-relative IQR screen flagged observations for review but did not automatically delete them.
-5. Define forecast origin, horizon, lookback and issue-time inputs.
-6. Explain the saved Optuna CNN-LSTM architecture and training configuration.
-7. Persistence uses PM2.5 at the forecast origin. Five-fold paired evidence does not show significant improvement.
-8. Historical metrics remain frozen; a development-only reconstruction matches outputs but cannot prove original binary identity.
-9. Available-feature ablation results use the same folds; unverified exogenous variables remain excluded.
-10. Explain the small weighting trade-off and that only seven OOF targets exceeded 50 µg/m³.
-11. Feature-family selection varied by fold. The fixed no-calendar lag-plus-roll3 family has the best observed mean-fold score, but corrected fold tests remain inconclusive and no variant is established as superior.
-12. Temporal and spatial diagnostics are distinct. Spatial folds evaluate held-out station groups conditional on historical sequences. MAPE is supplementary and unstable near zero.
-13. Six stations support the longer formal/lead-lag diagnostics; these associations are exploratory rather than validated predictive effects.
-14. Close with the remaining license, inclusion-rule, issue-time availability and generalization limits.
-'''
-(P/'speaker_notes.md').write_text(notes,encoding='utf-8')
-print('slides',len(prs.slides))
+def text_box(slide, x, y, w, h, text, size=18, color=INK, bold=False, align=None):
+    shape = slide.shapes.add_textbox(Inches(x), Inches(y), Inches(w), Inches(h))
+    frame = shape.text_frame
+    frame.clear()
+    frame.word_wrap = True
+    frame.margin_left = Inches(0.03)
+    frame.margin_right = Inches(0.03)
+    frame.margin_top = Inches(0.02)
+    frame.margin_bottom = Inches(0.02)
+    for i, line in enumerate(str(text).split("\n")):
+        paragraph = frame.paragraphs[0] if i == 0 else frame.add_paragraph()
+        paragraph.text = line
+        paragraph.font.name = "Aptos"
+        paragraph.font.size = Pt(size)
+        paragraph.font.bold = bold
+        paragraph.font.color.rgb = color
+        paragraph.space_after = Pt(6)
+        if align is not None:
+            paragraph.alignment = align
+    return shape
+
+
+def bullet_list(slide, x, y, w, h, lines, size=17, color=INK, gap=9):
+    shape = slide.shapes.add_textbox(Inches(x), Inches(y), Inches(w), Inches(h))
+    frame = shape.text_frame
+    frame.clear()
+    frame.word_wrap = True
+    frame.margin_left = Inches(0.05)
+    frame.margin_right = Inches(0.05)
+    for i, line in enumerate(lines):
+        paragraph = frame.paragraphs[0] if i == 0 else frame.add_paragraph()
+        paragraph.text = f"• {line}"
+        paragraph.level = 0
+        paragraph.font.name = "Aptos"
+        paragraph.font.size = Pt(size)
+        paragraph.font.color.rgb = color
+        paragraph.space_after = Pt(gap)
+    return shape
+
+
+def add_note(slide, title, note):
+    slide.notes_slide.notes_text_frame.text = note
+    slide_notes.append((title, note))
+
+
+def new_slide(title, eyebrow="GROUP 16  |  CNN–LSTM"):
+    slide = prs.slides.add_slide(BLANK)
+    set_background(slide)
+    text_box(slide, 0.62, 0.27, 11.8, 0.24, eyebrow.upper(), 9, TEAL, True)
+    text_box(slide, 0.62, 0.55, 12.0, 0.57, title, 26, NAVY, True)
+    rule = slide.shapes.add_shape(
+        MSO_SHAPE.RECTANGLE, Inches(0.64), Inches(1.19), Inches(0.85), Inches(0.05)
+    )
+    rule.fill.solid()
+    rule.fill.fore_color.rgb = TEAL
+    rule.line.fill.background()
+    text_box(
+        slide,
+        0.62,
+        7.15,
+        12.05,
+        0.2,
+        f"PM2.5 FORECASTING  •  {len(prs.slides):02d}",
+        8,
+        MUTED,
+    )
+    return slide
+
+
+def card(slide, x, y, w, h, title, body, fill=PALE, title_size=17, body_size=13):
+    shape = slide.shapes.add_shape(
+        MSO_SHAPE.ROUNDED_RECTANGLE, Inches(x), Inches(y), Inches(w), Inches(h)
+    )
+    shape.fill.solid()
+    shape.fill.fore_color.rgb = fill
+    shape.line.color.rgb = RULE
+    frame = shape.text_frame
+    frame.clear()
+    frame.word_wrap = True
+    frame.margin_left = Inches(0.14)
+    frame.margin_right = Inches(0.14)
+    frame.margin_top = Inches(0.10)
+    frame.margin_bottom = Inches(0.07)
+    p = frame.paragraphs[0]
+    p.text = title
+    p.font.name = "Aptos"
+    p.font.size = Pt(title_size)
+    p.font.bold = True
+    p.font.color.rgb = NAVY
+    p.space_after = Pt(5)
+    for line in str(body).split("\n"):
+        p = frame.add_paragraph()
+        p.text = line
+        p.font.name = "Aptos"
+        p.font.size = Pt(body_size)
+        p.font.color.rgb = INK
+        p.space_after = Pt(3)
+    return shape
+
+
+def add_table(slide, x, y, w, h, headers, rows, font_size=12):
+    table_shape = slide.shapes.add_table(
+        len(rows) + 1,
+        len(headers),
+        Inches(x),
+        Inches(y),
+        Inches(w),
+        Inches(h),
+    )
+    table = table_shape.table
+    for column, header in enumerate(headers):
+        cell = table.cell(0, column)
+        cell.text = str(header)
+        cell.fill.solid()
+        cell.fill.fore_color.rgb = NAVY
+        cell.vertical_anchor = MSO_ANCHOR.MIDDLE
+    for row_index, row in enumerate(rows, start=1):
+        for column, value in enumerate(row):
+            cell = table.cell(row_index, column)
+            cell.text = str(value)
+            cell.fill.solid()
+            cell.fill.fore_color.rgb = WHITE if row_index % 2 else PALE
+            cell.vertical_anchor = MSO_ANCHOR.MIDDLE
+    for row_index, row in enumerate(table.rows):
+        for cell in row.cells:
+            cell.margin_left = Inches(0.08)
+            cell.margin_right = Inches(0.08)
+            cell.margin_top = Inches(0.045)
+            cell.margin_bottom = Inches(0.045)
+            for paragraph in cell.text_frame.paragraphs:
+                paragraph.font.name = "Aptos"
+                paragraph.font.size = Pt(font_size)
+                paragraph.font.color.rgb = WHITE if row_index == 0 else INK
+                if row_index == 0:
+                    paragraph.font.bold = True
+    return table_shape
+
+
+def add_image(slide, relative_path, x, y, w=None, h=None):
+    path = ROOT / relative_path
+    if not path.is_file():
+        raise FileNotFoundError(f"Presentation figure not found: {path}")
+    kwargs = {}
+    if w is not None:
+        kwargs["width"] = Inches(w)
+    if h is not None:
+        kwargs["height"] = Inches(h)
+    return slide.shapes.add_picture(str(path), Inches(x), Inches(y), **kwargs)
+
+
+def build_ablation_figure():
+    summary = pd.read_csv(RESULTS / "ablation_summary.csv")
+    expected = [
+        "full",
+        "without_calendar",
+        "without_lag_and_rolling",
+        "without_rolling",
+    ]
+    keyed = summary.set_index("variant")
+    missing = set(expected).difference(keyed.index)
+    if missing:
+        raise ValueError(f"Ablation summary is missing variants: {sorted(missing)}")
+    data = keyed.loc[expected]
+    labels = ["Full features", "No calendar", "No lag / rolling", "No rolling"]
+    fig, axis = plt.subplots(figsize=(7.1, 3.9))
+    bars = axis.barh(
+        labels,
+        data["mean"],
+        xerr=data["std"],
+        capsize=4,
+        color=["#087F80", "#3B8E9A", "#D9822B", "#6F8297"],
+        edgecolor="white",
+        linewidth=0.8,
+    )
+    axis.invert_yaxis()
+    axis.set_xlabel("Mean fold RMSE (µg/m³)", fontsize=10)
+    axis.set_title(
+        "Available-feature ablation · five temporal folds", fontsize=12, weight="bold"
+    )
+    axis.grid(axis="x", alpha=0.22)
+    axis.set_axisbelow(True)
+    axis.tick_params(axis="both", labelsize=10)
+    for bar, value in zip(bars, data["mean"]):
+        axis.text(
+            value + 0.13,
+            bar.get_y() + bar.get_height() / 2,
+            f"{value:.2f}",
+            va="center",
+            fontsize=9,
+            color="#243447",
+        )
+    fig.tight_layout()
+    path = RESULTS / "figures" / "available_feature_ablation_slides.png"
+    fig.savefig(path, dpi=220, bbox_inches="tight")
+    plt.close(fig)
+    return path.relative_to(ROOT)
+
+
+def cover_slide():
+    slide = prs.slides.add_slide(BLANK)
+    set_background(slide, NAVY)
+    text_box(
+        slide,
+        0.85,
+        0.60,
+        11.4,
+        0.4,
+        "GROUP 16  /  TECHNICAL PRESENTATION",
+        12,
+        RGBColor(98, 198, 194),
+        True,
+    )
+    text_box(
+        slide,
+        0.85,
+        1.45,
+        11.6,
+        1.6,
+        "One-day-ahead\nPM2.5 forecasting",
+        36,
+        WHITE,
+        True,
+    )
+    text_box(
+        slide,
+        0.90,
+        3.35,
+        10.8,
+        0.55,
+        "A leakage-aware CNN–LSTM regression study",
+        22,
+        RGBColor(98, 198, 194),
+        True,
+    )
+    card(
+        slide,
+        0.9,
+        4.55,
+        11.3,
+        1.32,
+        "Bottom line",
+        "A plausible sequence model, but no statistically reliable overall gain over persistence; extreme-event errors remain large.",
+        RGBColor(231, 240, 244),
+        16,
+        15,
+    )
+    text_box(
+        slide,
+        0.9,
+        6.65,
+        10.8,
+        0.3,
+        "Historical future metrics are frozen; development validation is reported separately.",
+        12,
+        WHITE,
+    )
+    add_note(
+        slide,
+        "Title",
+        "Open by defining the forecast origin: use observations through the end of day t to predict station PM2.5 at t+1. State that this is a regression study. Development CV and previously saved future-period metrics are distinct.",
+    )
+
+
+def main():
+    ablation_figure = build_ablation_figure()
+    cover_slide()
+
+    slide = new_slide("Forecast task and research questions", "01  /  MOTIVATION")
+    card(
+        slide,
+        0.72,
+        1.48,
+        5.85,
+        1.05,
+        "Why it matters",
+        "Short-horizon forecasts can help air-quality monitoring prioritize review and timely communication; forecasts are decision support, not health or regulatory determinations.",
+        ICE,
+        16,
+        13,
+    )
+    card(
+        slide,
+        6.78,
+        1.48,
+        5.82,
+        1.05,
+        "Regression, not classification",
+        "Target is continuous PM2.5 in µg/m³ at t+1. RMSE, MAE and R² retain concentration magnitude.",
+        PALE,
+        16,
+        13,
+    )
+    text_box(
+        slide,
+        0.78,
+        2.85,
+        11.8,
+        0.55,
+        "Main RQ  |  How accurately can issue-time history predict next-day PM2.5, and does CNN–LSTM beat past-only forecasts under leakage-safe validation?",
+        15,
+        NAVY,
+        True,
+    )
+    add_table(
+        slide,
+        0.78,
+        3.55,
+        11.8,
+        2.85,
+        ["Label", "Research question"],
+        [
+            [
+                "RQ1",
+                "How does CNN–LSTM compare with persistence and seasonal-naive baselines?",
+            ],
+            [
+                "RQ2",
+                "What do temporal and station-grouped evaluations say about generalization?",
+            ],
+            [
+                "RQ3",
+                "Which available feature groups contribute, and how stable are they?",
+            ],
+            [
+                "RQ4",
+                "How do seasonality, sparse coverage, extreme events, missingness and rights limit use?",
+            ],
+        ],
+        12,
+    )
+    add_note(
+        slide,
+        "Task and RQs",
+        "Explain why monitoring can benefit from forecasts while avoiding an unsupported claim that the model itself improves health. Repeat that the target is a real-valued concentration, not a category. Introduce the main research question and the four labelled questions.",
+    )
+
+    slide = new_slide("Dataset and station identity", "02  /  DATA")
+    add_table(
+        slide,
+        0.78,
+        1.55,
+        7.2,
+        3.35,
+        ["Item", "Audited value"],
+        [
+            ["Prepared CSV rows", "41,718"],
+            ["After target cleaning", "40,983"],
+            ["Cleaned station IDs", "95"],
+            ["Date range", "2016-11-25 to 2026-04-06"],
+            ["Invalid PM2.5 removed", "735 (≤0 or ≥500)"],
+            ["Source", "Kaggle, Mediterranean Basin, v1"],
+        ],
+        13,
+    )
+    card(
+        slide,
+        8.25,
+        1.55,
+        4.2,
+        2.0,
+        "Station key",
+        "Sensor name + latitude + longitude rounded to six decimals. Coordinates keep same-name sites distinct.",
+        ICE,
+        16,
+        13,
+    )
+    card(
+        slide,
+        8.25,
+        3.78,
+        4.2,
+        2.05,
+        "Count reconciliation",
+        "98 source IDs → 98 composite stations → 95 after cleaning. 94 sensor names; four names span two sites; three test entries removed.",
+        PALE,
+        16,
+        13,
+    )
+    text_box(
+        slide,
+        0.82,
+        5.25,
+        7.1,
+        0.85,
+        "Rights caveat: publisher metadata says “Other (specified in description)”; redistribution rights for the compiled bundle remain unresolved.",
+        14,
+        AMBER,
+        True,
+    )
+    add_note(
+        slide,
+        "Data and identity",
+        "The active file is a publisher-prepared combined table. Explain the composite station ID and why the source’s numeric-ID count differs from the cleaned station count. Be explicit that compiled-data redistribution rights remain unresolved.",
+    )
+
+    slide = new_slide("Seasonality and PM2.5 thresholds", "03  /  EXPLORATORY ANALYSIS")
+    add_image(slide, "results/16/figures/pm25_by_season.png", 0.75, 1.50, w=6.4, h=4.75)
+    add_table(
+        slide,
+        7.42,
+        1.68,
+        5.1,
+        3.95,
+        ["Season", "Mean", "Median", ">25", ">50"],
+        [
+            ["DJF", "10.94", "8.77", "6.15%", "0.45%"],
+            ["MAM", "8.25", "6.83", "1.92%", "0.36%"],
+            ["JJA", "9.59", "8.50", "1.95%", "0.15%"],
+            ["SON", "9.08", "7.47", "2.46%", "0.25%"],
+        ],
+        11,
+    )
+    text_box(
+        slide,
+        7.45,
+        5.82,
+        5.0,
+        0.82,
+        "Winter has the highest mean and >25/>50 shares. Cutoffs are descriptive, not presented as compliance standards.",
+        12,
+        MUTED,
+    )
+    add_note(
+        slide,
+        "Seasonality",
+        "Seasonal PM2.5 summaries show the highest mean and >25 and >50 shares in DJF. They are descriptive record-level statistics. The project’s 25 and 50 µg/m³ cutoffs are not described as normative thresholds.",
+    )
+
+    slide = new_slide(
+        "Processing workflow and leakage prevention", "04  /  METHODOLOGY"
+    )
+    flow = [
+        ("Original CSV", "41,718 rows"),
+        ("Cleaning", "Target bounds\nstation-day audit"),
+        ("Preprocessing", "Fold-local\nimputer / scaler"),
+        ("Features", "7-day past-only\nsequences"),
+        ("Training", "Inner TPE\nouter scoring"),
+    ]
+    x_positions = [0.7, 3.2, 5.7, 8.2, 10.7]
+    for i, (title, body) in enumerate(flow):
+        card(
+            slide,
+            x_positions[i],
+            1.62,
+            1.92,
+            1.22,
+            title,
+            body,
+            ICE if i in (0, 4) else PALE,
+            14,
+            11,
+        )
+        if i < len(flow) - 1:
+            text_box(
+                slide, x_positions[i] + 1.95, 1.92, 0.50, 0.35, "→", 22, TEAL, True
+            )
+    bullet_list(
+        slide,
+        0.88,
+        3.25,
+        11.7,
+        2.8,
+        [
+            "Temporal folds preserve date order and include a one-day raw-date embargo.",
+            "Every sequence ends at day t; label is exactly station PM2.5 at t+1. Station changes and date gaps break sequences.",
+            "Imputation and scaling are fitted only on each training fold. Hyperparameter selection uses chronological inner validation inside that fold.",
+            "Inputs at/after cutoff were mutated in tests: earlier lag, rolling and sequence features remained unchanged.",
+            "Meteorology, AOD, NO₂, CO and O₃ are excluded because forecast-issue-time availability is not verified.",
+        ],
+        15,
+    )
+    add_note(
+        slide,
+        "Workflow and leakage",
+        "Walk through the workflow from prepared CSV to fold scoring. Emphasize the end-of-day origin and t+1 label, past-only features, embargo, fold-local preprocessing and inner-only tuning. Exogenous fields are excluded because observation dates alone do not prove availability to a forecaster.",
+    )
+
+    slide = new_slide("CNN–LSTM architecture", "05  /  MODEL")
+    blocks = [
+        (
+            0.72,
+            1.88,
+            1.72,
+            1.1,
+            "7-day input",
+            "9 processed channels\n(7 features + 2 flags)",
+            ICE,
+        ),
+        (
+            3.0,
+            1.88,
+            2.15,
+            1.1,
+            "Causal Conv1D",
+            "16 filters · k=3\nlocal patterns",
+            RGBColor(230, 238, 246),
+        ),
+        (5.75, 1.88, 1.8, 1.1, "Norm + ReLU", "Dropout 0.347\nMaxPool", PALE),
+        (
+            8.12,
+            1.88,
+            1.7,
+            1.1,
+            "LSTM",
+            "64 units\ngated memory",
+            RGBColor(248, 241, 232),
+        ),
+        (10.4, 1.88, 2.05, 1.1, "Dense → output", "32 ReLU\nscalar regression", ICE),
+    ]
+    for x, y, w, h, title, body, fill in blocks:
+        card(slide, x, y, w, h, title, body, fill, 15, 12)
+    for x in [2.47, 5.22, 7.66, 9.91]:
+        text_box(slide, x, 2.22, 0.4, 0.35, "→", 22, TEAL, True)
+    card(
+        slide,
+        0.86,
+        3.5,
+        5.65,
+        1.42,
+        "CNN: local temporal patterns",
+        "Shared filters scan nearby days to learn short motifs such as local rises, falls and fluctuations.",
+        PALE,
+        16,
+        14,
+    )
+    card(
+        slide,
+        6.78,
+        3.5,
+        5.65,
+        1.42,
+        "LSTM: ordered dependencies",
+        "Gates update, retain or forget sequence information before a dense head maps the representation to PM2.5.",
+        ICE,
+        16,
+        14,
+    )
+    text_box(
+        slide,
+        0.92,
+        5.42,
+        11.5,
+        0.78,
+        "Why this architecture? It combines local pattern extraction with sequential memory. That makes it plausible for short temporal sequences—not automatically better than persistence.",
+        16,
+        NAVY,
+        True,
+    )
+    add_note(
+        slide,
+        "Architecture",
+        "Explain causal convolution as local feature extraction over adjacent time positions. Explain the LSTM gates as a mechanism for retaining or updating sequential state. The scalar output is continuous regression. Justify the architecture as a hypothesis and note that evaluation does not prove it beats persistence.",
+    )
+
+    slide = new_slide("Training configuration and loss trace", "06  /  FITTING")
+    add_table(
+        slide,
+        0.75,
+        1.55,
+        4.45,
+        3.75,
+        ["Setting", "Reference setting"],
+        [
+            ["History", "7 daily steps"],
+            ["Conv1D", "16 filters, kernel 3"],
+            ["LSTM / dense", "64 / 32 units"],
+            ["Dropout", "0.347"],
+            ["Optimizer", "Adam"],
+            ["Loss", "MSE"],
+            ["Search", "50 TPE trials/fold"],
+        ],
+        12,
+    )
+    add_image(
+        slide,
+        "results/16/figures/training_validation_loss_typst.png",
+        5.48,
+        1.52,
+        w=7.1,
+        h=3.65,
+    )
+    text_box(
+        slide,
+        0.82,
+        5.63,
+        11.6,
+        0.72,
+        "Archived inner-fit history: best validation MSE 86.86 (µg/m³)² at epoch 45; training loss continues down. This is not an outer-fold score or the frozen historical checkpoint.",
+        13,
+        MUTED,
+    )
+    add_note(
+        slide,
+        "Training curve",
+        "Show both training and chronological inner-validation MSE. The best inner validation loss occurs at epoch 45, followed by modest improvement/flattening; the training loss continues lower, consistent with overfitting. This curve is a representative archived inner fit and must not be conflated with outer-fold metrics.",
+    )
+
+    slide = new_slide("Validation design", "07  /  ROBUSTNESS")
+    add_table(
+        slide,
+        0.78,
+        1.55,
+        11.8,
+        3.25,
+        ["Fold", "Validation dates", "Train sequences", "Validation n", "Search"],
+        [
+            ["1", "2019-04-30 – 2020-10-16", "482", "322", "50 trials"],
+            ["2", "2020-10-17 – 2021-10-24", "801", "172", "50 trials"],
+            ["3", "2021-10-25 – 2022-11-18", "976", "377", "50 trials"],
+            ["4", "2022-11-19 – 2024-01-30", "1,353", "733", "50 trials"],
+            ["5", "2024-01-31 – 2024-12-07", "2,086", "1,263", "50 trials"],
+        ],
+        12,
+    )
+    card(
+        slide,
+        0.86,
+        5.15,
+        5.6,
+        1.08,
+        "Temporal CV",
+        "2,867 outer OOF predictions; expanding training windows.",
+        ICE,
+        15,
+        12,
+    )
+    card(
+        slide,
+        6.78,
+        5.15,
+        5.6,
+        1.08,
+        "Spatial CV",
+        "Held-out station groups; each has historical input sequences.",
+        PALE,
+        15,
+        12,
+    )
+    add_note(
+        slide,
+        "Validation",
+        "Temporal folds test later periods with expanding training data. Spatial folds test held-out stations conditional on having historical sequences. These answer different questions and are not interchangeable. Hyperparameter search is nested in outer training data.",
+    )
+
+    slide = new_slide("Development metrics and baselines", "08  /  RESULTS")
+    add_table(
+        slide,
+        0.78,
+        1.55,
+        11.8,
+        2.55,
+        [
+            "Matched fixed diagnostic",
+            "RMSE, mean ± SD",
+            "MAE, mean ± SD",
+            "R², mean ± SD",
+        ],
+        [
+            ["CNN–LSTM", "8.301 ± 6.221", "3.845 ± 0.921", "0.156 ± 0.101"],
+            ["Persistence", "8.771 ± 8.984", "3.158 ± 1.468", "0.207 ± 0.476"],
+            [
+                "Weekly seasonal-naive",
+                "10.798 ± 10.039",
+                "4.721 ± 1.718",
+                "−0.287 ± 0.525",
+            ],
+        ],
+        13,
+    )
+    card(
+        slide,
+        0.82,
+        4.42,
+        5.65,
+        1.28,
+        "TPE-selected temporal model",
+        "Mean-fold RMSE 8.520 ± 6.034\nMean-fold MAE 3.978 ± 0.892",
+        ICE,
+        15,
+        13,
+    )
+    card(
+        slide,
+        6.75,
+        4.42,
+        5.65,
+        1.28,
+        "Paired result vs persistence",
+        "Exact fold Wilcoxon p = .625\nHolm-adjusted p = 1.00",
+        PALE,
+        15,
+        13,
+    )
+    text_box(
+        slide,
+        0.87,
+        6.0,
+        11.6,
+        0.48,
+        "Fixed-configuration baseline table and TPE-selected results are distinct analyses; five dependent folds imply low inferential power.",
+        12,
+        MUTED,
+    )
+    add_note(
+        slide,
+        "Evaluation",
+        "The complete RMSE/MAE/R² table is a fixed predeclared CNN–LSTM compared with persistence and weekly seasonal-naive on matched folds. Separately, per-fold Optuna tuning gives mean-fold RMSE 8.520 and MAE 3.978. The paired test does not show a significant improvement over persistence.",
+    )
+
+    slide = new_slide("Frozen historical future estimate", "09  /  LOCKED RESULT")
+    metrics = [
+        ("6.0272", "RMSE µg/m³"),
+        ("4.0240", "MAE µg/m³"),
+        ("0.2394", "R²"),
+        ("1,716", "predictions"),
+    ]
+    for i, (value, label) in enumerate(metrics):
+        card(
+            slide,
+            0.82 + i * 3.05,
+            1.88,
+            2.7,
+            1.25,
+            value,
+            label,
+            ICE if i % 2 == 0 else PALE,
+            23,
+            12,
+        )
+    card(
+        slide,
+        0.90,
+        3.65,
+        5.65,
+        1.55,
+        "What this number is",
+        "Previously saved historical score; reported unchanged and separate from development CV.",
+        PALE,
+        16,
+        14,
+    )
+    card(
+        slide,
+        6.78,
+        3.65,
+        5.65,
+        1.55,
+        "What it is not",
+        "No new holdout evaluation or baseline comparison was run for this submission.",
+        ICE,
+        16,
+        14,
+    )
+    text_box(
+        slide,
+        0.94,
+        5.73,
+        11.2,
+        0.72,
+        "A development-only refit reproduces all saved predictions (max |Δ| = 7.1 × 10⁻¹⁵); original weight-file identity cannot be verified.",
+        14,
+        MUTED,
+    )
+    add_note(
+        slide,
+        "Frozen score",
+        "State clearly that this is a previously saved score, not a new experiment in this turn. No future labels were read and no new baseline score was computed. Prediction equivalence does not prove that the absent original checkpoint has identical bytes.",
+    )
+
+    slide = new_slide(
+        "Explainability and inactive pollutant indicators", "10  /  INTERPRETATION"
+    )
+    add_table(
+        slide,
+        0.78,
+        1.55,
+        7.2,
+        3.55,
+        ["Feature channel", "Mean ΔRMSE", "Mean rank"],
+        [
+            ["PM2.5 lag-1", "0.651", "1.0"],
+            ["Rolling-3 mean", "0.153", "3.0"],
+            ["Rolling-7 missing flag", "0.052", "4.8"],
+            ["Day-of-year sine", "0.033", "5.6"],
+            ["Rolling-3 missing flag", "0.017", "5.8"],
+        ],
+        12,
+    )
+    card(
+        slide,
+        8.25,
+        1.58,
+        4.1,
+        1.6,
+        "Interpretation",
+        "Lag-1 is consistently important; it also helps explain why persistence is hard to beat.",
+        ICE,
+        15,
+        13,
+    )
+    card(
+        slide,
+        8.25,
+        3.42,
+        4.1,
+        1.72,
+        "Why no pollutant flags?",
+        "NO₂/CO/O₃ values are excluded because issue-time availability is unverified. Their missingness flags are therefore not active in the final model.",
+        PALE,
+        15,
+        13,
+    )
+    text_box(
+        slide,
+        0.85,
+        5.58,
+        11.4,
+        0.7,
+        "Permutation importance is model-conditional, not causal. The final feature-selected refit uses PM2.5 lag-1 only.",
+        13,
+        MUTED,
+    )
+    add_note(
+        slide,
+        "Explainability",
+        "Permutation importance ranks lag-1 first in all five folds. Missingness indicators exist for derived rolling channels in the reference preprocessing. Pollutant-specific flags are not in the final selected model because the pollutants themselves are excluded pending issue-time availability evidence.",
+    )
+
+    slide = new_slide("Ablation and robustness", "11  /  SENSITIVITY")
+    add_image(slide, str(ablation_figure), 0.72, 1.47, w=6.5, h=4.7)
+    add_table(
+        slide,
+        7.55,
+        1.72,
+        4.95,
+        3.7,
+        ["Feature removal", "Δ mean RMSE", "95% interval"],
+        [
+            ["No calendar", "−0.467", "[−0.957, −0.088]"],
+            ["No lag/rolling", "+0.617", "[+0.249, +1.022]"],
+            ["No rolling", "−0.177", "[−0.337, −0.043]"],
+        ],
+        11,
+    )
+    text_box(
+        slide,
+        7.6,
+        5.7,
+        4.8,
+        0.68,
+        "Fixed folds, no retuning. Exogenous-family ablations are blocked, not negative results.",
+        12,
+        MUTED,
+    )
+    add_note(
+        slide,
+        "Ablation",
+        "Removing target lag and rolling features worsens fold RMSE. Removing calendar or rolling channels produces small improvements in this fixed no-retuning experiment. Do not treat this as an optimized feature search. Exogenous ablation variants are blocked because availability is unverified.",
+    )
+
+    slide = new_slide(
+        "Error analysis: typical and extreme cases", "12  /  FAILURE MODES"
+    )
+    add_table(
+        slide,
+        0.78,
+        1.55,
+        11.8,
+        3.65,
+        ["OOF case", "Actual", "Predicted", "|Error|", "Reading"],
+        [
+            ["Low, 2020-06-28", "5.00", "3.96", "1.04", "Small miss"],
+            ["Moderate, 2022-01-21", "17.50", "12.96", "4.54", "Underpredicts rise"],
+            ["Elevated, 2022-02-04", "37.92", "13.88", "24.04", "Large miss"],
+            [
+                "Extreme, 2022-02-13",
+                "124.33",
+                "15.73",
+                "108.60",
+                "Severe underprediction",
+            ],
+            [
+                "Largest, 2022-02-14",
+                "338.80",
+                "16.16",
+                "322.64",
+                "Far outside learned range",
+            ],
+        ],
+        11,
+    )
+    card(
+        slide,
+        0.92,
+        5.55,
+        11.45,
+        0.88,
+        "Tail limitation",
+        "Only seven OOF targets exceed 50 µg/m³; high-band estimates are unstable, but examples show the model can miss abrupt severe events.",
+        PALE,
+        15,
+        13,
+    )
+    add_note(
+        slide,
+        "Error analysis",
+        "Use these examples as descriptive development OOF cases only. Positive actual-minus-predicted residual means the model underpredicts. There were only seven cases over 50 µg/m³, so tail error estimates are unstable, but missing severe events is an important practical limitation.",
+    )
+
+    slide = new_slide(
+        "Coverage limitations and spatial validation", "13  /  GENERALIZATION"
+    )
+    card(
+        slide,
+        0.82,
+        1.55,
+        5.65,
+        1.4,
+        "Temporal diagnostics",
+        "ACF/PACF: 63 stations with ≥14 uninterrupted daily observations.\nADF/KPSS/Ljung–Box: only 6 stations with ≥30 days.",
+        ICE,
+        15,
+        13,
+    )
+    card(
+        slide,
+        6.78,
+        1.55,
+        5.65,
+        1.4,
+        "Lead–lag diagnostics",
+        "Usable pollutant pairs at six stations; 2–6 stations per lag. Correlations are descriptive, sparse and non-causal.",
+        PALE,
+        15,
+        13,
+    )
+    card(
+        slide,
+        0.82,
+        3.35,
+        5.65,
+        1.35,
+        "Spatial-grouped pooled scores",
+        "RMSE 8.700 µg/m³  |  MAE 3.287 µg/m³  |  R² 0.154  |  n=3,349",
+        PALE,
+        15,
+        13,
+    )
+    card(
+        slide,
+        6.78,
+        3.35,
+        5.65,
+        1.35,
+        "What the spatial split means",
+        "Test stations are held out, but historical inputs at those stations remain available. Not a cold-start evaluation.",
+        ICE,
+        15,
+        13,
+    )
+    text_box(
+        slide,
+        0.91,
+        5.33,
+        11.3,
+        0.84,
+        "Irregular gaps, sparse pollutant records and a pre-holdout development cutoff limit the number of long continuous station series. Six stations cannot support basin-wide claims.",
+        14,
+        MUTED,
+    )
+    add_note(
+        slide,
+        "Diagnostic limits",
+        "Explain that requiring uninterrupted daily segments avoids pretending missing days are consecutive. Most station series are too short for formal tests; only six meet the 30-day requirement and have adequate lead-lag pairs. Spatial validation allows history at each held-out station and therefore does not measure cold-start performance.",
+    )
+
+    slide = new_slide(
+        "Statistical interpretation and data limitations", "14  /  EVIDENCE BOUNDARIES"
+    )
+    add_table(
+        slide,
+        0.82,
+        1.55,
+        11.6,
+        2.32,
+        ["Evidence", "Estimate", "Interpretation"],
+        [
+            [
+                "Mean-fold RMSE",
+                "8.520 vs 8.771",
+                "CNN–LSTM vs persistence; small difference",
+            ],
+            [
+                "Paired exact Wilcoxon",
+                "p=.625; Holm=1.00",
+                "No significant gain established",
+            ],
+            [
+                "Pooled RMSE delta",
+                "−1.131; 95% CI [−2.824, 0.797]",
+                "72-station cluster interval includes zero",
+            ],
+        ],
+        12,
+    )
+    bullet_list(
+        slide,
+        0.92,
+        4.28,
+        11.4,
+        1.75,
+        [
+            "Five dependent folds provide low power; intervals are conditional on this dataset and do not account for all model-search uncertainty.",
+            "Compiled data redistribution rights, component attribution mapping and full upstream inclusion rule remain unresolved.",
+            "The historical checkpoint is missing; prediction reproduction is not binary-weight identity.",
+        ],
+        14,
+    )
+    add_note(
+        slide,
+        "Significance and limitations",
+        "Describe the paired test and cluster-bootstrap interval with the sample limitations. The confidence interval includes zero, and only five temporal folds are available. Also disclose the data-rights caveat and missing original weights.",
+    )
+
+    slide = new_slide("Discussion: direct answers to RQ1–RQ4", "15  /  SYNTHESIS")
+    answers = [
+        (
+            "RQ1",
+            "No reliable advantage over persistence is established; RMSE is slightly lower, but MAE is higher and the paired test is nonsignificant.",
+        ),
+        (
+            "RQ2",
+            "Performance changes sharply across periods; spatial folds are conditional on historical station sequences and do not prove cold-start transfer.",
+        ),
+        (
+            "RQ3",
+            "Lag-1 carries the clearest signal. Calendar/rolling additions are not consistently useful; environmental predictors remain excluded.",
+        ),
+        (
+            "RQ4",
+            "Winter is higher on average, but extreme events are underpredicted; diagnostics cover only six stations and reuse rights remain unresolved.",
+        ),
+    ]
+    for i, (label, answer) in enumerate(answers):
+        card(
+            slide,
+            0.9,
+            1.45 + i * 1.13,
+            11.5,
+            0.9,
+            label,
+            answer,
+            ICE if i % 2 == 0 else PALE,
+            15,
+            12,
+        )
+    add_note(
+        slide,
+        "Research answers",
+        "Answer each question explicitly. For RQ1, say no significant improvement. For RQ2, separate temporal and spatial scopes. For RQ3, identify lag-1 and qualified ablation findings. For RQ4, connect seasonality, sparse diagnostics, extreme error and unresolved rights.",
+    )
+
+    slide = new_slide("Conclusion and recommendation", "16  /  TAKEAWAY")
+    text_box(
+        slide,
+        0.95,
+        1.65,
+        11.2,
+        1.0,
+        "The CNN–LSTM is a reasonable model to test—not a demonstrated winner.",
+        27,
+        NAVY,
+        True,
+    )
+    bullet_list(
+        slide,
+        1.0,
+        3.0,
+        11.0,
+        2.15,
+        [
+            "Keep persistence as the minimum operational benchmark.",
+            "Do not deploy the CNN–LSTM as superior on current evidence.",
+            "Before deployment: verify real-time availability, collect more severe-event examples, quantify uncertainty and run a prospective evaluation.",
+            "Before redistribution: resolve the compiled dataset license and attribution chain.",
+        ],
+        17,
+        gap=12,
+    )
+    card(
+        slide,
+        0.98,
+        5.75,
+        11.0,
+        0.82,
+        "Defense summary",
+        "Leakage-aware one-day-ahead regression; local CNN patterns plus LSTM memory; mixed results; conservative scientific conclusion.",
+        ICE,
+        15,
+        13,
+    )
+    add_note(
+        slide,
+        "Conclusion",
+        "Conclude that the architecture is a plausible research candidate but not yet preferable to persistence for deployment. Give a clear answer to whether it is worth using: not as a claimed winner on these data. Mention the minimum evidence needed to revisit the decision.",
+    )
+
+    prs.save(OUTPUT)
+    PRESENTATION.mkdir(parents=True, exist_ok=True)
+    notes_text = ["# Speaker notes and oral-defense prompts", ""]
+    for index, (title, note) in enumerate(slide_notes, start=1):
+        notes_text.extend([f"## Slide {index}: {title}", "", note, ""])
+    (PRESENTATION / "speaker_notes.md").write_text(
+        "\n".join(notes_text), encoding="utf-8"
+    )
+    print(f"Built {OUTPUT} ({len(prs.slides)} slides)")
+
+
+if __name__ == "__main__":
+    main()
