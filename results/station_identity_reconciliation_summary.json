@@ -1,0 +1,14 @@
+{
+  "composite_stations": 98,
+  "unique_sensor_names": 94,
+  "unique_source_ids": 98,
+  "sensor_names_spanning_multiple_composite_stations": 4,
+  "source_ids_spanning_multiple_composite_stations": 0,
+  "explanation": "Composite key = source sensor name + latitude + longitude rounded to six decimals, so rows sharing a sensor name or a numeric source id but differing in coordinates remain distinct stations.",
+  "composite_stations_in_cleaned_data": 95,
+  "composite_stations_removed_by_target_cleaning": [
+    "064F::43.287146::5.378870",
+    "mimiz::43.288956::5.374571",
+    "testcompnex::43.286779::5.379099"
+  ]
+}
