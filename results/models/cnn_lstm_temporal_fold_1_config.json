@@ -1,0 +1,89 @@
+{
+  "filters": 64,
+  "kernel_size": 3,
+  "dropout": 0.1,
+  "lstm_units": 64,
+  "dense_units": 32,
+  "learning_rate": 0.0005,
+  "batch_size": 64,
+  "epochs": 100,
+  "patience": 10,
+  "loss": "mse",
+  "lookback_days": 7,
+  "seed": 43,
+  "best_epoch": 100,
+  "inner_validation_rmse": 4.412008313919873,
+  "top3_inner_configs": [
+    {
+      "configuration": {
+        "filters": 64,
+        "kernel_size": 3,
+        "dropout": 0.1,
+        "lstm_units": 64,
+        "dense_units": 32,
+        "learning_rate": 0.0005,
+        "batch_size": 64,
+        "epochs": 100,
+        "patience": 10,
+        "loss": "mse",
+        "lookback_days": 7
+      },
+      "inner_validation_rmse": 4.412008313919873,
+      "best_epoch": 100
+    },
+    {
+      "configuration": {
+        "filters": 32,
+        "kernel_size": 2,
+        "dropout": 0.3,
+        "lstm_units": 32,
+        "dense_units": 32,
+        "learning_rate": 0.001,
+        "batch_size": 64,
+        "epochs": 100,
+        "patience": 10,
+        "loss": "mse",
+        "lookback_days": 7
+      },
+      "inner_validation_rmse": 4.575959755874816,
+      "best_epoch": 99
+    },
+    {
+      "configuration": {
+        "filters": 32,
+        "kernel_size": 3,
+        "dropout": 0.2,
+        "lstm_units": 64,
+        "dense_units": 32,
+        "learning_rate": 0.001,
+        "batch_size": 64,
+        "epochs": 100,
+        "patience": 10,
+        "loss": "mse",
+        "lookback_days": 7
+      },
+      "inner_validation_rmse": 4.878743529371345,
+      "best_epoch": 84
+    }
+  ],
+  "feature_columns": [
+    "day_of_week_sin",
+    "day_of_week_cos",
+    "day_of_year_sin",
+    "day_of_year_cos",
+    "pm25_lag1",
+    "pm25_roll3_mean",
+    "pm25_roll7_mean"
+  ],
+  "feature_columns_after_preprocessing": [
+    "day_of_week_sin",
+    "day_of_week_cos",
+    "day_of_year_sin",
+    "day_of_year_cos",
+    "pm25_lag1",
+    "pm25_roll3_mean",
+    "pm25_roll7_mean",
+    "pm25_roll3_mean__missing",
+    "pm25_roll7_mean__missing"
+  ]
+}

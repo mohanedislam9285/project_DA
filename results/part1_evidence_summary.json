@@ -1,0 +1,120 @@
+{
+  "source": "derived only from saved project artifacts",
+  "cleaned_panel": {
+    "rows": 40983,
+    "stations": 95,
+    "dates": 2299,
+    "date_min": "2016-11-25T00:00:00+00:00",
+    "date_max": "2026-04-06T00:00:00+00:00"
+  },
+  "cleaning": {
+    "input_rows": 41718,
+    "clean_rows": 40983,
+    "removed_by_reason_mutually_exclusive": {
+      "invalid_timestamp": 0,
+      "missing_target": 0,
+      "target_le_min": 727,
+      "target_ge_max": 8,
+      "duplicate_station_day_dropped": 0
+    },
+    "removed_total": 735,
+    "exact_duplicates_before_duplicate_policy": 0,
+    "duplicate_station_day_rows": 0,
+    "same_sensor_name_day_rows_separated_by_coordinate": 4,
+    "station_identity_note": "Station key combines source sensor name with latitude and longitude rounded to six decimals so distinct nearby sites are not merged.",
+    "duplicate_policy": "error"
+  },
+  "target": {
+    "n": 40983,
+    "mean": 9.457765050524934,
+    "sd": 9.72971270652261,
+    "min": 0.0066666666666666,
+    "median": 7.851176470588236,
+    "p95": 21.65333333333333,
+    "p99": 33.55902945506408,
+    "max": 484.9815,
+    "skewness": 17.82910231943009,
+    "excess_kurtosis": 651.6721071025989,
+    "n_above_25": 1223,
+    "pct_above_25": 2.984164165629651,
+    "n_above_50": 117,
+    "pct_above_50": 0.2854842251665325,
+    "n_above_100": 37,
+    "pct_above_100": 0.09028133616377522
+  },
+  "development_partition": {
+    "rows": 30651,
+    "stations": 73,
+    "end": "2024-12-07T00:00:00.000000000",
+    "stations_longest_run_ge_14": 63,
+    "stations_longest_run_ge_30": 6,
+    "median_longest_run": 17.0,
+    "max_longest_run": 32
+  },
+  "station_identity": {
+    "composite_stations": 98,
+    "unique_sensor_names": 94,
+    "unique_source_ids": 98,
+    "sensor_names_spanning_multiple_composite_stations": 4,
+    "source_ids_spanning_multiple_composite_stations": 0,
+    "explanation": "Composite key = source sensor name + latitude + longitude rounded to six decimals, so rows sharing a sensor name or a numeric source id but differing in coordinates remain distinct stations.",
+    "cleaned_sensor_names": 91
+  },
+  "provenance": {
+    "rows_matching_PM25_station_date_coordinate": 41718,
+    "rows_matching_GEE_id_date": 41718,
+    "rows_matching_both_sources": 41718,
+    "PM_target_max_abs_difference": 3.552713678800501e-15,
+    "PM_target_rows_not_exact_within_1e_12": 0,
+    "GEE_coordinate_exact_matches": 41718,
+    "GEE_distance_km_max": 0.0,
+    "fraction_of_PM_source_rows_in_bundle": 0.4738474120012267,
+    "fraction_of_GEE_rows_in_bundle": 0.2540558316281789,
+    "unmatched_PM_source_rows": 46323,
+    "unused_GEE_source_rows": 122490
+  },
+  "pollutant_missingness": {
+    "CO": {
+      "station_months": 2179,
+      "station_months_with_missing": 258,
+      "stations_with_missing": 19,
+      "max_station_month_pct_missing": 100.0,
+      "station_days": 30651
+    },
+    "NO2": {
+      "station_months": 2179,
+      "station_months_with_missing": 258,
+      "stations_with_missing": 19,
+      "max_station_month_pct_missing": 100.0,
+      "station_days": 30651
+    },
+    "O3": {
+      "station_months": 2179,
+      "station_months_with_missing": 261,
+      "stations_with_missing": 19,
+      "max_station_month_pct_missing": 100.0,
+      "station_days": 30651
+    }
+  },
+  "folds": {
+    "temporal": {
+      "scheme": "temporal_panel_expanding",
+      "status": "five_folds_defined_model_not_run",
+      "n_splits": 5
+    },
+    "spatial": {
+      "scheme": "spatial_group_kfold",
+      "status": "five_folds_defined_model_not_run",
+      "n_splits": 5
+    },
+    "standard": {
+      "scheme": "random_diagnostic",
+      "status": "optimism diagnostic only; never model selection/generalization evidence",
+      "n_splits": 5
+    }
+  },
+  "future_holdout": {
+    "scheme": "independent_future_holdout",
+    "status": "evaluated_once"
+  }
+}

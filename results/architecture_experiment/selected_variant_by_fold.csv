@@ -1,0 +1,6 @@
+cv_fold,selected_variant,inner_validation_rmse,best_epoch,selection_source
+1,direct_pool2,4.246244005003058,94,inner chronological validation only
+2,residual_no_pool,3.1544060423770808,2,inner chronological validation only
+3,residual_no_pool,3.263527519619847,51,inner chronological validation only
+4,direct_no_pool,18.855588923249737,80,inner chronological validation only
+5,residual_no_pool,3.4087065003467902,1,inner chronological validation only
