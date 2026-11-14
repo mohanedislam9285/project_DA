@@ -26,7 +26,7 @@ def adjacent_values(values, reference):
 def _development_inputs(df, cfg):
     root = Path(cfg["_config_dir"])
     out = root / cfg["paths"]["results_root"] / cfg["project"]["group_id"]
-    fold_path = out / "folds_temporal.json"
+    fold_path = root / "folds" / "folds_temporal.json"
     if not fold_path.exists():
         raise FileNotFoundError("Run the development folds stage before sensitivity analysis")
     folds = json.loads(fold_path.read_text(encoding="utf-8")).get("folds", [])

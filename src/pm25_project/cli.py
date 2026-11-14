@@ -82,7 +82,7 @@ def main(argv=None):
         "cnn-train-size","cnn-lstm-finalize-dev","local-explanations","ranking-stability",
         "validation-scheme-ablation","report-assets","ablate","robustness","sensitivity",
         "preprocessing-ablation","evaluate-future","run-all"
-    ]); ap.add_argument("--config",default="configs/project.yaml"); args=ap.parse_args(argv)
+    ]); ap.add_argument("--config",default="src/configs/project.yaml"); args=ap.parse_args(argv)
     cfg,_=load_config(args.config)
     if args.command=="run-all":
         print("ERROR: run-all is disabled because it rewrites folds and invokes future evaluation; run explicit development-only stages.",file=sys.stderr)

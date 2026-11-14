@@ -7,7 +7,7 @@ from .features import build_origin_features
 from .sequences import make_sequences
 
 def sequence_coverage_table(df,cfg,lookbacks=(7,14,28,56)):
-    root=Path(cfg["_config_dir"]); out=root/cfg["paths"]["results_root"]/cfg["project"]["group_id"]; fold_path=out/"folds_temporal.json"
+    root=Path(cfg["_config_dir"]); out=root/cfg["paths"]["results_root"]/cfg["project"]["group_id"]; fold_path=root/"folds"/"folds_temporal.json"
     if not fold_path.exists(): raise FileNotFoundError("Run folds before sequence coverage analysis")
     folds=json.loads(fold_path.read_text(encoding="utf-8"))["folds"]; features=build_origin_features(df,cfg)
     cols=list(cfg["features"].get("predictors",[]))+list(cfg["features"].get("calendar",[]))

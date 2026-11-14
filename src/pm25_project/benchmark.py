@@ -34,7 +34,7 @@ def supervised_frame(df,cfg):
 
 def run_temporal_benchmark(df,cfg,model_ids=None,fold_file="folds_temporal.json"):
     started_at=utc_now(); root=Path(cfg["_config_dir"]); group=cfg["project"]["group_id"]; out=root/cfg["paths"]["results_root"]/group; out.mkdir(parents=True,exist_ok=True); (out/"predictions").mkdir(parents=True,exist_ok=True)
-    foldfile=out/fold_file
+    foldfile=root/"folds"/fold_file
     if not foldfile.exists(): raise FileNotFoundError("Run the folds stage first")
     fold_definition=json.loads(foldfile.read_text(encoding="utf-8")); folds=fold_definition.get("folds",[]); cv_scheme=fold_definition.get("scheme","diagnostic")
     if not folds: return {"status":fold_definition.get("status","no_folds"),"reason":fold_definition.get("reason","No folds in definition"),"fold_file":fold_file}
@@ -99,7 +99,7 @@ def run_temporal_benchmark(df,cfg,model_ids=None,fold_file="folds_temporal.json"
         pd.DataFrame(importance_rows,columns=FEATURE_IMPORTANCE).to_csv(logdir/f"feature_importance_{cv_scheme}.csv",index=False,encoding="utf-8")
     env=environment_metadata(); exp=[]
     for model_id in model_ids:
-        exp.append({"model_id":model_id,"model_group":"comparators","description":f"Outer {cv_scheme} CV; training-only chronological inner tuning","pipeline_hash":pipeline_fingerprint(cfg),"library_versions":json.dumps(env,sort_keys=True),"python_version":env["python"],"hardware":env["platform"],"search_strategy":"predeclared finite chronological inner validation","n_trials":len(candidate_configs(model_id,cfg["project"]["seed"],cfg)),"search_space_id":"configs/search_spaces.yaml","fold_file":fold_file,"start_time":started_at,"end_time":utc_now(),"git_commit":"","notes":"No Git commit recorded; random folds are diagnostic only."})
+        exp.append({"model_id":model_id,"model_group":"comparators","description":f"Outer {cv_scheme} CV; training-only chronological inner tuning","pipeline_hash":pipeline_fingerprint(cfg),"library_versions":json.dumps(env,sort_keys=True),"python_version":env["python"],"hardware":env["platform"],"search_strategy":"predeclared finite chronological inner validation","n_trials":len(candidate_configs(model_id,cfg["project"]["seed"],cfg)),"search_space_id":"src/configs/search_spaces.yaml","fold_file":fold_file,"start_time":started_at,"end_time":utc_now(),"git_commit":"","notes":"No Git commit recorded; random folds are diagnostic only."})
     exp_path=out/"experiments.csv"; exp_new=pd.DataFrame(exp,columns=EXPERIMENTS)
     if exp_path.exists():
         exp_old=pd.read_csv(exp_path)

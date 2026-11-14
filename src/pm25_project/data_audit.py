@@ -25,7 +25,7 @@ def inspect_source_file(cfg:dict)->dict:
 def read_source(cfg: dict) -> tuple[pd.DataFrame, dict]:
     validate_config(cfg)
     p = resolve_path(cfg, cfg["data"]["raw_file"])
-    if not p.is_file(): raise FileNotFoundError(f"Raw source file not found: {p}. Add the original dataset and update configs/project.yaml")
+    if not p.is_file(): raise FileNotFoundError(f"Raw source file not found: {p}. Add the original dataset and update src/configs/project.yaml")
     fmt = cfg["data"].get("file_format", p.suffix.lstrip(".")).lower()
     if fmt == "csv": raw = pd.read_csv(p)
     elif fmt in {"parquet", "pq"}: raw = pd.read_parquet(p)

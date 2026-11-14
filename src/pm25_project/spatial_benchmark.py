@@ -16,7 +16,7 @@ from .explainability import sequence_channel_permutation
 def run_cnn_lstm_spatial(df, cfg):
     import tensorflow as tf
     root=Path(cfg['_config_dir']); out=root/cfg['paths']['results_root']/cfg['project']['group_id']
-    folds=json.loads((out/'folds_spatial.json').read_text(encoding='utf-8'))['folds']
+    folds=json.loads((root/'folds'/'folds_spatial.json').read_text(encoding='utf-8'))['folds']
     table=build_origin_features(df,cfg)
     names=list(cfg['features'].get('predictors',[]))+list(cfg['features'].get('calendar',[]))
     if cfg['features'].get('include_target_lags',True): names.append('pm25_lag1')

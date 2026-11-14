@@ -22,7 +22,7 @@ def require_same_samples(full_keys,variant_keys):
 
 def run_feature_ablation(df,cfg,model_ids=None):
     """Drop one feature family at a time; refit imputation and tuning inside each training fold."""
-    root=Path(cfg["_config_dir"]); out=root/cfg["paths"]["results_root"]/cfg["project"]["group_id"]; (out/"logs").mkdir(parents=True,exist_ok=True); folds_path=out/"folds_temporal.json"
+    root=Path(cfg["_config_dir"]); out=root/cfg["paths"]["results_root"]/cfg["project"]["group_id"]; (out/"logs").mkdir(parents=True,exist_ok=True); folds_path=root/"folds"/"folds_temporal.json"
     if not folds_path.exists(): raise FileNotFoundError("Run folds before ablation analysis")
     folds=json.loads(folds_path.read_text(encoding="utf-8"))["folds"]; samples,features=supervised_frame(df,cfg); family={}
     for name,spec in cfg["data"].get("predictors",{}).items(): family[name]=spec.get("family","Unclassified")

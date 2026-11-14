@@ -37,7 +37,7 @@ def _candidate_configs(cfg):
     base = {key: cnn_config[key] for key in ("dense_units", "loss", "batch_size", "epochs", "patience") if key in cnn_config}
     declared = cfg.get("_search_spaces", {}).get("implemented_lstm_candidates")
     if not declared:
-        raise ValueError("Declare standalone LSTM candidates in configs/search_spaces.yaml")
+        raise ValueError("Declare standalone LSTM candidates in src/configs/search_spaces.yaml")
     return [{**base, **candidate} for candidate in declared]
 
 
@@ -50,7 +50,7 @@ def run_lstm_temporal_ablation(df, cfg):
 
     root = Path(cfg["_config_dir"])
     out = root / cfg["paths"]["results_root"] / cfg["project"]["group_id"]
-    fold_path = out / "folds_temporal.json"
+    fold_path = root / "folds" / "folds_temporal.json"
     cnn_path = out / "predictions" / "cnn_lstm_temporal_oof.csv"
     if not fold_path.exists() or not cnn_path.exists():
         raise FileNotFoundError("Run temporal folds and CNN-LSTM development benchmark before the LSTM ablation")
@@ -258,7 +258,7 @@ def run_cnn_lstm_sensitivity(df, cfg):
 
     root = Path(cfg["_config_dir"])
     out = root / cfg["paths"]["results_root"] / cfg["project"]["group_id"]
-    fold_path = out / "folds_temporal.json"
+    fold_path = root / "folds" / "folds_temporal.json"
     prediction_path = out / "predictions" / "cnn_lstm_temporal_oof.csv"
     if not fold_path.exists() or not prediction_path.exists():
         raise FileNotFoundError("Run CNN-LSTM development benchmark before its sensitivity analysis")
@@ -357,7 +357,7 @@ def run_lstm_sensitivity(df, cfg):
         raise RuntimeError("LSTM sensitivity requires TensorFlow; install the [deep] extra") from exc
     root = Path(cfg["_config_dir"])
     out = root / cfg["paths"]["results_root"] / cfg["project"]["group_id"]
-    fold_path = out / "folds_temporal.json"
+    fold_path = root / "folds" / "folds_temporal.json"
     prediction_path = out / "predictions" / "lstm_temporal_oof.csv"
     if not fold_path.exists() or not prediction_path.exists():
         raise FileNotFoundError("Run the LSTM development ablation before its sensitivity analysis")

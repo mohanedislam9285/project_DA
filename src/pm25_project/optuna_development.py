@@ -30,7 +30,7 @@ def run_optuna_temporal(df: pd.DataFrame, cfg: dict, trial_budget: int = 50) -> 
 
     root = Path(cfg["_config_dir"])
     out = root / cfg["paths"]["results_root"] / cfg["project"]["group_id"]
-    fold_path = out / "folds_temporal.json"
+    fold_path = root / "folds" / "folds_temporal.json"
     if not fold_path.is_file():
         raise FileNotFoundError(f"Missing development folds: {fold_path}")
     fold_def = json.loads(fold_path.read_text(encoding="utf-8"))
@@ -55,7 +55,7 @@ def run_optuna_temporal(df: pd.DataFrame, cfg: dict, trial_budget: int = 50) -> 
     lookback = int(cfg["project"].get("lookback_candidates_days", [7])[0])
     search_space = cfg.get("_search_spaces", {}).get("cnn_lstm_tpe", {})
     if not search_space:
-        raise ValueError("Declare cnn_lstm_tpe in configs/search_spaces.yaml")
+        raise ValueError("Declare cnn_lstm_tpe in src/configs/search_spaces.yaml")
     X, y, keys = make_sequences(features, columns, lookback=lookback, horizon=1)
     target_rows = keys.target_row.to_numpy(dtype=int)
     dates = pd.to_datetime(keys.target_timestamp, utc=True).dt.tz_localize(None).to_numpy(dtype="datetime64[ns]")

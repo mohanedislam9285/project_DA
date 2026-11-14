@@ -32,7 +32,7 @@ def _prepare(feature_table,feature_columns,lookback,train_rows,valid_rows):
 def run_cnn_lstm_temporal(df,cfg):
     try: import tensorflow as tf
     except ImportError as exc: raise RuntimeError("The primary CNN-LSTM benchmark requires TensorFlow. Install the [deep] extra in a supported environment.") from exc
-    started_at=utc_now(); root=Path(cfg["_config_dir"]); out=root/cfg["paths"]["results_root"]/cfg["project"]["group_id"]; fold_path=out/"folds_temporal.json"
+    started_at=utc_now(); root=Path(cfg["_config_dir"]); out=root/cfg["paths"]["results_root"]/cfg["project"]["group_id"]; fold_path=root/"folds"/"folds_temporal.json"
     if not fold_path.exists(): raise FileNotFoundError("Run the folds stage before CNN-LSTM training")
     folds=json.loads(fold_path.read_text(encoding="utf-8"))["folds"]; feature_table=build_origin_features(df,cfg)
     feature_columns=list(cfg["features"].get("predictors",[]))+list(cfg["features"].get("calendar",[]))
@@ -118,7 +118,7 @@ def run_cnn_lstm_temporal(df,cfg):
         oldimp=pd.read_csv(imp_path); oldimp=oldimp[~oldimp.model_id.eq("CNN_LSTM")]; imp=pd.concat([oldimp,imp],ignore_index=True)
     imp.to_csv(imp_path,index=False,encoding="utf-8"); fold_ranking_stability(imp).to_csv(out/"ranking_stability.csv",index=False,encoding="utf-8")
     comparison_table(new,seed=cfg["project"]["seed"]).to_csv(out/"comparisons.csv",index=False,encoding="utf-8")
-    env=environment_metadata(); env["tensorflow"]=tf.__version__; exp_path=out/"experiments.csv"; exp=pd.DataFrame([{"model_id":"CNN_LSTM","model_group":"Group_16","description":"CNN-LSTM temporal outer CV with inner configuration selection and epoch stopping","pipeline_hash":pipeline_fingerprint(cfg),"library_versions":json.dumps(env,sort_keys=True),"python_version":env["python"],"hardware":env["platform"],"search_strategy":"three predeclared CNN-LSTM candidates; chronological inner validation","n_trials":len(candidates),"search_space_id":"configs/search_spaces.yaml","fold_file":"folds_temporal.json","start_time":started_at,"end_time":utc_now(),"git_commit":"","notes":"Seeds fixed per fold; final-test period not used."}],columns=EXPERIMENTS)
+    env=environment_metadata(); env["tensorflow"]=tf.__version__; exp_path=out/"experiments.csv"; exp=pd.DataFrame([{"model_id":"CNN_LSTM","model_group":"Group_16","description":"CNN-LSTM temporal outer CV with inner configuration selection and epoch stopping","pipeline_hash":pipeline_fingerprint(cfg),"library_versions":json.dumps(env,sort_keys=True),"python_version":env["python"],"hardware":env["platform"],"search_strategy":"three predeclared CNN-LSTM candidates; chronological inner validation","n_trials":len(candidates),"search_space_id":"src/configs/search_spaces.yaml","fold_file":"folds_temporal.json","start_time":started_at,"end_time":utc_now(),"git_commit":"","notes":"Seeds fixed per fold; final-test period not used."}],columns=EXPERIMENTS)
     if exp_path.exists():
         oldexp=pd.read_csv(exp_path); exp=pd.concat([oldexp,exp],ignore_index=True)
     exp.to_csv(exp_path,index=False,encoding="utf-8")

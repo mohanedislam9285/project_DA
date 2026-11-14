@@ -256,7 +256,7 @@
 #text[
   The archived inner-fit history below shows training and chronological inner-validation MSE for a representative selected CNN–LSTM fit. The best recorded inner-validation loss is 86.86 (µg/m³)² at epoch 45; training loss continues lower. The widening gap is consistent with overfitting in this fit. This curve is not the five-fold outer-validation score and is not a training curve for the frozen historical checkpoint.
 ]
-#align(center)[#image("../../results/16/figures/training_validation_loss_typst.png", width: 94%)]
+#align(center)[#image("../../figures/training_validation_loss_typst.png", width: 94%)]
 #text(size: 8pt, fill: muted)[Figure 1. Archived 55-epoch inner-fit history (`cnn_lstm_optuna_final_inner_history.csv`). MSE is shown in squared target units.]
 #heading(level: 2)[Outer temporal folds]
 #tbl(
@@ -308,7 +308,7 @@
 #text[
   The observed winter mean (10.94 µg/m³) and 6.15% share above 25 µg/m³ exceed the corresponding values in the other seasons. Winter also has the highest >50 share (0.45%). These are pooled record-level descriptions; stations contribute different counts and the distribution is highly right-skewed. An observed seasonal pattern does not establish a meteorological cause.
 ]
-#align(center)[#image("../../results/16/figures/pm25_by_season.png", width: 78%)]
+#align(center)[#image("../../figures/pm25_by_season.png", width: 78%)]
 #text(size: 8pt, fill: muted)[Figure 2. Seasonal PM2.5 summaries from the cleaned station-day panel. Threshold percentages are provided on the preceding page.]
 #heading(level: 2)[Why only six stations support some tests]
 #text[
@@ -345,7 +345,7 @@
   In the reference preprocessing, missingness flags are available for derived PM2.5 rolling features. The final feature-selected development refit uses only PM2.5 lag-1. NO₂, CO, and O₃ indicators are not active in that final model because those pollutant channels themselves are excluded: their observation timestamps do not establish that values could be received by forecast issue time. Activating missingness indicators for unavailable pollutants could encode station coverage or measurement practices without providing an operationally available predictor. Pollutant missingness is reported descriptively, not imputed into the final model.
 ]
 #heading(level: 2)[Ablation of approved feature groups]
-#align(center)[#image("../../results/16/figures/available_feature_ablation.png", width: 75%)]
+#align(center)[#image("../../figures/available_feature_ablation.png", width: 75%)]
 #text[
   Removing lag and rolling history increased mean-fold RMSE by 0.617 (fold-bootstrap 95% interval 0.249 to 1.022). Removing calendar terms decreased it by 0.467 (interval −0.957 to −0.088). Removing rolling features alone decreased it by 0.177 (interval −0.337 to −0.043). These fixed, non-retuned comparisons suggest target history is useful and calendar/rolling expansions are not consistently helpful. Exogenous-family ablations are marked blocked, not reported as negative results, because forecast-time availability is unverified.
 ]
@@ -403,7 +403,7 @@
 ]
 #heading(level: 2)[Submission and reproducibility note]
 #text[
-  The report is built from `reports/source/final_report.typ`; the training-loss figure is generated from the saved inner history by `build_typst_report.py`. Evidence tables and plots are retained under `results/16/`. The source dataset should not be redistributed until the compiled bundle’s rights and attribution are clarified. References and additional evidence notes follow in the appendix and are excluded from the main-text page count.
+  The report is built from `reports/source/final_report.typ`; the training-loss figure is generated from the saved inner history by `build_typst_report.py`. Evidence tables and plots are retained under `results/`. The source dataset should not be redistributed until the compiled bundle’s rights and attribution are clarified. References and additional evidence notes follow in the appendix and are excluded from the main-text page count.
 ]
 #pagebreak()
 
@@ -431,7 +431,7 @@
 
   [9] Group 16 project materials: *Updated version PM25 Forecasting Mini Project*; *PM25 CNN-LSTM Layers and Libraries*; and *All files CSV guide*. Supplied course materials, 2026.
 
-  [10] Project evidence: `results/16/temporal_cv_optuna_results.csv`, `diagnostic_cv_results.csv`, `development_cv_summary.csv`, `spatial_cv_results.csv`, `seasonal_summary.csv`, `feature_importance_summary.csv`, `ablation_summary.csv`, `local_development_cases.csv`, `future_test_results.csv`, and `station_identity_reconciliation_summary.json`.
+  [10] Project evidence: `results/temporal_cv_optuna_results.csv`, `diagnostic_cv_results.csv`, `development_cv_summary.csv`, `spatial_cv_results.csv`, `seasonal_summary.csv`, `feature_importance_summary.csv`, `ablation_summary.csv`, `local_development_cases.csv`, `future_test_results.csv`, and `station_identity_reconciliation_summary.json`.
 ]
 #pagebreak()
 #section-label("APPENDIX B")

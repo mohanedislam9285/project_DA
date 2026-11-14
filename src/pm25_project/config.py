@@ -9,10 +9,15 @@ def load_config(path: str | Path) -> tuple[dict[str, Any], Path]:
         cfg = yaml.safe_load(f)
     if not isinstance(cfg, dict) or not {"project", "data", "cleaning"}.issubset(cfg):
         raise ValueError("Config must define project, data, and cleaning sections")
-    cfg["_config_dir"] = str(path.parent.parent)
+    project_root = (
+        path.parents[2]
+        if path.parent.name == "configs" and path.parent.parent.name == "src"
+        else path.parent.parent
+    )
+    cfg["_config_dir"] = str(project_root)
     search_path=path.parent/"search_spaces.yaml"
     cfg["_search_spaces"]=yaml.safe_load(search_path.read_text(encoding="utf-8")) if search_path.exists() else {}
-    return cfg, path.parent.parent
+    return cfg, project_root
 
 def resolve_path(cfg: dict[str, Any], value: str) -> Path:
     p = Path(value)

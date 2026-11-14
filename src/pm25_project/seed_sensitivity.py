@@ -61,7 +61,7 @@ def run_cnn_lstm_seed_sensitivity(df: pd.DataFrame, cfg: dict) -> dict:
     seeds = _seed_values(cfg)
     root = Path(cfg["_config_dir"])
     out = root / cfg["paths"]["results_root"] / cfg["project"]["group_id"]
-    fold_path = out / "folds_temporal.json"
+    fold_path = root / "folds" / "folds_temporal.json"
     if not fold_path.is_file():
         raise FileNotFoundError("Run the folds stage before CNN-LSTM seed sensitivity")
     folds = json.loads(fold_path.read_text(encoding="utf-8"))["folds"]

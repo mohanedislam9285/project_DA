@@ -3,7 +3,20 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .ipynb_checkpoints/
+.venv/
+venv/
 
-# Local staging area for removed-from-submission files.
-# Kept on disk for review; delete this folder before zipping the final deliverable.
+# Local staging area for removed-from-submission files, kept for review.
 trash/
+
+# Source and cleaned data stay on the local machine; only the .gitkeep markers
+# and the provenance manifest are versioned (see data/manifest.yaml).
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/interim/
+
+# Office lock files and scratch builds
+~$*
+.tmp*/

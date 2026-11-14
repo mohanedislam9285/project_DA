@@ -12,7 +12,7 @@ from .metrics import regression_metrics,paired_bootstrap_ci
 
 def _prepare(df,cfg):
     root=Path(cfg['_config_dir']); out=root/cfg['paths']['results_root']/cfg['project']['group_id']
-    folds=json.loads((out/'folds_temporal.json').read_text())['folds']; feature=build_origin_features(df,cfg)
+    folds=json.loads((root/'folds'/'folds_temporal.json').read_text())['folds']; feature=build_origin_features(df,cfg)
     cal=list(cfg['features'].get('calendar',[])); hist=['pm25_lag1']+[f"pm25_roll{w}_mean" for w in cfg['features'].get('rolling_windows_days',[3,7])]
     configs=[]
     for f in folds:

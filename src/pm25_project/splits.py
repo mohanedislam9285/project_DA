@@ -43,8 +43,10 @@ def random_diagnostic_folds(df:pd.DataFrame,n_splits:int=5,seed:int=42)->dict:
     return {"scheme":"random_diagnostic","cv_purpose":"optimism diagnostic only; never model selection/generalization evidence","n_splits":n_splits,"seed":seed,"folds":folds}
 
 def save_folds(df,cfg):
-    root=Path(cfg["_config_dir"])/cfg["paths"]["results_root"]/cfg["project"]["group_id"]; root.mkdir(parents=True,exist_ok=True)
-    future_path=root/"future_test.json"
+    project_root=Path(cfg["_config_dir"])
+    fold_root=project_root/"folds"; fold_root.mkdir(parents=True,exist_ok=True)
+    result_root=project_root/cfg["paths"]["results_root"]/cfg["project"]["group_id"]; result_root.mkdir(parents=True,exist_ok=True)
+    future_path=result_root/"future_test.json"
     if future_path.exists():
         # An existing reservation/evaluation record is immutable. Reuse its partition
         # when regenerating development folds; never rewrite historical holdout metadata.
@@ -72,5 +74,6 @@ def save_folds(df,cfg):
     for name,data in definitions.items():
         if name=="future_test.json" and future_path.exists():
             continue
-        (root/name).write_text(json.dumps(data,indent=2),encoding="utf-8")
+        destination=future_path if name=="future_test.json" else fold_root/name
+        destination.write_text(json.dumps(data,indent=2),encoding="utf-8")
     return definitions

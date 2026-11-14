@@ -30,7 +30,7 @@ def seed_sensitivity(estimator_factory,x_train,y_train,x_valid,y_valid,seeds=(0,
     return pd.DataFrame(rows)
 
 def run_train_size_analysis(df,cfg,top_n=3,model_ids=None,fractions=(.1,.25,.5,.75,1.0)):
-    root=Path(cfg["_config_dir"]); out=root/cfg["paths"]["results_root"]/cfg["project"]["group_id"]; rpath=out/"results.csv"; foldpath=out/"folds_temporal.json"
+    root=Path(cfg["_config_dir"]); out=root/cfg["paths"]["results_root"]/cfg["project"]["group_id"]; rpath=out/"results.csv"; foldpath=root/"folds"/"folds_temporal.json"
     if not rpath.exists() or not foldpath.exists(): raise FileNotFoundError("Run development benchmark and fold creation before train-size analysis")
     prior=pd.read_csv(rpath); selection=prior[(prior.dataset_split=="validation")&(prior.cv_scheme=="temporal_panel_expanding")&(prior.metric=="rmse")&(prior.niveau=="fold")]
     if "cv_purpose" in selection:
