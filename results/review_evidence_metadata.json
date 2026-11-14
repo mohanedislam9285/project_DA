@@ -1,0 +1,15 @@
+{
+  "development_cutoff_exclusive": "2024-12-08T00:00:00Z",
+  "station_month_pollutant_missingness_rows": 6537,
+  "stations_with_acf_pacf": 63,
+  "stations_with_formal_stationarity_tests": 6,
+  "local_case_rows": 15,
+  "local_case_categories_available": [
+    "extreme_gt50",
+    "high_25_50",
+    "largest_absolute_error",
+    "low_lt10",
+    "medium_10_25"
+  ],
+  "future_test_used": false
+}

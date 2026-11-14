@@ -1,0 +1,29 @@
+{
+  "filters": 32,
+  "kernel_size": 5,
+  "lstm_units": 64,
+  "dense_units": 32,
+  "dropout": 0.09778455686732547,
+  "learning_rate": 0.0002202534544601015,
+  "loss": "mse",
+  "seed": 46,
+  "pool_size": 2,
+  "lookback_days": 7,
+  "features": [
+    "pm25_lag1",
+    "pm25_roll3_mean",
+    "temperature_celsius_lag1",
+    "pressure_mb_lag1",
+    "wind_u_lag1",
+    "wind_v_lag1",
+    "no2_lag1",
+    "co_lag1",
+    "o3_lag1",
+    "aod_lag1"
+  ],
+  "selected_epoch": 86,
+  "feature_variant": "target_plus_all_lagged_environment",
+  "max_environmental_source_date_relative_to_origin_days": -1,
+  "outer_validation_used_for_selection": false,
+  "source_delivery_latency_verified": false
+}

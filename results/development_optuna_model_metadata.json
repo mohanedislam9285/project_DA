@@ -1,0 +1,19 @@
+{
+  "status": "saved_and_loaded",
+  "model_path": "C:\\Users\\dell\\OneDrive\\Desktop\\PM25_CNN_LSTM_Submission_Group16\\results\\16\\models\\cnn_lstm_development_optuna.keras",
+  "preprocessor_path": "C:\\Users\\dell\\OneDrive\\Desktop\\PM25_CNN_LSTM_Submission_Group16\\results\\16\\models\\cnn_lstm_development_optuna_preprocessor.joblib",
+  "configuration_path": "C:\\Users\\dell\\OneDrive\\Desktop\\PM25_CNN_LSTM_Submission_Group16\\results\\16\\models\\cnn_lstm_development_optuna_config.json",
+  "architecture": "CNN-LSTM",
+  "model_group": "Group_16",
+  "development_sequences": 3349,
+  "parameters": 23329,
+  "model_size_mb": 0.3146648406982422,
+  "fit_seconds": 9.084012800001801,
+  "inference_seconds_20_in_sample_rows": 0.14966379999896162,
+  "smoke_test_rows": 20,
+  "smoke_test_is_in_sample": true,
+  "seed": 42,
+  "python": "3.12.10",
+  "tensorflow": "2.19.1",
+  "gpu_devices": []
+}

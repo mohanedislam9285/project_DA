@@ -1,0 +1,7 @@
+axis,status,available_ablation_variant,reason
+full_feature_set,blocked,,"Meteorology, trace gases, and AOD are excluded because availability at forecast origin is unverified."
+without_AOD,blocked,,Requires an otherwise valid full exogenous-feature model; AOD availability at forecast origin is unverified.
+without_NO2_CO_O3,blocked,,Requires an otherwise valid full exogenous-feature model; trace-gas availability at forecast origin is unverified.
+without_Meteorological,blocked,,Requires an otherwise valid full exogenous-feature model; meteorology availability at forecast origin is unverified.
+without_Calendar,evaluated,without_calendar,Evaluated against the full currently approved feature set.
+without_Lag_and_Rolling,evaluated,without_lag_and_rolling,Evaluated against the full currently approved feature set.

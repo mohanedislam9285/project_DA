@@ -1,0 +1,25 @@
+{
+  "filters": 64,
+  "kernel_size": 2,
+  "lstm_units": 32,
+  "dense_units": 32,
+  "dropout": 0.06006249268943345,
+  "learning_rate": 0.0009103747910341994,
+  "loss": "mse",
+  "seed": 44,
+  "lookback_days": 7,
+  "best_epoch": 23,
+  "effective_kernel_size": 2,
+  "inner_validation_rmse": 4.067977030236316,
+  "selected_by_inner_validation": false,
+  "feature_columns": [
+    "day_of_week_sin",
+    "day_of_week_cos",
+    "day_of_year_sin",
+    "day_of_year_cos",
+    "pm25_lag1",
+    "pm25_roll3_mean",
+    "pm25_roll7_mean"
+  ],
+  "outer_validation_used_for_selection": false
+}

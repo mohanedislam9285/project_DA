@@ -1,0 +1,9 @@
+{
+  "bootstrap_replicates": 20000,
+  "seed": 42016,
+  "cluster_unit": "station; conditional on observed folds",
+  "fold_tests": "exact two-sided Wilcoxon, five dependent folds",
+  "fold_bootstrap": "descriptive; resamples five dependent folds",
+  "multiplicity": "Holm across five feature procedures per comparator family, separate RMSE and MAE",
+  "future_test_labels_or_metrics_used": false
+}

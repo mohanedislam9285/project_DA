@@ -1,0 +1,38 @@
+{
+  "filters": 16,
+  "kernel_size": 3,
+  "lstm_units": 64,
+  "dropout": 0.3465230925460652,
+  "learning_rate": 0.0007740141254926889,
+  "dense_units": 32,
+  "loss": "mse",
+  "seed": 42,
+  "lookback_days": 7,
+  "best_epoch": 45,
+  "feature_columns": [
+    "day_of_week_sin",
+    "day_of_week_cos",
+    "day_of_year_sin",
+    "day_of_year_cos",
+    "pm25_lag1",
+    "pm25_roll3_mean",
+    "pm25_roll7_mean"
+  ],
+  "feature_columns_after_preprocessing": [
+    "day_of_week_sin",
+    "day_of_week_cos",
+    "day_of_year_sin",
+    "day_of_year_cos",
+    "pm25_lag1",
+    "pm25_roll3_mean",
+    "pm25_roll7_mean",
+    "pm25_roll3_mean__missing",
+    "pm25_roll7_mean__missing"
+  ],
+  "selection_rule": "most frequent outer-fold TPE winner; tie-break by mean inner chronological-validation RMSE; config candidates originate only from outer-training inner validation.",
+  "selection_frequency": 1,
+  "mean_inner_rmse_across_selected_folds": 3.6773358261565785,
+  "development_cutoff_exclusive": "2024-12-08T00:00:00Z",
+  "trained_on_development_sequences": 3349,
+  "training_epochs_selected_on_latest_chronological_inner_split": 45
+}

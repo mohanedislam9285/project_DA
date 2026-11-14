@@ -1,0 +1,16 @@
+pollutant,lag_days,stations,median_station_r,mean_station_r,total_pairs,interpretation
+CO,-2,2,-0.021873114582172518,-0.021873114582172518,60,Descriptive station-level correlations on uninterrupted development segments; no causal or forecast-time availability claim.
+CO,-1,4,0.07828466160668225,0.053675581814116906,122,Descriptive station-level correlations on uninterrupted development segments; no causal or forecast-time availability claim.
+CO,0,6,0.046343690584808556,0.070519796187185,186,Descriptive station-level correlations on uninterrupted development segments; no causal or forecast-time availability claim.
+CO,1,4,0.20570589803832556,0.1660961571021091,122,Descriptive station-level correlations on uninterrupted development segments; no causal or forecast-time availability claim.
+CO,2,2,-0.08640683989588195,-0.08640683989588195,60,Descriptive station-level correlations on uninterrupted development segments; no causal or forecast-time availability claim.
+NO2,-2,2,-0.0995881821044656,-0.0995881821044656,60,Descriptive station-level correlations on uninterrupted development segments; no causal or forecast-time availability claim.
+NO2,-1,4,-0.07186931472692926,-0.10283263327083378,122,Descriptive station-level correlations on uninterrupted development segments; no causal or forecast-time availability claim.
+NO2,0,6,-0.025864832099095063,0.014645496195111914,186,Descriptive station-level correlations on uninterrupted development segments; no causal or forecast-time availability claim.
+NO2,1,4,-0.04249695923397271,-0.09080946891567275,122,Descriptive station-level correlations on uninterrupted development segments; no causal or forecast-time availability claim.
+NO2,2,2,0.07406540127449963,0.07406540127449963,60,Descriptive station-level correlations on uninterrupted development segments; no causal or forecast-time availability claim.
+O3,-2,2,-0.32495092671358744,-0.32495092671358744,60,Descriptive station-level correlations on uninterrupted development segments; no causal or forecast-time availability claim.
+O3,-1,4,-0.5850684321101453,-0.5026699639065769,122,Descriptive station-level correlations on uninterrupted development segments; no causal or forecast-time availability claim.
+O3,0,6,-0.5587690209787983,-0.5118619657816389,186,Descriptive station-level correlations on uninterrupted development segments; no causal or forecast-time availability claim.
+O3,1,4,-0.3675938260218741,-0.3681354241988378,122,Descriptive station-level correlations on uninterrupted development segments; no causal or forecast-time availability claim.
+O3,2,2,-0.25522247679568827,-0.25522247679568827,60,Descriptive station-level correlations on uninterrupted development segments; no causal or forecast-time availability claim.

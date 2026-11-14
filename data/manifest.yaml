@@ -1,0 +1,36 @@
+status: acquired_source_metadata_verified_license_caveat_open
+source_url: https://www.kaggle.com/datasets/sarahameziane/air-quality-mediterranean-basin-20162026
+api_metadata_url: https://www.kaggle.com/api/v1/datasets/view/sarahameziane/air-quality-mediterranean-basin-20162026
+title: Air Quality - Mediterranean Basin (2016-2026)
+retrieval_date: '2026-11-09'
+kaggle_owner: Sarah Ameziane
+kaggle_version: 1
+kaggle_license_label: Other (specified in description)
+license: >-
+  Kaggle reports Other (specified in description). The dataset description says its raw data
+  are sourced from OpenAQ (CC BY 4.0), Copernicus open-access, and NASA open data, and asks
+  users to check individual source licenses before commercial use. The compiled dataset's
+  independent redistribution terms are not explicit; use for local academic analysis only
+  until source-by-source attribution and redistribution rights are confirmed.
+license_notes: >-
+  API metadata was read on 2026-11-09. No credentials were used to download this public dataset.
+  The Kaggle page lists 3 CSV files and a total size of 49,870,509 bytes. The data description
+  identifies daily OpenAQ ground truth and GEE-derived features. Preserve original files and
+  cite the Kaggle dataset plus its underlying data providers in any eventual report.
+files:
+  - file: kaggle_dataset_bundle.zip
+    path: data/raw/kaggle_dataset_bundle.zip
+    bytes: 9228248
+    sha256: bd7a65c975cee1a833ff58a094b48a5a0806488b549ef0510210e8d694fa654b
+  - file: combined_gee_pm25.csv
+    path: data/raw/extracted/combined_gee_pm25.csv
+    bytes: 9822260
+    sha256: cdbdd1698757877095a8839765747dcf5a6b2dfda44c53289ae8d66f895e185a
+  - file: gee_features_daily.csv
+    path: data/raw/extracted/gee_features_daily.csv
+    bytes: 33545644
+    sha256: 2124850ba6c6d09f5a20a35799f6950166b1e21b43993be79184ad4b918a9fee
+  - file: pm25.csv
+    path: data/raw/extracted/pm25.csv
+    bytes: 6502605
+    sha256: d0c008f76db3763bdd22f666e0a7f696a00e753270d3868edd3b9cdc35dbffe7

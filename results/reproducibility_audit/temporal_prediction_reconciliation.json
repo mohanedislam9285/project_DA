@@ -1,0 +1,148 @@
+{
+  "purpose": "Development-only reconciliation of sequence alignment, model reload, validation scores, persistence baselines, and split chronology.",
+  "development_cutoff_inclusive": "2024-12-07T00:00:00+00:00",
+  "future_holdout_values_used_for_modeling_or_metrics": false,
+  "lookback_days": 7,
+  "forecast_horizon_days": 1,
+  "feature_columns": [
+    "day_of_week_sin",
+    "day_of_week_cos",
+    "day_of_year_sin",
+    "day_of_year_cos",
+    "pm25_lag1",
+    "pm25_roll3_mean",
+    "pm25_roll7_mean"
+  ],
+  "n_development_sequences": 3349,
+  "forecast_alignment_verified": true,
+  "last_input_pm25_equals_origin_observation": true,
+  "target_equals_next_day_source_row": true,
+  "all_train_validation_embargoes_verified": true,
+  "max_reloaded_prediction_difference": 3.552713678800501e-15,
+  "future_hashes_all_match": true,
+  "future_hashes": [
+    {
+      "path": "C:\\Users\\dell\\OneDrive\\Desktop\\PM25_CNN_LSTM_Submission_Group16\\results\\16\\future_test_evaluation.json",
+      "expected_sha256": "57F2AFC2F819286CAB2AD43EE7F83A5585A30C9335EDBAB15DE159B524C11C2F",
+      "actual_sha256": "57f2afc2f819286cab2ad43ee7f83a5585a30c9335edbab15de159b524c11c2f",
+      "match": true
+    },
+    {
+      "path": "C:\\Users\\dell\\OneDrive\\Desktop\\PM25_CNN_LSTM_Submission_Group16\\results\\16\\future_test_results.csv",
+      "expected_sha256": "CE732A399E7FB4921E524992A495C41789E8F171782237AB83D24DD7AEDD65C4",
+      "actual_sha256": "ce732a399e7fb4921e524992a495c41789e8f171782237ab83d24dd7aedd65c4",
+      "match": true
+    },
+    {
+      "path": "C:\\Users\\dell\\OneDrive\\Desktop\\PM25_CNN_LSTM_Submission_Group16\\results\\16\\future_test.json",
+      "expected_sha256": "64BD673831504C91277E122D7DE6C38A96FFFDAA51467FB9A042E83804FC37BC",
+      "actual_sha256": "64bd673831504c91277e122d7de6c38a96fffdaa51467fb9a042e83804fc37bc",
+      "match": true
+    },
+    {
+      "path": "C:\\Users\\dell\\OneDrive\\Desktop\\PM25_CNN_LSTM_Submission_Group16\\results\\16\\monthly_future_rmse.csv",
+      "expected_sha256": "20AC2428FD6BBC47064446BE62D230C408B4EA4CB147682931DF8B452734F3C2",
+      "actual_sha256": "20ac2428fd6bbc47064446be62d230c408b4ea4cb147682931df8b452734f3c2",
+      "match": true
+    },
+    {
+      "path": "C:\\Users\\dell\\OneDrive\\Desktop\\PM25_CNN_LSTM_Submission_Group16\\results\\16\\predictions\\future_test.csv",
+      "expected_sha256": "A8502343C57268262AB0246C716B397A8E744DE587C670F832BFBD863A95EC14",
+      "actual_sha256": "a8502343c57268262ab0246c716b397a8e744de587c670f832bfbd863a95ec14",
+      "match": true
+    }
+  ],
+  "fold_metrics": [
+    {
+      "cv_fold": 1,
+      "train_sequences": 482,
+      "validation_sequences": 322,
+      "raw_fold_train_end_utc": "2019-04-28T00:00:00+00:00",
+      "raw_fold_validation_start_utc": "2019-04-30T00:00:00+00:00",
+      "scored_train_target_end_utc": "2019-04-01T00:00:00+00:00",
+      "scored_validation_target_start_utc": "2019-05-01T00:00:00+00:00",
+      "embargo_days_verified": 1,
+      "train_rmse": 1.7282417382101174,
+      "train_mae": 1.2321290969848633,
+      "validation_rmse_reloaded": 5.792118558018018,
+      "validation_mae_reloaded": 4.066713333129883,
+      "validation_r2_reloaded": -0.055255770683288574,
+      "saved_prediction_max_abs_diff": 1.7763568394002505e-15,
+      "model_sha256": "50adb739b01da16043e198aa42ccbf49ff819a1ed6919615e557a9e4313a1aea",
+      "preprocessor_sha256": "373bfce7c622ba9b3f31c40ee87549a9ea338a6e814936b7bec561c08603debd"
+    },
+    {
+      "cv_fold": 2,
+      "train_sequences": 801,
+      "validation_sequences": 172,
+      "raw_fold_train_end_utc": "2020-10-15T00:00:00+00:00",
+      "raw_fold_validation_start_utc": "2020-10-17T00:00:00+00:00",
+      "scored_train_target_end_utc": "2020-10-15T00:00:00+00:00",
+      "scored_validation_target_start_utc": "2020-10-17T00:00:00+00:00",
+      "embargo_days_verified": 1,
+      "train_rmse": 3.5579687379918536,
+      "train_mae": 2.4011988639831543,
+      "validation_rmse_reloaded": 4.131570842247743,
+      "validation_mae_reloaded": 2.9852895736694336,
+      "validation_r2_reloaded": 0.2050212025642395,
+      "saved_prediction_max_abs_diff": 3.552713678800501e-15,
+      "model_sha256": "d4c1d7b1ad2cdab396ab20e8117dcc81305f272ce639c659b4b28c3901da0acb",
+      "preprocessor_sha256": "499582bbba7872bc59947dd0387e65d3dc46d7a5e6550c73c0927c5093a5994a"
+    },
+    {
+      "cv_fold": 3,
+      "train_sequences": 976,
+      "validation_sequences": 377,
+      "raw_fold_train_end_utc": "2021-10-23T00:00:00+00:00",
+      "raw_fold_validation_start_utc": "2021-10-25T00:00:00+00:00",
+      "scored_train_target_end_utc": "2021-10-19T00:00:00+00:00",
+      "scored_validation_target_start_utc": "2021-11-09T00:00:00+00:00",
+      "embargo_days_verified": 1,
+      "train_rmse": 4.042985026008905,
+      "train_mae": 2.7865254878997803,
+      "validation_rmse_reloaded": 18.876550471811417,
+      "validation_mae_reloaded": 5.4096832275390625,
+      "validation_r2_reloaded": 0.042396605014801025,
+      "saved_prediction_max_abs_diff": 1.7763568394002505e-15,
+      "model_sha256": "65375f7304ed79e94a8a6d13c58172fbe6b611500c349d4acffebc0e667d1e0e",
+      "preprocessor_sha256": "4431ed909c358ff505e01646b94ba344753f75b13319caed69418012affbdf6e"
+    },
+    {
+      "cv_fold": 4,
+      "train_sequences": 1353,
+      "validation_sequences": 733,
+      "raw_fold_train_end_utc": "2022-11-17T00:00:00+00:00",
+      "raw_fold_validation_start_utc": "2022-11-19T00:00:00+00:00",
+      "scored_train_target_end_utc": "2022-11-13T00:00:00+00:00",
+      "scored_validation_target_start_utc": "2023-04-08T00:00:00+00:00",
+      "embargo_days_verified": 1,
+      "train_rmse": 8.828051973564113,
+      "train_mae": 2.9174556732177734,
+      "validation_rmse_reloaded": 5.105962050874039,
+      "validation_mae_reloaded": 3.745835304260254,
+      "validation_r2_reloaded": 0.09609353542327881,
+      "saved_prediction_max_abs_diff": 3.552713678800501e-15,
+      "model_sha256": "2c1da04419a28f7676f0e5f023aad79760771a2fc7694e3db4e45c7e015be459",
+      "preprocessor_sha256": "1cc23ed59b89f276254f21ba3ed80a07accaf3a1df72c47d444e4986dcf14441"
+    },
+    {
+      "cv_fold": 5,
+      "train_sequences": 2086,
+      "validation_sequences": 1263,
+      "raw_fold_train_end_utc": "2024-01-29T00:00:00+00:00",
+      "raw_fold_validation_start_utc": "2024-01-31T00:00:00+00:00",
+      "scored_train_target_end_utc": "2023-12-27T00:00:00+00:00",
+      "scored_validation_target_start_utc": "2024-03-04T00:00:00+00:00",
+      "embargo_days_verified": 1,
+      "train_rmse": 8.88855149370526,
+      "train_mae": 3.4835762977600098,
+      "validation_rmse_reloaded": 8.693815940535558,
+      "validation_mae_reloaded": 3.6815741062164307,
+      "validation_r2_reloaded": 0.09413957595825195,
+      "saved_prediction_max_abs_diff": 1.7763568394002505e-15,
+      "model_sha256": "b8faeca8c3cc34d4a33e2ac5b6050253de2de7a008f4c8b1732c864258538307",
+      "preprocessor_sha256": "88871fbc677b941ee8989f5f79f9d86870b54adbedea02a7433040567996694f"
+    }
+  ],
+  "note": "RMSE/MAE confidence intervals are not estimated here. Fold comparisons and station-cluster bootstrap are computed by a separate development-only analysis."
+}

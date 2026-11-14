@@ -1,0 +1,152 @@
+{
+  "recorded_local_date": "2026-11-12",
+  "baseline_snapshot": {
+    "path": "reproducibility/baseline_snapshot_2026-11-11/snapshot_manifest.json",
+    "recorded_before_prior experiments": true,
+    "file_count": 329,
+    "total_bytes": 28340959
+  },
+  "holdout_integrity": {
+    "locked_artifact_count": 5,
+    "all_hashes_unchanged": true,
+    "future_labels_or_metrics_used_for_current_experiments": false,
+    "artifacts": [
+      {
+        "path": "C:\\Users\\dell\\OneDrive\\Desktop\\PM25_CNN_LSTM_Submission_Group16\\results\\16\\future_test_evaluation.json",
+        "initial_sha256": "57F2AFC2F819286CAB2AD43EE7F83A5585A30C9335EDBAB15DE159B524C11C2F",
+        "final_sha256": "57f2afc2f819286cab2ad43ee7f83a5585a30c9335edbab15de159b524c11c2f",
+        "match": true
+      },
+      {
+        "path": "C:\\Users\\dell\\OneDrive\\Desktop\\PM25_CNN_LSTM_Submission_Group16\\results\\16\\future_test_results.csv",
+        "initial_sha256": "CE732A399E7FB4921E524992A495C41789E8F171782237AB83D24DD7AEDD65C4",
+        "final_sha256": "ce732a399e7fb4921e524992a495c41789e8f171782237ab83d24dd7aedd65c4",
+        "match": true
+      },
+      {
+        "path": "C:\\Users\\dell\\OneDrive\\Desktop\\PM25_CNN_LSTM_Submission_Group16\\results\\16\\future_test.json",
+        "initial_sha256": "64BD673831504C91277E122D7DE6C38A96FFFDAA51467FB9A042E83804FC37BC",
+        "final_sha256": "64bd673831504c91277e122d7de6c38a96fffdaa51467fb9a042e83804fc37bc",
+        "match": true
+      },
+      {
+        "path": "C:\\Users\\dell\\OneDrive\\Desktop\\PM25_CNN_LSTM_Submission_Group16\\results\\16\\monthly_future_rmse.csv",
+        "initial_sha256": "20AC2428FD6BBC47064446BE62D230C408B4EA4CB147682931DF8B452734F3C2",
+        "final_sha256": "20ac2428fd6bbc47064446be62d230c408b4ea4cb147682931df8b452734f3c2",
+        "match": true
+      },
+      {
+        "path": "C:\\Users\\dell\\OneDrive\\Desktop\\PM25_CNN_LSTM_Submission_Group16\\results\\16\\predictions\\future_test.csv",
+        "initial_sha256": "A8502343C57268262AB0246C716B397A8E744DE587C670F832BFBD863A95EC14",
+        "final_sha256": "a8502343c57268262ab0246c716b397a8e744de587c670f832bfbd863a95ec14",
+        "match": true
+      }
+    ]
+  },
+  "alignment_reload_audit": {
+    "path": "results/16/reproducibility_audit/temporal_prediction_reconciliation.json",
+    "dev_sequences": 3349,
+    "max_reloaded_prediction_delta": 3.552713678800501e-15,
+    "all_one_day_embargoes_verified": true,
+    "all_future_hashes_match": true
+  },
+  "historical_reconstruction": {
+    "saved_predictions": 1716,
+    "matched": 1716,
+    "max_abs_prediction_delta": 7.105427357601002e-15,
+    "future_metrics_recomputed": false,
+    "original_weight_binary_identity_proven": false
+  },
+  "cleaning_quality_audit": {
+    "path": "results/16/cleaning_quality_audit/",
+    "development_rows": 30651,
+    "development_stations": 73,
+    "duplicate_station_day_keys": 0,
+    "invalid_or_out_of_rule_pm25": 0,
+    "invalid_coordinates": 0,
+    "station_q3_plus_3iqr_flags": 352,
+    "outlier_flags_deleted": false,
+    "development_counts_gt50_gt100_gt250": [
+      90,
+      36,
+      11
+    ]
+  },
+  "feature_family_evidence": {
+    "path": "results/16/feature_family_experiment/",
+    "reference_mean_fold_rmse": 8.52000369997183,
+    "reference_mean_fold_mae": 3.977818997063835,
+    "best_fixed_family_mean_fold_rmse": 7.893804724571202,
+    "best_fixed_family_mean_fold_mae": 3.3956560898554438,
+    "fold_rmse_holm_p_vs_reference": 0.3125,
+    "fold_rmse_holm_p_vs_persistence": 1.0,
+    "interpretation": "Exploratory; modest development-fold gain versus reference features, not significant versus persistence."
+  },
+  "lagged_environment_experiment": {
+    "path": "results/16/issue_time_lagged_exogenous_experiment/",
+    "common_oof": 2867,
+    "target_history_rmse": 9.32167635685006,
+    "target_history_mae": 3.4619953157721306,
+    "nested_selected_rmse": 9.355931062875056,
+    "nested_selected_mae": 3.6448821131052935,
+    "pooled_fixed_variant_rmse": {
+      "target_plus_lagged_pollutants_aod": 9.535243707191416,
+      "target_plus_lagged_meteorology": 9.479818760880642,
+      "target_plus_all_lagged_environment": 9.598001499047816
+    },
+    "delivery_latency_verified": false,
+    "future_labels_used": false
+  },
+  "spatial_origin_experiment": {
+    "path": "results/16/spatial_predictor_experiment/",
+    "common_oof": 2867,
+    "target_history_rmse": 9.32167635685006,
+    "target_history_mae": 3.4619953157721306,
+    "neighbor_rmse_by_radius": {
+      "25": 9.360880565178872,
+      "50": 9.438683544034154,
+      "100": 9.40772740061948
+    },
+    "nested_selected_rmse": 9.38595632616894,
+    "nested_selected_mae": 3.6585739107758974,
+    "future_labels_used": false
+  },
+  "development_selected_model": {
+    "path": "results/16/models/cnn_lstm_development_feature_selected.keras",
+    "sha256": "f3dcf83fe412510306875a61681961459b6e5621145677773e68a55d9f085259",
+    "feature_family": "no_calendar_lag_only",
+    "seed": 42016,
+    "selected_epoch": 27,
+    "trained_sequences": 3349,
+    "independent_evaluation_score": false,
+    "future_holdout_used": false
+  },
+  "tests": {
+    "command": "isolated Python 3.12.10: python -m pytest -q",
+    "passed": 55,
+    "failed": 0,
+    "warnings": 11,
+    "log": "reproducibility/pytest_2026-11-12_final.txt"
+  },
+  "report": {
+    "path": "reports/final_report.pdf",
+    "pages_total": 15,
+    "main_pages": 14,
+    "appendix_pages": 1,
+    "sha256": "2dbd23ea9c241972f23c998ca499f3d2acb8f23c98ffb364bfb492086fe30adb",
+    "render_review": "reproducibility/pdf_review_2026-11-12/contact_sheet_final.png"
+  },
+  "presentation": {
+    "path": "presentation/final_presentation.pptx",
+    "slides": 14,
+    "sha256": "0f410c688f869845558bb9ef7a2e9a804486435bfb325663d7b90f26868041aa",
+    "validation_receipt": "reproducibility/presentation_validation_2026-11-12_v3.json",
+    "layout_findings": 0,
+    "render_review": "reproducibility/slide_review_2026-11-12/montage_final_v3.webp"
+  },
+  "data_rights_and_source_lineage": {
+    "compiled_data_license_resolved": false,
+    "unexplained_eligible_pm_source_rows": 12074,
+    "upstream_join_audit": "results/16/provenance_audit/upstream_join_audit_summary.json"
+  }
+}

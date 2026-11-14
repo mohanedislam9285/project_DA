@@ -1,0 +1,21 @@
+cv_fold,variant,features,inner_train_sequences,inner_validation_sequences,inner_validation_rmse,inner_validation_mae,best_epoch,min_train_loss,min_validation_loss
+1,full_calendar_lag_roll3_roll7,"[""day_of_week_sin"", ""day_of_week_cos"", ""day_of_year_sin"", ""day_of_year_cos"", ""pm25_lag1"", ""pm25_roll3_mean"", ""pm25_roll7_mean""]",309,164,4.246244005003058,2.800030469894409,94,3.389610528945923,18.030588150024414
+1,no_calendar_lag_roll3_roll7,"[""pm25_lag1"", ""pm25_roll3_mean"", ""pm25_roll7_mean""]",309,164,5.953687586195923,4.1744184494018555,25,15.363865852355957,35.44639587402344
+1,no_calendar_lag_roll3,"[""pm25_lag1"", ""pm25_roll3_mean""]",309,164,5.00725467806569,3.6151726245880127,84,10.787975311279297,25.072599411010742
+1,no_calendar_lag_only,"[""pm25_lag1""]",309,164,4.605782663972965,3.1491193771362305,100,11.136713027954102,21.213233947753906
+2,full_calendar_lag_roll3_roll7,"[""day_of_week_sin"", ""day_of_week_cos"", ""day_of_year_sin"", ""day_of_year_cos"", ""pm25_lag1"", ""pm25_roll3_mean"", ""pm25_roll7_mean""]",656,141,4.067977030236316,3.272327184677124,23,13.00532054901123,16.548437118530273
+2,no_calendar_lag_roll3_roll7,"[""pm25_lag1"", ""pm25_roll3_mean"", ""pm25_roll7_mean""]",656,141,4.040701262542831,3.1328606605529785,40,14.671544075012207,16.327266693115234
+2,no_calendar_lag_roll3,"[""pm25_lag1"", ""pm25_roll3_mean""]",656,141,3.697824281783183,2.8021509647369385,42,12.96001148223877,13.67390251159668
+2,no_calendar_lag_only,"[""pm25_lag1""]",656,141,3.7422231780005912,2.787456512451172,56,13.302018165588379,14.00423526763916
+3,full_calendar_lag_roll3_roll7,"[""day_of_week_sin"", ""day_of_week_cos"", ""day_of_year_sin"", ""day_of_year_cos"", ""pm25_lag1"", ""pm25_roll3_mean"", ""pm25_roll7_mean""]",840,135,3.677335923176223,2.8100757598876953,23,15.978583335876465,13.522799491882324
+3,no_calendar_lag_roll3_roll7,"[""pm25_lag1"", ""pm25_roll3_mean"", ""pm25_roll7_mean""]",840,135,3.7247595434217007,2.9007017612457275,14,18.751216888427734,13.873832702636719
+3,no_calendar_lag_roll3,"[""pm25_lag1"", ""pm25_roll3_mean""]",840,135,3.69262261912194,2.8122363090515137,29,16.42619514465332,13.635462760925293
+3,no_calendar_lag_only,"[""pm25_lag1""]",840,135,3.5563600063908254,2.7807729244232178,23,17.647045135498047,12.647696495056152
+4,full_calendar_lag_roll3_roll7,"[""day_of_week_sin"", ""day_of_week_cos"", ""day_of_year_sin"", ""day_of_year_cos"", ""pm25_lag1"", ""pm25_roll3_mean"", ""pm25_roll7_mean""]",981,356,18.98656028446298,5.8001790046691895,100,9.231158256530762,360.48944091796875
+4,no_calendar_lag_roll3_roll7,"[""pm25_lag1"", ""pm25_roll3_mean"", ""pm25_roll7_mean""]",981,356,18.994376705634405,5.5774006843566895,100,12.90746021270752,360.78631591796875
+4,no_calendar_lag_roll3,"[""pm25_lag1"", ""pm25_roll3_mean""]",981,356,19.05917699648133,5.445870876312256,97,13.297965049743652,363.252197265625
+4,no_calendar_lag_only,"[""pm25_lag1""]",981,356,19.295489575772624,5.509829521179199,85,13.804788589477539,372.31597900390625
+5,full_calendar_lag_roll3_roll7,"[""day_of_week_sin"", ""day_of_week_cos"", ""day_of_year_sin"", ""day_of_year_cos"", ""pm25_lag1"", ""pm25_roll3_mean"", ""pm25_roll7_mean""]",1506,576,4.557176802867939,3.2567121982574463,6,97.11911010742188,20.767860412597656
+5,no_calendar_lag_roll3_roll7,"[""pm25_lag1"", ""pm25_roll3_mean"", ""pm25_roll7_mean""]",1506,576,4.352775582710128,3.1129603385925293,35,90.05702209472656,18.9466552734375
+5,no_calendar_lag_roll3,"[""pm25_lag1"", ""pm25_roll3_mean""]",1506,576,4.30751080707029,3.046591281890869,21,94.76398468017578,18.554649353027344
+5,no_calendar_lag_only,"[""pm25_lag1""]",1506,576,4.019728171044878,2.781447649002075,41,90.6138916015625,16.158212661743164

@@ -1,0 +1,42 @@
+{
+  "operation": "review hardening (post hoc, non-destructive)",
+  "rationale": "Populate required mean+/-std and 95% bootstrap intervals for development folds, and score baselines on the frozen future partition. No model refit; the single-use future holdout was not re-evaluated.",
+  "inputs_sha256_before": {
+    "results.csv": "924e4991196c175ac0ffeda732624a0577a87b4f37f52fc024b84902da9fdd2c",
+    "future_test_results.csv": "02c03ab558ec21deb8671038fa36e6f542884b17ddb8cf0def334d6f1ae5d9c6",
+    "future_test.json": "64bd673831504c91277e122d7de6c38a96fffdaa51467fb9a042e83804fc37bc",
+    "future_test_evaluation.json": "57f2afc2f819286cab2ad43ee7f83a5585a30c9335edbab15de159b524c11c2f",
+    "monthly_future_rmse.csv": "20ac2428fd6bbc47064446be62d230c408b4ea4cb147682931df8b452734f3c2",
+    "cleaned_daily.csv": "2eea909541692728916995c02a8e3bc2f3ebb2089502edcb041d3d1ec4c3619f",
+    "predictions/future_test.csv": "a8502343c57268262ab0246c716b397a8e744de587c670f832bfbd863a95ec14"
+  },
+  "outputs_sha256_after": {
+    "results.csv": "924e4991196c175ac0ffeda732624a0577a87b4f37f52fc024b84902da9fdd2c",
+    "future_test_baselines.csv": "d50ed31b7ae245af2ca3f4e776abf23976639ea08b8ef78e612c47c3cca098ad"
+  },
+  "locked_future_artifacts_preserved": [
+    "future_test_results.csv",
+    "future_test.json",
+    "future_test_evaluation.json",
+    "monthly_future_rmse.csv",
+    "predictions/future_test.csv"
+  ],
+  "global_summary_rows_added": 39,
+  "future_test_rows_added": 9,
+  "future_test_baselines": {
+    "persistence": {
+      "rmse": 5.846071069879015,
+      "n_samples": 1716
+    },
+    "seasonal_naive": {
+      "rmse": 8.02684560884067,
+      "n_samples": 1716
+    }
+  },
+  "sample_alignment": "baselines scored on the identical frozen CNN-LSTM holdout sample IDs",
+  "unrestricted_forecastable_rmse": {
+    "persistence": 5.782817871914579,
+    "seasonal_naive": 8.398083562071426
+  },
+  "note": "Baselines depend only on observed PM2.5 and are therefore not a model refit; they are consolidated into results.csv (which is not hash-locked) so the frozen future_test_results.csv stays byte-identical. This is not a resubmission of the holdout."
+}

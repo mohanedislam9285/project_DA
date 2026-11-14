@@ -1,0 +1,9 @@
+{
+  "bootstrap_replicates": 20000,
+  "seed": 42016,
+  "cluster_unit": "station; conditional on observed temporal folds; does not account for temporal dependence",
+  "fold_test": "exact two-sided Wilcoxon on five dependent outer folds",
+  "multiple_comparison": "Holm correction across fixed lagged-exogenous variants for each comparator and metric",
+  "future_test_labels_or_metrics_used": false,
+  "note": "Intervals and five-fold tests answer different conditional questions; statistical significance does not verify operational availability."
+}

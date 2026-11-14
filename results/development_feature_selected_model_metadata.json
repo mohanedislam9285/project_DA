@@ -1,0 +1,17 @@
+{
+  "status": "saved_and_reloaded",
+  "model_path": "C:\\Users\\dell\\OneDrive\\Desktop\\PM25_CNN_LSTM_Submission_Group16\\results\\16\\models\\cnn_lstm_development_feature_selected.keras",
+  "preprocessor_path": "C:\\Users\\dell\\OneDrive\\Desktop\\PM25_CNN_LSTM_Submission_Group16\\results\\16\\models\\cnn_lstm_development_feature_selected_preprocessor.joblib",
+  "config_path": "C:\\Users\\dell\\OneDrive\\Desktop\\PM25_CNN_LSTM_Submission_Group16\\results\\16\\models\\cnn_lstm_development_feature_selected_config.json",
+  "architecture": "CNN-LSTM",
+  "parameters": 22945,
+  "model_size_mb": 0.3102703094482422,
+  "fit_seconds": 5.163900100000319,
+  "inner_selection_rows": 1059,
+  "development_training_sequences": 3349,
+  "smoke_test_rows": 20,
+  "smoke_test_is_in_sample": true,
+  "python": "3.12.10",
+  "tensorflow": "2.19.1",
+  "future_test_labels_or_metrics_used": false
+}

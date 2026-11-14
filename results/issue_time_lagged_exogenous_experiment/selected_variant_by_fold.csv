@@ -1,0 +1,6 @@
+cv_fold,selected_variant,inner_rmse,selected_epoch
+1,target_plus_lagged_meteorology,4.6309777883821965,61
+2,target_lag_roll3,3.697824281783183,42
+3,target_plus_all_lagged_environment,3.6885490864841857,29
+4,target_lag_roll3,19.05917699648133,97
+5,target_lag_roll3,4.30751080707029,21

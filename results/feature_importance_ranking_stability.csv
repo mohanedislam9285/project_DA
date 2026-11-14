@@ -1,0 +1,2 @@
+comparison,spearman_rho_mean_rank,jaccard_top5,n_features,temporal_top5,spatial_top5,notes
+temporal_vs_spatial,0.6722926454528143,0.6666666666666666,9,day_of_year_cos;day_of_year_sin;pm25_lag1;pm25_roll3_mean;pm25_roll7_mean__missing,day_of_week_sin;day_of_year_cos;day_of_year_sin;pm25_lag1;pm25_roll3_mean,Ranks average across five folds per scheme; importance is conditional on each model and validation cohort.

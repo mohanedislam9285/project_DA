@@ -1,0 +1,21 @@
+{
+  "filters": 64,
+  "kernel_size": 5,
+  "lstm_units": 32,
+  "dense_units": 32,
+  "dropout": 0.21984472773224376,
+  "learning_rate": 0.0007425209008801825,
+  "loss": "mse",
+  "seed": 43,
+  "pool_size": 2,
+  "lookback_days": 7,
+  "features": [
+    "pm25_lag1",
+    "pm25_roll3_mean"
+  ],
+  "selected_epoch": 84,
+  "feature_variant": "target_lag_roll3",
+  "max_environmental_source_date_relative_to_origin_days": -1,
+  "outer_validation_used_for_selection": false,
+  "source_delivery_latency_verified": false
+}

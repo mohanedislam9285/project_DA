@@ -1,0 +1,32 @@
+{
+  "experiment": "nested cross-station PM2.5 origin-feature sensitivity",
+  "scope": "development temporal folds only",
+  "common_oof_n": 3349,
+  "origin": "end of day t",
+  "target": "station PM2.5 at t+1",
+  "neighbor_inputs": "other stations observed on same date t; self excluded; great-circle radius",
+  "availability_assumption": "neighbor PM2.5 on origin day is available under the same timing assumption as own-station persistence; source timestamps do not record delivery times",
+  "distance_coverage": {
+    "25": {
+      "rows_with_neighbor": 24751,
+      "rows_total": 30651,
+      "neighbor_observations": 109802,
+      "fraction": 0.8075103585527389
+    },
+    "50": {
+      "rows_with_neighbor": 27162,
+      "rows_total": 30651,
+      "neighbor_observations": 145996,
+      "fraction": 0.8861701086424586
+    },
+    "100": {
+      "rows_with_neighbor": 28728,
+      "rows_total": 30651,
+      "neighbor_observations": 187894,
+      "fraction": 0.9372614270333758
+    }
+  },
+  "selection": "inner chronological RMSE only; same existing fold-specific Optuna parameters; fold-local preprocessing",
+  "future_test_labels_or_metrics_used": false,
+  "outer_validation_used_for_selection": false
+}

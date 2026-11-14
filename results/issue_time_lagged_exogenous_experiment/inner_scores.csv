@@ -1,0 +1,21 @@
+cv_fold,variant,features,inner_train_n,inner_validation_n,inner_rmse,inner_mae,selected_epoch
+1,target_lag_roll3,"[""pm25_lag1"", ""pm25_roll3_mean""]",309,164,5.00725467806569,3.6151726245880127,84
+1,target_plus_lagged_pollutants_aod,"[""pm25_lag1"", ""pm25_roll3_mean"", ""no2_lag1"", ""co_lag1"", ""o3_lag1"", ""aod_lag1""]",309,164,5.653085065524544,4.452535629272461,42
+1,target_plus_lagged_meteorology,"[""pm25_lag1"", ""pm25_roll3_mean"", ""temperature_celsius_lag1"", ""pressure_mb_lag1"", ""wind_u_lag1"", ""wind_v_lag1""]",309,164,4.6309777883821965,3.3733766078948975,61
+1,target_plus_all_lagged_environment,"[""pm25_lag1"", ""pm25_roll3_mean"", ""temperature_celsius_lag1"", ""pressure_mb_lag1"", ""wind_u_lag1"", ""wind_v_lag1"", ""no2_lag1"", ""co_lag1"", ""o3_lag1"", ""aod_lag1""]",309,164,5.862636462089483,4.628415584564209,45
+2,target_lag_roll3,"[""pm25_lag1"", ""pm25_roll3_mean""]",656,141,3.697824281783183,2.8021509647369385,42
+2,target_plus_lagged_pollutants_aod,"[""pm25_lag1"", ""pm25_roll3_mean"", ""no2_lag1"", ""co_lag1"", ""o3_lag1"", ""aod_lag1""]",656,141,4.229957669454386,3.2061607837677,22
+2,target_plus_lagged_meteorology,"[""pm25_lag1"", ""pm25_roll3_mean"", ""temperature_celsius_lag1"", ""pressure_mb_lag1"", ""wind_u_lag1"", ""wind_v_lag1""]",656,141,4.395800164023752,3.244356155395508,34
+2,target_plus_all_lagged_environment,"[""pm25_lag1"", ""pm25_roll3_mean"", ""temperature_celsius_lag1"", ""pressure_mb_lag1"", ""wind_u_lag1"", ""wind_v_lag1"", ""no2_lag1"", ""co_lag1"", ""o3_lag1"", ""aod_lag1""]",656,141,4.169773444006379,3.2134227752685547,29
+3,target_lag_roll3,"[""pm25_lag1"", ""pm25_roll3_mean""]",840,135,3.69262261912194,2.8122363090515137,29
+3,target_plus_lagged_pollutants_aod,"[""pm25_lag1"", ""pm25_roll3_mean"", ""no2_lag1"", ""co_lag1"", ""o3_lag1"", ""aod_lag1""]",840,135,3.758779928622963,2.9298527240753174,14
+3,target_plus_lagged_meteorology,"[""pm25_lag1"", ""pm25_roll3_mean"", ""temperature_celsius_lag1"", ""pressure_mb_lag1"", ""wind_u_lag1"", ""wind_v_lag1""]",840,135,3.70957803017908,3.021653652191162,42
+3,target_plus_all_lagged_environment,"[""pm25_lag1"", ""pm25_roll3_mean"", ""temperature_celsius_lag1"", ""pressure_mb_lag1"", ""wind_u_lag1"", ""wind_v_lag1"", ""no2_lag1"", ""co_lag1"", ""o3_lag1"", ""aod_lag1""]",840,135,3.6885490864841857,2.9326887130737305,29
+4,target_lag_roll3,"[""pm25_lag1"", ""pm25_roll3_mean""]",981,356,19.05917699648133,5.445870876312256,97
+4,target_plus_lagged_pollutants_aod,"[""pm25_lag1"", ""pm25_roll3_mean"", ""no2_lag1"", ""co_lag1"", ""o3_lag1"", ""aod_lag1""]",981,356,19.30251451625903,5.928289413452148,47
+4,target_plus_lagged_meteorology,"[""pm25_lag1"", ""pm25_roll3_mean"", ""temperature_celsius_lag1"", ""pressure_mb_lag1"", ""wind_u_lag1"", ""wind_v_lag1""]",981,356,19.219232717515027,6.508164405822754,92
+4,target_plus_all_lagged_environment,"[""pm25_lag1"", ""pm25_roll3_mean"", ""temperature_celsius_lag1"", ""pressure_mb_lag1"", ""wind_u_lag1"", ""wind_v_lag1"", ""no2_lag1"", ""co_lag1"", ""o3_lag1"", ""aod_lag1""]",981,356,19.12840330472675,6.21073055267334,86
+5,target_lag_roll3,"[""pm25_lag1"", ""pm25_roll3_mean""]",1506,576,4.30751080707029,3.046591281890869,21
+5,target_plus_lagged_pollutants_aod,"[""pm25_lag1"", ""pm25_roll3_mean"", ""no2_lag1"", ""co_lag1"", ""o3_lag1"", ""aod_lag1""]",1506,576,4.631638376525451,3.294971227645874,7
+5,target_plus_lagged_meteorology,"[""pm25_lag1"", ""pm25_roll3_mean"", ""temperature_celsius_lag1"", ""pressure_mb_lag1"", ""wind_u_lag1"", ""wind_v_lag1""]",1506,576,4.325279209187166,3.058617353439331,22
+5,target_plus_all_lagged_environment,"[""pm25_lag1"", ""pm25_roll3_mean"", ""temperature_celsius_lag1"", ""pressure_mb_lag1"", ""wind_u_lag1"", ""wind_v_lag1"", ""no2_lag1"", ""co_lag1"", ""o3_lag1"", ""aod_lag1""]",1506,576,4.805002292152199,3.29960036277771,12

@@ -1,0 +1,6 @@
+cv_fold,selected_lookback_days,inner_validation_rmse,best_epoch,selection_source
+1,7,4.246244005003058,94,inner chronological validation only
+2,3,3.8030280346134266,39,inner chronological validation only
+3,7,3.677335923176223,23,inner chronological validation only
+4,7,18.98656028446298,100,inner chronological validation only
+5,7,4.557176802867939,6,inner chronological validation only

@@ -1,0 +1,11 @@
+model_group,model_a,model_b,comparison_axis,spearman_rho,jaccard_top5,rho_threshold_met,jaccard_threshold_met,notes
+comparators,CNN_LSTM,CNN_LSTM,fold_1_vs_2,0.11666666666666665,0.25,False,,Within-scheme temporal fold stability; not a cross-scheme comparison.
+comparators,CNN_LSTM,CNN_LSTM,fold_1_vs_3,0.19999999999999998,0.25,False,,Within-scheme temporal fold stability; not a cross-scheme comparison.
+comparators,CNN_LSTM,CNN_LSTM,fold_1_vs_4,0.19999999999999998,0.42857142857142855,False,,Within-scheme temporal fold stability; not a cross-scheme comparison.
+comparators,CNN_LSTM,CNN_LSTM,fold_1_vs_5,0.2333333333333333,0.42857142857142855,False,,Within-scheme temporal fold stability; not a cross-scheme comparison.
+comparators,CNN_LSTM,CNN_LSTM,fold_2_vs_3,0.5666666666666667,0.6666666666666666,False,,Within-scheme temporal fold stability; not a cross-scheme comparison.
+comparators,CNN_LSTM,CNN_LSTM,fold_2_vs_4,0.48333333333333334,0.42857142857142855,False,,Within-scheme temporal fold stability; not a cross-scheme comparison.
+comparators,CNN_LSTM,CNN_LSTM,fold_2_vs_5,0.4666666666666666,0.42857142857142855,False,,Within-scheme temporal fold stability; not a cross-scheme comparison.
+comparators,CNN_LSTM,CNN_LSTM,fold_3_vs_4,0.39999999999999997,0.25,False,,Within-scheme temporal fold stability; not a cross-scheme comparison.
+comparators,CNN_LSTM,CNN_LSTM,fold_3_vs_5,-0.016666666666666666,0.25,False,,Within-scheme temporal fold stability; not a cross-scheme comparison.
+comparators,CNN_LSTM,CNN_LSTM,fold_4_vs_5,0.6833333333333333,0.6666666666666666,False,,Within-scheme temporal fold stability; not a cross-scheme comparison.

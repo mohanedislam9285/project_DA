@@ -1,0 +1,49 @@
+{
+  "experiment": "nested four-way CNN-LSTM lagged-environmental feature sensitivity",
+  "scope": "development temporal folds only",
+  "outer_folds": 5,
+  "common_oof_sample_count": 3349,
+  "forecast_origin": "end of day t",
+  "forecast_target": "PM2.5 at t+1",
+  "latest_environmental_source_date": "t-1",
+  "features_by_variant": {
+    "target_lag_roll3": [
+      "pm25_lag1",
+      "pm25_roll3_mean"
+    ],
+    "target_plus_lagged_pollutants_aod": [
+      "pm25_lag1",
+      "pm25_roll3_mean",
+      "no2_lag1",
+      "co_lag1",
+      "o3_lag1",
+      "aod_lag1"
+    ],
+    "target_plus_lagged_meteorology": [
+      "pm25_lag1",
+      "pm25_roll3_mean",
+      "temperature_celsius_lag1",
+      "pressure_mb_lag1",
+      "wind_u_lag1",
+      "wind_v_lag1"
+    ],
+    "target_plus_all_lagged_environment": [
+      "pm25_lag1",
+      "pm25_roll3_mean",
+      "temperature_celsius_lag1",
+      "pressure_mb_lag1",
+      "wind_u_lag1",
+      "wind_v_lag1",
+      "no2_lag1",
+      "co_lag1",
+      "o3_lag1",
+      "aod_lag1"
+    ]
+  },
+  "inner_selection": "chronological inner validation RMSE; fold-specific TPE hyperparameters fixed",
+  "preprocessing": "median imputer/scaler fit on inner/outer training only with missingness indicators",
+  "outer_validation_used_for_selection": false,
+  "future_test_labels_or_metrics_used": false,
+  "source_delivery_latency_verified": false,
+  "interpretation": "Conditional feature-timing sensitivity only. A one-day source-date lag is leakage-resistant but cannot prove operational availability without source delivery timestamps."
+}

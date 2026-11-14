@@ -1,0 +1,6 @@
+cv_fold,selected_variant,inner_rmse,best_epoch
+1,target_plus_neighbor_100km,4.0417594243577595,98
+2,target_lag_roll3,3.697824281783183,42
+3,target_plus_neighbor_25km,3.4006535462953518,63
+4,target_plus_neighbor_100km,19.048300936164555,92
+5,target_plus_neighbor_100km,4.243322175024504,14

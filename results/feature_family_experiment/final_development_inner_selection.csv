@@ -1,0 +1,5 @@
+variant,feature_columns,inner_train_sequences,inner_validation_sequences,inner_validation_rmse,inner_validation_mae,selected_epoch,min_train_loss,min_validation_loss
+no_calendar_lag_only,"[""pm25_lag1""]",2275,1059,9.224047570826334,3.5998690128326416,27,68.77246856689453,85.08306121826172
+no_calendar_lag_roll3,"[""pm25_lag1"", ""pm25_roll3_mean""]",2275,1059,9.260077683059093,3.598706007003784,24,68.61388397216797,85.74903869628906
+no_calendar_lag_roll3_roll7,"[""pm25_lag1"", ""pm25_roll3_mean"", ""pm25_roll7_mean""]",2275,1059,9.292696589252355,3.6816258430480957,35,67.40380096435547,86.35420989990234
+full_calendar_lag_roll3_roll7,"[""day_of_week_sin"", ""day_of_week_cos"", ""day_of_year_sin"", ""day_of_year_cos"", ""pm25_lag1"", ""pm25_roll3_mean"", ""pm25_roll7_mean""]",2275,1059,9.419174490553623,3.8893938064575195,23,69.09283447265625,88.72085571289062
